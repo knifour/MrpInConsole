@@ -1,0 +1,16 @@
+# 忽略目的檔
+*.o
+
+#忽略lib檔
+*.a
+
+#忽略專案所有執行檔
+exam/test
+mysql/myhello
+ncurses/hello
+ncurses/test
+ncurses/twinkle
+ncurses/win
+schar/test
+screen/test
+util/test
