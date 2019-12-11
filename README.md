@@ -1,1 +1,3 @@
 # 可於Console執行的MRP程式
+
+在專案資料夾執行make可以編譯及連結libknifour.a
