@@ -17,7 +17,7 @@ int main(void){
 		return 1;
 	}
 	
-	if (mysql_real_connect(conn, "localhost", "root", "2uaurxdr", "BF", 0, NULL, 0) == NULL){
+	if (mysql_real_connect(conn, "localhost", "sales", "print", "BF", 0, NULL, 0) == NULL){
     printf("%s\n", mysql_error(conn));
 	  return 1;
 	}

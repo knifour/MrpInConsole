@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <stdio.h>
 #include <screen.h>
 
@@ -119,12 +118,75 @@ void SCREEN::Init(ATTR FColor, ATTR BColor){
 	}	
 }
 
+bool SCREEN::PrintFromFile(const char *filename){
+	std::fstream scr;
+	std::string buf, tmp;
+	int cnt;
+	int lin, col;
+	ATTR fcolor, bcolor;
+	
+	scr.open(filename, std::ios::in);
+	if (getline(scr, buf)){ // 讀取第一行
+	  cnt = 0;
+		for (int i=0; i<buf.length(); i++){
+			if (buf.substr(i, 1) == ",")
+				cnt++;
+		}
+		if (cnt != 3){
+			scr.close();
+			return false;
+		}
+		
+		cnt = 0;
+		tmp = "";
+		for (int i=0; i<buf.length(); i++){
+			if (buf.substr(i, 1) == ","){
+				switch (cnt){
+					case 0:
+					  lin = std::stoi(tmp, nullptr);
+						tmp = "";
+						break;
+					case 1:
+					  col = std::stoi(tmp, nullptr);
+						tmp = "";
+						break;
+					case 2:
+					  fcolor = (ATTR)std::stoi(tmp, nullptr);
+						tmp = "";
+						break;
+				}
+				cnt++;
+				continue;
+			}
+			tmp = tmp + buf.substr(i, 1);
+		}
+		bcolor = (ATTR)std::stoi(tmp, nullptr);
+	}
+	
+	SetColor(fcolor, bcolor);
+	while (getline(scr, buf)){
+		Locate(lin, col);
+		print(buf);
+		lin++;
+	}
+	scr.close();
+	return true;
+}
+
+void SCREEN::print(const std::string p){
+	print(p.c_str());
+}
+
+void SCREEN::print(const char *p){
+	print((uint8_t*)p);
+}
+
 void SCREEN::print(uint8_t *p){
 	SCHAR *oldsp;
 	int lin, col;
 	int PrevCol, NextCol;
 	int StartCol, EndCol;
-	int len;
+	int len, j;
  
   lin = CurLin;
 	col = StartCol = PrevCol = CurCol;
@@ -135,24 +197,33 @@ void SCREEN::print(uint8_t *p){
 		if (PrevPos(PrevCol)) // 如果前一個字元未超過螢幕範圍
 			StartCol = StartCol - 1;  // 將開始重印位置指向前一字元
 	
-  len = Str2Screen(p); 
-	EndCol = StartCol + len - 1;
+  len = Utf8RealDLen(p);
+	EndCol = col + len - 1;
+	if (EndCol > COLS)
+		EndCol = COLS;
 	SetSP(lin, EndCol);
 	if (sp->DLen() == 2)  // 要列印的最後一個字元位於位於寬字元開頭
 		NextPos(EndCol);  // 將結束重印位置指向字串結尾的後一個字元
-		
+	
+	len = Str2Screen(p);
 	if (mActive){
-		for (int j=StartCol; j<=EndCol; j++){
+		for (j=StartCol; j<=EndCol; j++){
+			Locate(lin, j);
 			SetSP(lin, j);
 			sp->print();
 		}
+		Locate(lin, j);
 	}
 	
 	sp = oldsp;
 }
 
 void SCREEN::SetActive(const bool p){
-	mActive = p;
+	if (mActive != p){
+	  mActive = p;
+		if (mActive)
+			refresh();
+	}
 }
 
 void SCREEN::refresh(void){
@@ -308,13 +379,14 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 			SetSP(lin, PrevCol);
 			sp->SetChar(blank);
 		}
-		if (NextValid){ // 如果下個字元未超出螢幕範圍
-			SetSP(lin, NextCol); // 指標指向下一個字元
-			if (sp->DLen() == 2){ // 如果下個字元位於寬字元開頭
-				if (NNextValid){  // 如果下下個字元未超出螢幕範圍
-					SetSP(lin, NNextCol); // 指標指向下下個字元
-					sp->SetChar(blank); // 把下下個字元設成空白
-				}
+	}
+	
+	if (NextValid){ // 如果下個字元未超出螢幕範圍
+		SetSP(lin, NextCol); // 指標指向下一個字元
+		if (sp->DLen() == 2){ // 如果下個字元位於寬字元開頭
+			if (NNextValid){  // 如果下下個字元未超出螢幕範圍
+				SetSP(lin, NNextCol); // 指標指向下下個字元
+				sp->SetChar(blank); // 把下下個字元設成空白
 			}
 		}
 	}

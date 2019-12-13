@@ -3,8 +3,10 @@
 
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <string>
 #include <attr.h>
 #include <utf8schar.h>
+#include <fstream>
 
 class SCREEN {
 public:	
@@ -19,6 +21,9 @@ public:
 	void ResetAttr(void);
 	void cls(void);
 	void GetConsoleSize(int &, int &);
+	bool PrintFromFile(const char *filename);
+	void print(const char *p);
+	void print(const std::string p);
 	void print(uint8_t *p);
 	void SetActive(bool const);
 	void refresh(void);
