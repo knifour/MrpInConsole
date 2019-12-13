@@ -32,7 +32,7 @@ int SCREEN::GetCols(void){
 }
 
 /* 設定游標位置 */
-/* Lin代表列, Pos代表行 */
+/* Lin代表列, Col代表行 */
 /* 螢幕左上角為 1, 1 */
 /* 設定超過螢幕範圍會自動調整成適合螢幕大小的位置 */
 void SCREEN::Locate(int Lin, int Col){
@@ -120,30 +120,49 @@ void SCREEN::Init(ATTR FColor, ATTR BColor){
 }
 
 void SCREEN::print(uint8_t *p){
-	int len, dlen;
-  uint8_t *tmp;
-	uint8_t buf[UTF8MAXLEN];
-  	
-	tmp = p;
-	while (*tmp != 0){
-		len = Utf8Len(tmp);
-		dlen = Utf8DLen(tmp);
-		for (int i=0; i<len; i++){
-			buf[i] = *tmp;
-			tmp++;
+	SCHAR *oldsp;
+	int lin, col;
+	int PrevCol, NextCol;
+	int StartCol, EndCol;
+	int len;
+ 
+  lin = CurLin;
+	col = StartCol = PrevCol = CurCol;
+	
+	oldsp = sp;
+  SetSP(lin, col); // 指標指向開頭顯示位置
+	if (!sp->IsValid()) // 如果開頭位置為寬字元之後半部
+		if (PrevPos(PrevCol)) // 如果前一個字元未超過螢幕範圍
+			StartCol = StartCol - 1;  // 將開始重印位置指向前一字元
+	
+  len = Str2Screen(p); 
+	EndCol = StartCol + len - 1;
+	SetSP(lin, EndCol);
+	if (sp->DLen() == 2)  // 要列印的最後一個字元位於位於寬字元開頭
+		NextPos(EndCol);  // 將結束重印位置指向字串結尾的後一個字元
+		
+	if (mActive){
+		for (int j=StartCol; j<=EndCol; j++){
+			SetSP(lin, j);
+			sp->print();
 		}
-		buf[len] = 0;
-		tmp++;
 	}
+	
+	sp = oldsp;
 }
 
-void SCREEN::show(const bool p){
+void SCREEN::SetActive(const bool p){
 	mActive = p;
-	if (mActive)
-		refresh();
 }
 
 void SCREEN::refresh(void){
+	int OldLin, OldCol;
+	
+	if (!mActive)
+		return;
+	
+	OldLin = CurLin;
+	OldCol = CurCol;
 	for (int i=1; i<=LINS; i++)
 		for (int j=1; j<=COLS; j++){
 			Locate(i, j);
@@ -152,60 +171,46 @@ void SCREEN::refresh(void){
 			  sp->print();
 			}
 		}
+	Locate(OldLin, OldCol);
 	SetColor(CurFColor, CurBColor);
 }
 
 /* 將要顯示的字串儲存在螢幕緩衝區 */
 /* 傳回值為實際轉換的長度 */
-/* 超過一列會自動換列 */
-/* 超過螢幕範圍自動截斷 */
-/* 中、日、韓及特殊畫框符號之寬度為2，其餘為1 */
-/* 儲存寬度為2的字之後，下一個的緩衝區會被設定成無效字元 */
-/* 開始位置若為無效字元，表示前一個字為寬字元，前一個字會被自動設成空白 */
-/* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
-/* 則該字元及下一列的第一個字元都會被設為? */
+/* 將字串擷取成單一字元給Char2Screen()處理 */
 int SCREEN::Str2Screen(uint8_t *p){
 	int lin, col;
-	int tlin, tcol;
-	SCHAR *oldsp;
-	uint8_t qm[] = "?";
-	uint8_t blank[] = " ";
+	int len, rlen;
+	uint8_t buf[100];
 	
-	lin = tlin = CurLin;
-	col = tcol = CurCol;
-	SetSP(lin, col);
-	/* sp = &ScreenBuf[lin][col]; */
-	if (!sp->IsValid()){  // 如果為無效字元
-		if (PrevPos(tlin, tcol)){ // 計算前一個字元的座標
-		  oldsp = sp;
-			SetSP(tlin, tcol);
-			/* tsp = &ScreenBuf[tlin][tcol]; */
-			sp->SetChar(blank);
-			sp = oldsp;
+	lin = CurLin;
+	col = CurCol;
+	len = Utf8RealDLen(p);
+	rlen = 0;
+	for (int i=1; i<=len; i++){
+		Utf8Mid(p, buf, i, 1);
+		Char2Screen(buf, lin, col);
+		if (Utf8DLen(buf) == 2){
+			col = col + 2;
+			rlen = rlen + 2;
+		} else {
+			col = col + 1;
+			rlen = rlen + 1;
 		}
+		
+		if (col > COLS)
+			break;
 	}
 	
-	return 0;
+	return rlen;
 }
 
 /* 將要顯示的字元儲存在螢幕緩衝區 */
 /* 超過螢幕範圍自動截斷 */
+/* 判斷要顯示的字元是寬字元還是單字元，依據結果分開處理 */
 /* 中、日、韓及特殊畫框符號之寬度為2，其餘為1 */
-/* 儲存寬度為2的字之後，下一個的緩衝區會被設定成無效字元 */
-/* 開始位置若為無效字元，表示前一個字為寬字元，前一個字會被自動設成空白 */
-/* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
-/* 則該字元會被設為? */
 void SCREEN::Char2Screen(uint8_t *p, int pLin, int pCol){
-	SCHAR *oldsp;
-	bool IsEndLine = false;       /* 是否為該列最後一個字元 */
-	bool IsStartHalfChar = false; /* 起始位置是否位於寬字元的結尾 */
-	bool IsEndHalfChar = false;   /* 結束位置是否位於寬字元的開頭 */
-	int lin, col;
-	int PrevCol, NextCol;
-	bool PrevValid, NextValid;
 	int len;
-	uint8_t qm[] = "?";
-	uint8_t blank[] = " ";
 	
 	if (pLin < 1 || pLin > LINS){
 		return;
@@ -226,65 +231,20 @@ void SCREEN::Char2Screen(uint8_t *p, int pLin, int pCol){
 			break;
 	}
 	
-	if (col == COLS)
-		IsEndLine = true;
-	
-	oldsp = sp;
-	SetSP(lin, col);
-	if (!sp->IsValid()){
-		IsStartHalfChar = true;
-	}
-	
-  if (!IsEndLine)	{
-		SetSP(lin, col+1);
-		if (!sp->IsValid()){
-			IsEndHalfChar = true;
-		}
-	}
-	
-  len = Utf8DLen(p);  /* 判斷字元的顯示寬度 */
-	switch (len){
-	case 1: /* 代表顯示寬度為1的字元 */
-	  SetSP(lin, col);
-		sp->SetChar(p);
-		if (IsStartHalfChar){
-			if (PrevValid){
-				SetSP(lin, PrevCol);
-				sp->SetChar(blank);
-			}
-		}
-		if (IsEndHalfChar){
-			if (NextValid){
-				SetSP(lin, NextCol);
-				sp-SetChar(blank);
-			}
-		}
-	  break;
-	case 2: /* 代表寬字元 */
-	  if (SetSP(lin, col)){
-			if (!sp->IsValid()){
-				if (PrevPos(tlin, tcol)){
-					SetSP(tlin, tcol);
-					sp->SetChar(blank);
-					SetSP(lin, col);
-				}
-			}
-		}
-	  break;
-	}
-	
-	sp = oldsp;
 	return;
 }
 
 /* 處理顯示寬度為1的字元 */
+/* 將要顯示的字元儲存在螢幕緩衝區 */
+/* 超過螢幕範圍自動截斷 */
+/* 開始位置若為無效字元，表示前一個字為寬字元，前一個字會被自動設成空白 */
+/* 開始位置若為寬字元，下一個字會被自動設成空白 */
+/* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
+/* 則該字元會被設為空白 */
 void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 	SCHAR *oldsp;
-	bool InEndLine = false;    /* 是否為該列最後一個字元 */
-	bool StartInHead = false;  /* 列印位置是否位於寬字元的開頭 */
-	bool StartInTail = false;  /* 列印位置是否位於寬字元的結尾 */
 	int lin, col;
-	int PrevCol, NexCol;
+	int PrevCol, NextCol;
 	bool PrevValid, NextValid;
 	uint8_t blank[] = " ";
 	
@@ -293,26 +253,82 @@ void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 	
 	oldsp = sp;
 	
-	if (col == COLS)
-		InEndLine = true;
-	
 	PrevValid = PrevPos(PrevCol);
 	NextValid = NextPos(NextCol);
 	
 	SetSP(lin, col);
-	if (!sp->IsValid()){
-		StartInHalfChar = true;
+	if (sp->DLen() == 2){     // 如果位於寬字元開頭，把下半個字元設定成空白
+		if (NextValid){         
+			SetSP(lin, NextCol);  
+			sp->SetChar(blank);
+		}
+	} else if (!sp->IsValid()){  // 如果位於寬字元結尾，把前半個字元設定成空白
+	  if (PrevValid){
+			SetSP(lin, PrevCol);
+			sp->SetChar(blank);
+		}
 	}
 	
-	SetSP(lin, NextCol);
-	
+	SetSP(lin, col);  // 指標指向座標位置
+	sp->SetChar(p);   // 存入欲顯示字元
 	
 	sp = oldsp;
 }
 
-/* 處理顯示寬度為1的字元 */
+/* 處理顯示寬度為2的字元 */
+/* 將要顯示的字元儲存在螢幕緩衝區 */
+/* 超過螢幕範圍自動截斷 */
+/* 儲存寬度為2的字之後，下一個的緩衝區會被設定成無效字元 */
+/* 開始位置若為無效字元，表示前一個字為寬字元，前一個字會被自動設成空白 */
+/* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
+/* 則該字元會被設為空白 */
 void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
+	SCHAR *oldsp;
+	int lin, col;
+	int PrevCol, NextCol, NNextCol;
+	bool PrevValid, NextValid, NNextValid;
+	uint8_t blank[] = " ";
 	
+	lin = pLin;
+	col = PrevCol = NextCol = pCol;
+	oldsp = sp;
+	
+	PrevValid = PrevPos(PrevCol);
+	NextValid = NextPos(NextCol);
+	if (NextValid){
+		NNextCol = NextCol;
+		NNextValid = NextPos(NNextCol);
+	} else {
+		NNextValid = false;
+	}
+	
+	SetSP(lin, col);
+	if (!sp->IsValid()){  // 如果顯示位置位於寬字元結尾
+	  if (PrevValid){  // 如果前個字元未超過螢幕範圍，把該字元設定成空白
+			SetSP(lin, PrevCol);
+			sp->SetChar(blank);
+		}
+		if (NextValid){ // 如果下個字元未超出螢幕範圍
+			SetSP(lin, NextCol); // 指標指向下一個字元
+			if (sp->DLen() == 2){ // 如果下個字元位於寬字元開頭
+				if (NNextValid){  // 如果下下個字元未超出螢幕範圍
+					SetSP(lin, NNextCol); // 指標指向下下個字元
+					sp->SetChar(blank); // 把下下個字元設成空白
+				}
+			}
+		}
+	}
+	
+	SetSP(lin, col);  // 指標指向欲顯示位置
+	if (NextValid){   // 如果下個字元未超出螢幕範圍
+		sp->SetChar(p);  // 存入欲顯示字元
+		SetSP(lin, NextCol);  // 指標指向下個字元
+		sp->SetValid(false);  // 將下個字元設定成無效字元
+	} else {  // 如果下個字元超出螢幕範圍
+		sp->SetChar(blank); // 將欲顯示字元設定成空白
+	}
+	
+	sp = oldsp;
 }
 
 /* 設定sp指標值，如果超過螢幕範圍將回傳false */

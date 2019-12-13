@@ -20,7 +20,7 @@ public:
 	void cls(void);
 	void GetConsoleSize(int &, int &);
 	void print(uint8_t *p);
-	void show(bool const);
+	void SetActive(bool const);
 	void refresh(void);
 
 private:
@@ -34,7 +34,7 @@ private:
 	int Str2Screen(uint8_t *p);                                    /* 將要列印的字串轉存到螢幕緩衝區 */
   void Char2Screen(uint8_t *p, int pLin, int pCol);              /* 將要列印的字元存進螢幕緩衝區 */
   void SingleChar(uint8_t *p, int pLin, int pCol);               /* 處理寬度為1的字元 */
-  void WideChar(uint8_t *p, int pLin, pCol);	                   /* 處理寬度為2的字元 */
+  void WideChar(uint8_t *p, int pLin, int pCol);	               /* 處理寬度為2的字元 */
   bool SetSP(int pLin, int pCol);                                /* 依照游標位置取得螢幕緩衝區指標sp，螢幕左上角位置為1,1 */	
 	bool PrevPos(int&);                                            /* 計算上一個游標位置 */
 	bool NextPos(int&);                                            /* 計算下一個游標位置 */

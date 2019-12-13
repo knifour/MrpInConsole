@@ -5,23 +5,21 @@
 
 int main(void){
 	SCREEN main(ATTR::FWhite, ATTR::BBlue);
+	char buf[300];
 	double start, end;
 	double cputime;
 	char ch;
 	
 	start = clock();
 	main.cls();
-	main.Locate(10, 1);
-	main.SetAttr(ATTR::Underline);
-	printf("螢幕總列數=%3d, 螢幕總行數=%3d\n", main.GetLins(), main.GetCols());
-	main.SetColor(ATTR::HMagenta);
-	main.SetAttr(ATTR::UnderlineOff);
-	main.Locate(24, 1);
-	printf("螢幕總列數=%3d, 螢幕總行數=%3d\n", main.GetLins(), main.GetCols());
+	main.SetActive(true);
+	main.print((uint8_t*)"繽紛景觀資材有限公司");
 	end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;
 	main.SetColor(ATTR::HYellow);
-	printf("total time = %lf\n", cputime);
+	main.Locate(2, 1);
+	sprintf(buf, "total time = %lf", cputime);
+	main.print((uint8_t*)buf);
 	
 	ch = getch();
 	return 0;
