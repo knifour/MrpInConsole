@@ -82,9 +82,13 @@ int Utf8DLen(std::string const &utf8){
 		unicode += ((uint8_t)utf8[i]) & 0x3F;
 	}
 	
-	if (unicode >= (uint32_t)0x2500 && unicode <= (uint32_t)0x257F){
+	if (unicode >= (uint32_t)SEC0_LOW && unicode <= (uint32_t)SEC0_HIGH){
 		return 2;
-	} else if (unicode >= (uint32_t)0x4E00 && unicode <= (uint32_t)0x9FFF){
+	} else if (unicode >= (uint32_t)SEC1_LOW && (uint32_t)SEC2_HIGH){
+		return 2;
+  } else if (unicode >= (uint32_t)SEC2_LOW && unicode <= (uint32_t)SEC2_HIGH){
+		return 2;
+	} else if (unicode >= (uint32_t)SEC3_LOW && unicode <= (uint32_t)SEC3_HIGH){
 		return 2;
 	}
 	

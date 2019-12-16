@@ -48,10 +48,12 @@ void SCREEN::Locate(int Lin, int Col){
 }
 
 void SCREEN::cls(void){
-	std::string str("\x1B[2J");
+	/*std::string str("\x1B[2J");
 	std::cout << str;
-	Locate(1, 1);
+	Locate(1, 1);*/
 	Init(CurFColor, CurBColor);
+	refresh();
+	Locate(1, 1);
 }
 
 void SCREEN::SetUnderLine(bool p){
@@ -64,11 +66,7 @@ void SCREEN::SetFColor(int p){
 }
 
 void SCREEN::SetFColor(int r, int g, int b){
-	int tmp;
-	
-	tmp = 16 + r*36 + g*6 + b;
-	if (tmp >= 0 && tmp <= 255)
-	  CurFColor = tmp;
+	SetFColor(16 + r*36 + g*6 + b);
 }
 
 void SCREEN::SetBColor(int p){
@@ -77,11 +75,7 @@ void SCREEN::SetBColor(int p){
 }
 
 void SCREEN::SetBColor(int r, int g, int b){
-	int tmp;
-	
-	tmp = 16 + r*36 + g*6 + b;
-	if (tmp >= 0 && tmp <= 255)
-	  CurBColor = tmp;
+	SetBColor(16 + r*36 + g*6 + b);
 }
 
 /*void SCREEN::SetColor(ATTR FColor, ATTR BColor){
@@ -213,7 +207,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 }
 
 void SCREEN::print(const std::string p){
-	print(p.c_str());
+	print((uint8_t*)p.c_str());
 }
 
 void SCREEN::print(const char *p){
@@ -255,6 +249,18 @@ void SCREEN::print(uint8_t *p){
 	}
 	
 	sp = oldsp;
+}
+
+void SCREEN::printcode(int lin, int col){
+	if (lin < 1)
+		lin = 1;
+	if (lin > LINS)
+		lin = LINS;
+	if (col < 1)
+		col = 1;
+	if (col > COLS)
+		col = COLS;
+	std::cout << ScreenBuf[lin-1][col-1];
 }
 
 void SCREEN::SetActive(const bool p){
@@ -309,7 +315,7 @@ int SCREEN::Str2Screen(uint8_t *p){
 		if (col > COLS)
 			break;
 	}
-	
+	std::cout << col << std::endl;
 	return rlen;
 }
 

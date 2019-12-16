@@ -4,6 +4,7 @@
 #include <fstream>
 #include <screen.h>
 #include <util.h>
+#include <iostream>
 
 int main(void){
 	SCREEN ms(15, 4);
@@ -12,11 +13,20 @@ int main(void){
 	char ch;
 	
 	/*start = clock();*/
-	ms.cls();
 	ms.SetActive(false);
+	ms.cls();
+	ms.Locate(1, 1);
+	for (int i=77; i<=80; i++){
+		ms.printcode(5, i);
+	}
 	ms.PrintFromFile("../ncurses/cuscre.win");
 	ch = getch();
-	ms.refresh();
+	ms.SetActive(true);
+	ch = getch();
+	ms.Locate(1, 1);
+	for (int i=77; i<=80; i++){
+		ms.printcode(5, i);
+	}
 	
 	/*end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;

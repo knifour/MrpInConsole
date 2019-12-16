@@ -30,6 +30,7 @@ public:
 	void print(const char *p);                                     // 將字串印在螢幕上面，可接受三種參數 char*、std::string、uint8_t*
 	void print(const std::string p);
 	void print(uint8_t *p);
+	void printcode(int, int);
 	void SetActive(bool const);                                    // 設定螢幕是否為顯示狀態
 	void refresh(void);                                            // 根據螢幕緩衝區的內容刷新螢幕
 

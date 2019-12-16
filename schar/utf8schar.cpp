@@ -85,6 +85,9 @@ void UTF8SCHAR::print(){
 }
 
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
-	s << p.Utf8;
+	s << "\x1B[0m";
+	for (int i=0; i<UTF8MAXLEN; i++)
+	  s << (int)p.Utf8[i] << " ";
+  s << std::endl;
 	return s;
 }
