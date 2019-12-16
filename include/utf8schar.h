@@ -10,10 +10,11 @@
 class UTF8SCHAR : public SCHAR {
 public:
   UTF8SCHAR();
-	UTF8SCHAR(ATTR pFColor, ATTR pBColor=ATTR::BBlack);
+	/* UTF8SCHAR(ATTR pFColor, ATTR pBColor=ATTR::BBlack); */
+	UTF8SCHAR(int pFColor, int pBColor=0);
 	UTF8SCHAR(const UTF8SCHAR &p);
 	UTF8SCHAR(const char *p);
-	void SetChar(uint8_t const *p) override;
+	void SetChar(uint8_t const *, bool, int, int) override;
 	int DLen() override;
 	UTF8SCHAR& operator=(const UTF8SCHAR &p);
 	friend std::ostream& operator<<(std::ostream &s, UTF8SCHAR p);

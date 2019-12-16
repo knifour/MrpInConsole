@@ -3,8 +3,9 @@
 
 SCHAR::SCHAR(){
   mValid = true;
-	mFColor = ATTR::FWhite;
-	mBColor = ATTR::BBlack;
+	mUnderLine = false;
+	mFColor = 7;
+	mBColor = 0;
 }
 
 bool SCHAR::operator==(const SCHAR &rhs){
@@ -24,18 +25,22 @@ void SCHAR::SetValid(const bool p){
 	mValid = p;
 }
 
-void SCHAR::SetFColor(ATTR pFColor){
+void SCHAR::SetUnderLine(bool p){
+	mUnderLine = p;
+}
+
+void SCHAR::SetFColor(int pFColor){
 	mFColor = pFColor;
 }
 
-void SCHAR::SetBColor(ATTR pBColor){
+void SCHAR::SetBColor(int pBColor){
 	mBColor = pBColor;
 }
 
-ATTR SCHAR::GetFColor(void){
+int SCHAR::GetFColor(void){
 	return mFColor;
 }
 
-ATTR SCHAR::GetBColor(void){
+int SCHAR::GetBColor(void){
 	return mBColor;
 }

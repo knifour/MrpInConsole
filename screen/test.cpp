@@ -6,15 +6,17 @@
 #include <util.h>
 
 int main(void){
-	SCREEN ms(ATTR::FWhite, ATTR::BBlue);
+	SCREEN ms(15, 4);
 	/*double start, end;
 	double cputime;*/
 	char ch;
 	
 	/*start = clock();*/
 	ms.cls();
-	ms.SetActive(true);
+	ms.SetActive(false);
 	ms.PrintFromFile("../ncurses/cuscre.win");
+	ch = getch();
+	ms.refresh();
 	
 	/*end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;

@@ -7,19 +7,27 @@
 class SCHAR {
 protected:
   bool mValid;
-	ATTR mFColor;
-	ATTR mBColor;
+	bool mUnderLine;
+	int mFColor;
+	int mBColor;
+	/* ATTR mFColor;
+	ATTR mBColor; */
 	
 public:
   SCHAR();
 	bool operator==(const SCHAR &rhs);
 	bool IsValid(void);
 	void SetValid(const bool);
-	void SetFColor(ATTR pFColor);
+	/* void SetFColor(ATTR pFColor);
 	void SetBColor(ATTR pBColor);
 	ATTR GetFColor(void);
-	ATTR GetBColor(void);
-	virtual void SetChar(uint8_t const *p) = 0;
+	ATTR GetBColor(void); */
+	void SetUnderLine(bool);
+	void SetFColor(int);
+	void SetBColor(int);
+	int GetFColor(void);
+	int GetBColor(void);
+	virtual void SetChar(uint8_t const *, bool, int, int) = 0;
 	virtual int DLen() = 0;
 	virtual void print() = 0;
 };

@@ -12,7 +12,7 @@ SCREEN::SCREEN(){
   Init();
 }
 
-SCREEN::SCREEN(ATTR FColor, ATTR BColor){
+SCREEN::SCREEN(int FColor, int BColor){
 	GetConsoleSize(LINS, COLS);
 	ScreenBuf = new UTF8SCHAR*[LINS];
 	for (int i=0; i<LINS; i++){
@@ -54,7 +54,37 @@ void SCREEN::cls(void){
 	Init(CurFColor, CurBColor);
 }
 
-void SCREEN::SetColor(ATTR FColor, ATTR BColor){
+void SCREEN::SetUnderLine(bool p){
+	UnderLine = p;
+}
+
+void SCREEN::SetFColor(int p){
+	if (p >= 0 && p <= 255)
+	  CurFColor = p;
+}
+
+void SCREEN::SetFColor(int r, int g, int b){
+	int tmp;
+	
+	tmp = 16 + r*36 + g*6 + b;
+	if (tmp >= 0 && tmp <= 255)
+	  CurFColor = tmp;
+}
+
+void SCREEN::SetBColor(int p){
+	if (p >= 0 && p <= 255)
+	  CurBColor = p;
+}
+
+void SCREEN::SetBColor(int r, int g, int b){
+	int tmp;
+	
+	tmp = 16 + r*36 + g*6 + b;
+	if (tmp >= 0 && tmp <= 255)
+	  CurBColor = tmp;
+}
+
+/*void SCREEN::SetColor(ATTR FColor, ATTR BColor){
 	char Buf[20];
 	
 	if (BColor == ATTR::Reset){
@@ -75,15 +105,22 @@ void SCREEN::SetColor(ATTR FColor, ATTR BColor){
 	std::cout << Buf;
 }
 
+void SetFColor(int FColor){
+	
+}
+
 void SCREEN::SetAttr(ATTR attr){
 	char buf[10];
 	
 	sprintf(buf, "\x1B[%dm", (int)attr);
 	std::cout << buf;
-}
+} */
 
 void SCREEN::ResetAttr(void){
 	std::cout << "\x1B[0m";
+	UnderLine = false;
+	CurFColor = 7;
+	CurBColor = 0;
 }
 
 void SCREEN::GetConsoleSize(int &LINS, int &COLS){
@@ -98,21 +135,22 @@ void SCREEN::GetConsoleSize(int &LINS, int &COLS){
 /* 將所有字元設定成空白字元 */
 /* 依參數設定前景、背景 */
 /* 預設值前景：白色，背景：黑色 */
-void SCREEN::Init(ATTR FColor, ATTR BColor){
+void SCREEN::Init(int FColor, int BColor){
 	int Off;
 	uint8_t blank[] = " ";
 	
 	mActive = false;
-	ResetAttr();
-	SetColor(FColor, BColor);
+	SetFColor(FColor);
+	SetBColor(BColor);
+	SetUnderLine(false);
 	
 	for (int i=1; i<=LINS; i++){
 		for (int j=1; j<=COLS; j++){
 			if (SetSP(i, j)){
-			  /* sp = &ScreenBuf[i-1][j-1]; */
-			  sp->SetFColor(FColor);
-			  sp->SetBColor(BColor);
-			  sp->SetChar(blank);
+				/*sp->SetUnderLine(false);
+			    sp->SetFColor(FColor);
+			    sp->SetBColor(BColor); */
+			  sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
 			}
 		}
 	}	
@@ -123,7 +161,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 	std::string buf, tmp;
 	int cnt;
 	int lin, col;
-	ATTR fcolor, bcolor;
+	int fcolor, bcolor;
 	
 	scr.open(filename, std::ios::in);
 	if (getline(scr, buf)){ // 讀取第一行
@@ -132,9 +170,9 @@ bool SCREEN::PrintFromFile(const char *filename){
 			if (buf.substr(i, 1) == ",")
 				cnt++;
 		}
-		if (cnt != 3){
-			scr.close();
-			return false;
+		if (cnt != 3){ // 逗點數不是三個，表示參數數量錯誤
+			scr.close();  
+			return false;  // 結束
 		}
 		
 		cnt = 0;
@@ -151,7 +189,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 						tmp = "";
 						break;
 					case 2:
-					  fcolor = (ATTR)std::stoi(tmp, nullptr);
+					  fcolor = std::stoi(tmp, nullptr);
 						tmp = "";
 						break;
 				}
@@ -160,10 +198,11 @@ bool SCREEN::PrintFromFile(const char *filename){
 			}
 			tmp = tmp + buf.substr(i, 1);
 		}
-		bcolor = (ATTR)std::stoi(tmp, nullptr);
+		bcolor = std::stoi(tmp, nullptr);
 	}
 	
-	SetColor(fcolor, bcolor);
+	SetFColor(fcolor);
+	SetBColor(bcolor);
 	while (getline(scr, buf)){
 		Locate(lin, col);
 		print(buf);
@@ -238,12 +277,10 @@ void SCREEN::refresh(void){
 		for (int j=1; j<=COLS; j++){
 			Locate(i, j);
 			if (SetSP(i, j)){
-			  /* sp = &ScreenBuf[i][j]; */
 			  sp->print();
 			}
 		}
 	Locate(OldLin, OldCol);
-	SetColor(CurFColor, CurBColor);
 }
 
 /* 將要顯示的字串儲存在螢幕緩衝區 */
@@ -331,17 +368,17 @@ void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 	if (sp->DLen() == 2){     // 如果位於寬字元開頭，把下半個字元設定成空白
 		if (NextValid){         
 			SetSP(lin, NextCol);  
-			sp->SetChar(blank);
+			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	} else if (!sp->IsValid()){  // 如果位於寬字元結尾，把前半個字元設定成空白
 	  if (PrevValid){
 			SetSP(lin, PrevCol);
-			sp->SetChar(blank);
+			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
 	SetSP(lin, col);  // 指標指向座標位置
-	sp->SetChar(p);   // 存入欲顯示字元
+	sp->SetChar(p, UnderLine, CurFColor, CurBColor);   // 存入欲顯示字元
 	
 	sp = oldsp;
 }
@@ -377,7 +414,7 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 	if (!sp->IsValid()){  // 如果顯示位置位於寬字元結尾
 	  if (PrevValid){  // 如果前個字元未超過螢幕範圍，把該字元設定成空白
 			SetSP(lin, PrevCol);
-			sp->SetChar(blank);
+			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
@@ -386,18 +423,18 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 		if (sp->DLen() == 2){ // 如果下個字元位於寬字元開頭
 			if (NNextValid){  // 如果下下個字元未超出螢幕範圍
 				SetSP(lin, NNextCol); // 指標指向下下個字元
-				sp->SetChar(blank); // 把下下個字元設成空白
+				sp->SetChar(blank, UnderLine, CurFColor, CurBColor); // 把下下個字元設成空白
 			}
 		}
 	}
 	
 	SetSP(lin, col);  // 指標指向欲顯示位置
 	if (NextValid){   // 如果下個字元未超出螢幕範圍
-		sp->SetChar(p);  // 存入欲顯示字元
+		sp->SetChar(p, UnderLine, CurFColor, CurBColor);  // 存入欲顯示字元
 		SetSP(lin, NextCol);  // 指標指向下個字元
 		sp->SetValid(false);  // 將下個字元設定成無效字元
 	} else {  // 如果下個字元超出螢幕範圍
-		sp->SetChar(blank); // 將欲顯示字元設定成空白
+		sp->SetChar(blank, UnderLine, CurFColor, CurBColor); // 將欲顯示字元設定成空白
 	}
 	
 	sp = oldsp;
