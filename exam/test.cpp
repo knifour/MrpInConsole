@@ -2,13 +2,12 @@
 #include <string>
 #include <stdint.h> 
 #include <util.h>
-#include <attr.h>
 #include <tableset.h>
 
 using namespace std;
 
 int main(void){
-	string tmp;
+	/*string tmp;
 	int c = 30;
 	ATTR b = (ATTR)c;
 	char Buf[20];
@@ -48,7 +47,12 @@ int main(void){
 		sprintf(Buf, "\x1B[38;5;%dm", i);
 		cout << Buf << "X";
 	}
-	cout << "\x1B[0m" << endl;
+	cout << "\x1B[0m" << endl;*/
 	
+	int lin, col;
+	
+	cout << "\x1B[10;5H";
+	CurPos(lin, col);
+	cout << "lin=" << lin << ", col=" << col << endl;
   return 0;
 }

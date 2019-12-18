@@ -35,6 +35,39 @@ char getche(void){
 	return getch_(1);
 }
 
+void cursor(bool p){
+	if (p)
+		std::cout << "\x1B[?25h";
+	else
+		std::cout << "\x1B[?25l";
+}
+
+void CurPos(int& lin, int& col){
+	char buf[10];
+	char ch;
+	int cnt = 0;
+	int tl = 0, tc = 0;
+	
+	std::cout << "\x1B[6n";
+	while ((ch= getch()) != 'R'){
+		buf[cnt] = ch;
+		cnt++;
+	}
+	buf[cnt] = 0;
+	cnt = 2;
+	while (buf[cnt] != ';'){
+		tl = tl * 10 + (buf[cnt]-48);
+		cnt++;
+	}
+	cnt++;
+	while (buf[cnt] != 0){
+		tc = tc * 10 + (buf[cnt]-48);
+		cnt++;
+	}
+	lin = tl;
+	col = tc;
+}
+
 int Utf8Len(std::string const &utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len =

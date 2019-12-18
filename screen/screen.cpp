@@ -299,7 +299,7 @@ int SCREEN::Str2Screen(uint8_t *p){
 	
 	lin = CurLin;
 	col = CurCol;
-	len = Utf8RealDLen(p);
+	len = Utf8RealLen(p);
 	rlen = 0;
 	for (int i=1; i<=len; i++){
 		Utf8Mid(p, buf, i, 1);
@@ -315,7 +315,6 @@ int SCREEN::Str2Screen(uint8_t *p){
 		if (col > COLS)
 			break;
 	}
-	std::cout << col << std::endl;
 	return rlen;
 }
 

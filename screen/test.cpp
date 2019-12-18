@@ -8,33 +8,35 @@
 
 int main(void){
 	SCREEN ms(15, 4);
-	/*double start, end;
-	double cputime;*/
+	double start, end;
+	double cputime;
+	char buf[80];
 	char ch;
 	
 	/*start = clock();*/
 	ms.SetActive(false);
 	ms.cls();
-	ms.Locate(1, 1);
-	for (int i=77; i<=80; i++){
-		ms.printcode(5, i);
-	}
 	ms.PrintFromFile("../ncurses/cuscre.win");
-	ch = getch();
 	ms.SetActive(true);
-	ch = getch();
-	ms.Locate(1, 1);
-	for (int i=77; i<=80; i++){
-		ms.printcode(5, i);
-	}
 	
 	/*end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;
-	main.SetColor(ATTR::HYellow);
-	main.Locate(2, 1);
+	ms.Locate(25, 1);
 	sprintf(buf, "total time = %lf", cputime);
-	main.print((uint8_t*)buf);*/
+	ms.print((uint8_t*)buf);*/
+	ms.SetActive(false);
+	ms.SetFColor(11);
+	ms.Locate(6, 17);
+	ms.SetUnderLine(true);
+	ms.print("A001");
+	ms.Locate(6, 29);
+	ms.print("中區");
+	ms.SetUnderLine(false);
+	ch = getch();
+	ms.SetActive(true);
+	cursor(false);
 	
 	ch = getch();
+	cursor(true);
 	return 0;
 }
