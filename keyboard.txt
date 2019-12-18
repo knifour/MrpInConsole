@@ -1,0 +1,21 @@
+CTRL-A      1
+CTRL-Z     1A
+TAB         9                 THE SAME AS [CTRL-I]
+ENTER       A                 THE SAME AS [CTRL-J]
+ESC        1B
+CTRL\      1C
+CTRL-      1F
+BACKSPACE  7F
+F1         1B 4F 50
+F12        1B 4F 5B
+UP KEY     1B 5B 41
+DOWN KEY   1B 5B 42
+RIGHT KEY  1B 5B 43
+LEFT KEY   1B 5B 44
+KEYPAD5    1B 5B 47
+HOME       1B 5B 31 7E
+INSERT     1B 5B 32 7E
+DELETE     1B 5B 33 7E
+END        1B 5B 34 7E
+PAGE UP    1B 5B 35 7E
+PAGE DOWN  1B 5B 36 7E
