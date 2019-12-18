@@ -16,7 +16,7 @@ int main(void){
 	/*start = clock();*/
 	ms.SetActive(false);
 	ms.cls();
-	ms.PrintFromFile("../ncurses/cuscre.win");
+	ms.PrintFromFile("menu.scr");
 	ms.SetActive(true);
 	
 	/*end = clock();
@@ -25,6 +25,7 @@ int main(void){
 	sprintf(buf, "total time = %lf", cputime);
 	ms.print((uint8_t*)buf);*/
 	ms.SetActive(false);
+	cursor(false);
 	ms.SetFColor(11);
 	ms.Locate(6, 17);
 	ms.SetUnderLine(true);
@@ -34,7 +35,6 @@ int main(void){
 	ms.SetUnderLine(false);
 	ch = getch();
 	ms.SetActive(true);
-	cursor(false);
 	
 	ch = getch();
 	cursor(true);

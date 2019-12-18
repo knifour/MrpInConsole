@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdint.h> 
+#include <stdio.h>
 #include <util.h>
 #include <tableset.h>
 
@@ -48,11 +49,12 @@ int main(void){
 		cout << Buf << "X";
 	}
 	cout << "\x1B[0m" << endl;*/
+
+  unsigned char ch;
 	
-	int lin, col;
-	
-	cout << "\x1B[10;5H";
-	CurPos(lin, col);
-	cout << "lin=" << lin << ", col=" << col << endl;
+	cout << "\x1B[2J";
+	while ((ch=getch()) != '`'){
+		printf("%X\n", ch);
+	}
   return 0;
 }

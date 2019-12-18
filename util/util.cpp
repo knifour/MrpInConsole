@@ -37,19 +37,20 @@ char getche(void){
 
 void cursor(bool p){
 	if (p)
-		std::cout << "\x1B[?25h";
+		std::cout << "\x1B[?25h";  // 顯示游標
 	else
-		std::cout << "\x1B[?25l";
+		std::cout << "\x1B[?25l";  // 隱藏游標
 }
 
-void CurPos(int& lin, int& col){
+void CurPos(int& lin, int& col){  // 取得游標位置
 	char buf[10];
 	char ch;
 	int cnt = 0;
 	int tl = 0, tc = 0;
 	
-	std::cout << "\x1B[6n";
-	while ((ch= getch()) != 'R'){
+	std::cout << "\x1B[6n";  // 送出這個訊號之後，會由標準輸入傳回 ESC[y;xR 的訊號
+	                         // 其中y值就是游標所在列，x值就是游標所在行
+	while ((ch=getch()) != 'R'){
 		buf[cnt] = ch;
 		cnt++;
 	}
