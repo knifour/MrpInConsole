@@ -69,6 +69,64 @@ void CurPos(int& lin, int& col){  // 取得游標位置
 	col = tc;
 }
 
+/* 等待輸入，然後傳回輸入字元 */
+/* 如果輸入特殊按鍵，特殊鍵代碼將藉由key傳回 */
+/* 偵測到使用者案特殊鍵時，回傳的字元代碼為0，可由字元代碼是否為0判斷使用者是否按了特殊鍵 */
+/* 按鍵定義在keypad.h */
+char input(int &key){
+	bool esc = false;
+	char ch;
+	int result;
+	int cnt = 0;
+	
+	while (1){
+		ch = getch();
+		if (ch == ESC){
+			if (esc){
+				key = ESC;
+				return 0;
+			}
+			esc = true;
+			cnt++;
+			continue;
+		}
+		if (esc){
+			switch (cnt){
+				case 1:
+				  if (ch == FUNCKEY || ch == PADKEY){
+						cnt++;
+						continue;
+					} else {
+						break;
+					}
+				case 2:
+				  if (ch >= HOME && ch <= PAGEDOWN){
+						cnt++;
+						key = ch;
+						continue;
+					} else if ((ch >= KEY_UP && ch <= KEYPAD5) || (ch >= KEY_F1 && ch <= KEY_F12)){
+						key = ch;
+						return 0;
+					}
+					break;
+				case 3:
+				  if (ch == 126){
+						return 0;
+					}
+					break;
+			}
+		}
+		if ((ch >= 1 && ch <= 31) || ch == BACKSPACE){
+			key = ch;
+			return 0;
+		}
+		cnt = 0;
+		esc = false;
+		key = 0;
+		return ch;
+	}
+}
+
 int Utf8Len(std::string const &utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len =

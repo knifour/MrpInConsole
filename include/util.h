@@ -12,11 +12,13 @@
 
 #include <string>
 #include <stdint.h>
+#include <keypad.h>
 
 char getch(void);  /* 等待輸入，不顯示輸入字元 */
 char getche(void); /* 等待輸入，顯示輸入字元 */
 void cursor(bool); /* 顯示或隱藏游標 */
 void CurPos(int&, int&); /* 取得游標位置 */
+char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
 int Utf8Len(std::string const &utf8);

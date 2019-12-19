@@ -8,5 +8,11 @@ test: test.o
 test.o: test.cpp
 	$(cc) $(CFLAGS) test.cpp
 	
+keypad: keypad.o
+	$(cc) $(LFLAGS) -o keypad keypad.o -lknifour
+	
+keypad.o: keypad.cpp
+	$(cc) $(CFLAGS) keypad.cpp
+	
 clean:
 	rm *.o

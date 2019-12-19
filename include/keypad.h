@@ -1,0 +1,62 @@
+#ifndef __KEYPAD_H
+#define __KEYPAD_H
+
+#define CTRL_A        1
+#define CTRL_B        2
+#define CTRL_C        3
+#define CTRL_D        4
+#define CTRL_E        5
+#define CTRL_F        6
+#define CTRL_G        7
+#define CTRL_H        8
+#define TAB           9
+#define CTRL_I        9
+#define ENTER        10
+#define CTRL_J       10
+#define CTRL_K       11
+#define CTRL_L       12
+#define CTRL_M       13
+#define CTRL_N       14
+#define CTRL_O       15
+#define CTRL_P       16
+#define CTRL_Q       17
+#define CTRL_R       18
+#define CTRL_S       19
+#define CTRL_T       20
+#define CTRL_U       21
+#define CTRL_V       22
+#define CTRL_W       23
+#define CTRL_X       24
+#define CTRL_Y       25
+#define CTRL_Z       26
+#define ESC          27
+#define C_BACKSLASH  28
+#define C_MINUS      31
+#define HOME         49
+#define INSERT       50
+#define DELETE       51
+#define END          52
+#define PAGEUP       53
+#define PAGEDOWN     54
+#define KEY_UP       65
+#define KEY_DOWN     66
+#define KEY_RIGHT    67
+#define KEY_LEFT     68
+#define KEYPAD5      71
+#define FUNCKEY      79
+#define KEY_F1       80
+#define KEY_F2       81
+#define KEY_F3       82
+#define KEY_F4       83
+#define KEY_F5       84
+#define KEY_F6       85
+#define KEY_F7       86
+#define KEY_F8       87
+#define KEY_F9       88
+#define KEY_F10      89
+#define KEY_F11      90
+#define KEY_F12      91
+#define PADKEY       91
+#define BACKSPACE   127
+
+#endif
