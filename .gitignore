@@ -6,6 +6,7 @@
 
 #忽略專案所有執行檔
 exam/test
+exam/keypad
 mysql/myhello
 ncurses/hello
 ncurses/test
