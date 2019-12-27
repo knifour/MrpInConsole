@@ -17,14 +17,14 @@ int main(void){
 	ms.SetActive(false);
 	ms.cls();
 	ms.PrintFromFile("menu.scr");
-	ms.SetActive(true);
+	/*ms.SetActive(true);*/
 	
 	/*end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;
 	ms.Locate(25, 1);
 	sprintf(buf, "total time = %lf", cputime);
 	ms.print((uint8_t*)buf);*/
-	ms.SetActive(false);
+	/*ms.SetActive(false);*/
 	cursor(false);
 	ms.SetFColor(11);
 	ms.Locate(6, 17);
@@ -33,7 +33,6 @@ int main(void){
 	ms.Locate(6, 29);
 	ms.print("中區");
 	ms.SetUnderLine(false);
-	ch = getch();
 	ms.SetActive(true);
 	
 	ch = getch();
