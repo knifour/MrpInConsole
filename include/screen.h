@@ -8,6 +8,8 @@
 #include <utf8schar.h>
 #include <fstream>
 
+using namespace std;
+
 class SCREEN {
 public:	
 	SCREEN();                                                      // 無參數建構式，預設為黑底、白字
@@ -24,8 +26,8 @@ public:
 	void ResetAttr(void);                                          // 重設所有屬性(包括顏色)
 	void cls(void);                                                // 清除螢幕
 	bool PrintFromFile(const char *filename);                      // 讀取檔案並把它印在螢幕上面，第一行有四個參數，分別指定->列,行,前景色,背景色
-	void print(const char *p);                                     // 將字串印在螢幕上面，可接受三種參數 char*、std::string、uint8_t*
-	void print(const std::string p);
+	void print(const char *p);                                     // 將字串印在螢幕上面，可接受三種參數 char*、string、uint8_t*
+	void print(const string p);
 	void print(uint8_t *p);
 	void printcode(int, int);
 	void SetActive(bool const);                                    // 設定螢幕是否為顯示狀態

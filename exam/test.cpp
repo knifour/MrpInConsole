@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
-#include <stdint.h> 
 #include <stdio.h>
-#include <util.h>
-#include <tableset.h>
+#include <termcap.h>
 
 using namespace std;
 
@@ -48,13 +46,36 @@ int main(void){
 		sprintf(Buf, "\x1B[38;5;%dm", i);
 		cout << Buf << "X";
 	}
-	cout << "\x1B[0m" << endl;*/
+	cout << "\x1B[0m" << endl;
 
   unsigned char ch;
 	
 	cout << "\x1B[2J";
 	while ((ch=getch()) != '`'){
 		printf("%X\n", ch);
+	} */
+	
+	char buf[2048];
+	char *term = getenv("TERM");
+	int sucess;
+	
+	if (term == 0){
+		printf("Can get term type. \n");
+		return 1;
+	} else {
+		printf("term type:%s\n", term);
 	}
+	
+	sucess = tgetent(buf, term);
+	printf("result=%d\n", sucess);
+	if (sucess < 0){
+		printf("Could not access the termcap data base.\n");
+		return 1;
+	}
+	
+	if (sucess == 1){
+	  printf("%s\n", buf);
+  }
+	
   return 0;
 }

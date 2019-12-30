@@ -45,7 +45,7 @@ void SCREEN::Locate(int Lin, int Col){
 	CurLin = Lin;
 	CurCol = Col;
 	sprintf(Buf, "\x1B[%d;%dH", Lin, Col);
-	std::cout << Buf;
+	cout << Buf;
 }
 
 void SCREEN::cls(void){
@@ -85,7 +85,7 @@ void SCREEN::SetBColor(int r, int g, int b){
 
 // 重設螢幕屬性
 void SCREEN::ResetAttr(void){
-	std::cout << "\x1B[0m";
+	cout << "\x1B[0m";
 	UnderLine = false;
 	CurFColor = ATTR::WHITE;
 	CurBColor = ATTR::BLACK;
@@ -126,13 +126,13 @@ void SCREEN::Init(int FColor, int BColor){
 // 檔案第一行必須有四個數字也以逗號分隔
 // 四個數字代表的意義分別為：列,行,前景色,背景色
 bool SCREEN::PrintFromFile(const char *filename){
-	std::fstream scr;
-	std::string buf, tmp;
+	fstream scr;
+	string buf, tmp;
 	int cnt;
 	int lin, col;
 	int fcolor, bcolor;
 	
-	scr.open(filename, std::ios::in);
+	scr.open(filename, ios::in);
 	if (!scr)  // 如果開檔失敗則結束並回傳錯誤
 		return false;
 	
@@ -153,15 +153,15 @@ bool SCREEN::PrintFromFile(const char *filename){
 			if (buf.substr(i, 1) == ","){
 				switch (cnt){
 					case 0:
-					  lin = std::stoi(tmp, nullptr);
+					  lin = stoi(tmp, nullptr);
 						tmp = "";
 						break;
 					case 1:
-					  col = std::stoi(tmp, nullptr);
+					  col = stoi(tmp, nullptr);
 						tmp = "";
 						break;
 					case 2:
-					  fcolor = std::stoi(tmp, nullptr);
+					  fcolor = stoi(tmp, nullptr);
 						tmp = "";
 						break;
 				}
@@ -170,7 +170,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 			}
 			tmp = tmp + buf.substr(i, 1);
 		}
-		bcolor = std::stoi(tmp, nullptr);
+		bcolor = stoi(tmp, nullptr);
 	}
 	
 	SetFColor(fcolor);
@@ -184,7 +184,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 	return true;
 }
 
-void SCREEN::print(const std::string p){
+void SCREEN::print(const string p){
 	print((uint8_t*)p.c_str());
 }
 
@@ -238,7 +238,7 @@ void SCREEN::printcode(int lin, int col){
 		col = 1;
 	if (col > COLS)
 		col = COLS;
-	std::cout << ScreenBuf[lin-1][col-1];
+	cout << ScreenBuf[lin-1][col-1];
 }
 
 void SCREEN::SetActive(const bool p){
