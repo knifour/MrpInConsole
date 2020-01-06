@@ -2,62 +2,77 @@
 #include <stdio.h>
 #include <twindow.h>
 
-TWINDOW::TWINDOW(TWS p){
-	int ln, cl;
-	
-	tws = p;
-	
-	if (tws.parant == NULL){  // 若沒有設定父視窗指標
-		mError = true;  // 將視窗設定為不能使用狀態
-		return;
-	}
-	
-	ln = tws.parant->GetLins();
-	cl = tws.parant->GetCols();
-	if (tws.lin < 1 || tws.lin > ln){  // 如果視窗左上角列座標超過螢幕範圍
+TWINDOW::TWINDOW(SCREEN *p, const char *fmt, ...){
+	if (p = NULL){  // 如果父視窗指標為NULL，設定為重大錯誤狀態後結束
 		mError = true;
 		return;
+	} else {
+		mParant = p;
 	}
 	
-	if (tws.col < 1 || tws.col > cl){  // 如果視窗左上角行座標超過螢幕範圍
-		mError = true;
-		return;
+	va_list ap;
+	int LINS, COLS;
+	int temp;
+	
+	LINS = p->GetLins();
+	COLS = p->GetCols();
+	
+	mLin = mCol = mLINS = mCOLS = mFColor = mBColor = 0;
+	
+	va_start(ap, fmt);
+	while (*fmt){
+		switch (*fmt++){
+		case 'l':  // 小寫L表示此參數為左上角列座標
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 1)
+				temp = 1;
+			if (temp > LINS)
+				temp = LINS;
+			mLin = temp;
+			break;
+		case 'c':  // 小寫C表示此參數為左上角行座標
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 1)
+				temp = 1;
+			if (temp > COLS)
+				temp = COLS;
+			mCol = temp;
+			break;
+		case 'L':  // 大寫L表示此參數為視窗總列數
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 1)
+				temp = 1;
+			if (temp > LINS)
+				temp = LINS;
+			mLINS = temp;
+			break;
+		case 'C':  // 大寫C表示此參數為視窗總行數
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 1)
+				temp = 1;
+			if (temp > COLS)
+				temp = COLS;
+			mCOLS = temp;
+			break;
+		case 'F':  // 大寫F表示此參數為視窗前景色
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 0 || temp > 255)
+				temp = 7;
+			mFColor = temp;
+			break;
+		case 'B':  // 大寫B表示此參數為視窗前景色
+		  temp = va_arg(ap, int); // 使用va_arg把參數以int方式轉換出來
+			if (temp < 0 || temp > 255)
+				temp = 0;
+			mBColor = temp;
+			break;
+		}
 	}
+	va_end(ap);
 	
-	if ((tws.lin+tws.LINS-1) > ln){  // 如果視窗右下角列座標超過螢幕範圍
-		mError = true;
-		return;
-	}
-	
-	if ((tws.col+tws.COLS-1) > cl){  // 如果視窗右下角行座標超過螢幕範圍
-		mError = true;
-		return;
-	}
-	
-	if ((tws.Board && tws.LINS < 3) || (tws.Board && tws.COLS < 6)){  // 如果有設定外框且列數少於3或行數少於6
-		mError = true;
-		return;
-	}
-	
-	if (tws.FColor < 0 || tws.FColor > 255) // 如果前景色超出範圍
-		tws.FColor = 7;
-	
-	if (tws.BColor < 0 || tws.BColor > 255) // 如果背景色超出範圍
-		tws.BColor = 0;
-		
 	mError = false;
 	mVisible = false;
-	
-	TWinBuf = new UTF8SCHAR*[tws.LINS];  // 依據視窗總列數建立UTF8SCHAR指標陣列
-	for (int i=0; i<tws.LINS; i++){
-		/* 依據視窗每列字數建立UTF8SCHAR物件陣列 */
-		TWinBuf[i] = new UTF8SCHAR[tws.COLS];  
-	}
 }
 
 TWINDOW::~TWINDOW(){
-	for (int i=0; i<tws.LINS; i++)
-		delete[] TWinBuf[i];
-	
-	delete[] TWinBuf;
 }
