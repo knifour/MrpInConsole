@@ -1,7 +1,5 @@
 #include <iostream>
-#include <string>
-#include <stdio.h>
-#include <termcap.h>
+#include <limits>
 
 using namespace std;
 
@@ -54,28 +52,11 @@ int main(void){
 	while ((ch=getch()) != '`'){
 		printf("%X\n", ch);
 	} */
-	
-	char buf[2048];
-	char *term = getenv("TERM");
-	int sucess;
-	
-	if (term == 0){
-		printf("Can get term type. \n");
-		return 1;
-	} else {
-		printf("term type:%s\n", term);
-	}
-	
-	sucess = tgetent(buf, term);
-	printf("result=%d\n", sucess);
-	if (sucess < 0){
-		printf("Could not access the termcap data base.\n");
-		return 1;
-	}
-	
-	if (sucess == 1){
-	  printf("%s\n", buf);
-  }
+  numeric_limits<long> a;
+  
+  cout << a.min() << endl;
+  cout << a.max() << endl;
+  cout << a.digits << endl;
 	
   return 0;
 }
