@@ -31,8 +31,8 @@ public:
 	void print(uint8_t *p);
 	void printcode(int, int);
 	void SetActive(bool const);                                    // 設定螢幕是否為顯示狀態
-	void refresh(void);                                            // 根據螢幕緩衝區的內容刷新螢幕
-  void refresh(int, int, int);                                   // 第一個參數指定重印某一列，第二、三個參數指定重印的起始、終止字元	
+	void Refresh(void);                                            // 根據螢幕緩衝區的內容刷新螢幕
+  void Refresh(int, int, int);                                   // 第一個參數指定重印某一列，第二、三個參數指定重印的起始、終止字元	
 
 private:
   // 成員變數

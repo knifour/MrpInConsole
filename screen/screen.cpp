@@ -49,11 +49,11 @@ void SCREEN::Locate(int Lin, int Col){
 }
 
 void SCREEN::cls(void){
-	/*std::string str("\x1B[2J");
-	std::cout << str;
-	Locate(1, 1);*/
+	bool OldActive;
+	
+	OldActive = mActive;
 	Init(CurFColor, CurBColor);
-	refresh();
+	SetActive(OldActive);
 	Locate(1, 1);
 }
 
@@ -245,11 +245,11 @@ void SCREEN::SetActive(const bool p){
 	if (mActive != p){
 	  mActive = p;
 		if (mActive)
-			refresh();
+			Refresh();
 	}
 }
 
-void SCREEN::refresh(void){
+void SCREEN::Refresh(void){
 	int OldLin, OldCol;
 	
 	if (!mActive)
@@ -267,7 +267,7 @@ void SCREEN::refresh(void){
 	Locate(OldLin, OldCol);
 }
 
-void SCREEN::refresh(int pLin, int pStrCol, int pEndCol){
+void SCREEN::Refresh(int pLin, int pStrCol, int pEndCol){
 	int OldLin, OldCol;
 	SCHAR *oldsp;
 	

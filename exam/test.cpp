@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <stdint.h>
 
 using namespace std;
 
@@ -52,11 +53,11 @@ int main(void){
 	while ((ch=getch()) != '`'){
 		printf("%X\n", ch);
 	} */
-  numeric_limits<long> a;
+  numeric_limits<int64_t> a;
   
   cout << a.min() << endl;
   cout << a.max() << endl;
-  cout << a.digits << endl;
+  cout << a.digits10 << endl;
 	
   return 0;
 }
