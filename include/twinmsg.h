@@ -1,9 +1,10 @@
-/* 類別名稱TMsg表示為TERMINAL WINDOW MESSAGE之意 */
+/* 類別名稱TWinMsg表示為TERMINAL WINDOW MESSAGE之意 */
 
 #ifndef __TWINMSG_H
 #define __TWINMSG_H
 
 #include <string>
+#include <stdarg.h>
 #include <screen.h>
 #include <twindow.h>
 

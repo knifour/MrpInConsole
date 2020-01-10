@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include <twindow.h>
 
+TWINDOW::TWINDOW(){
+	mParant = NULL;
+  mLin = mCol = 0;
+  mLINS = 0;
+  mCOLS = 0;	
+	mFColor = WHITE;
+	mBColor = BLACK;
+	mError = true;
+	mVisible = false;
+}
+
 TWINDOW::TWINDOW(SCREEN *p, const char *fmt, ...){
 	if (p = NULL){  // 如果父視窗指標為NULL，設定為重大錯誤狀態後結束
 		mError = true;
