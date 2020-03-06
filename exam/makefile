@@ -14,6 +14,12 @@ keypad: keypad.o
 keypad.o: keypad.cpp
 	$(cc) $(CFLAGS) keypad.cpp
 	
+comp: comp.o
+	$(cc) $(LFLAGS) -o comp comp.o
+	
+comp.o: comp.cpp
+	$(cc) $(CFLAGS) comp.cpp
+	
 args: args.o
 	$(cc) $(LFLAGS) -o args args.o
 	
