@@ -27,6 +27,7 @@ int main(int argc, char* argv[]){
 	if (argc < 4) {
 		cout << "參數數目錯誤" << endl;
 		prtUsage();
+		return 1;
 	}
 
 	if ((f1 = fopen(argv[1], "rb")) == NULL){
@@ -56,14 +57,16 @@ int main(int argc, char* argv[]){
 		case 2:
 		  if (argc != 5){
 				cout << "沒有指定要設定的數值" << endl;
+				prtUsage();
 				return 1;
 			}
 			value = convertValue(argv[4]);
 			if (value == 0){
 				cout << "第四參數只能設定數字，不能有其他符號" << endl;
+				prtUsage();
 				return 1;
 			}
-			f1 = fopen(argv[1], "wb");
+			f1 = fopen(argv[1], "rb+");
 			processWrite(f1, offset, value);
 			break;
 	}	
@@ -110,6 +113,9 @@ void processRead(FILE *fp, int offset){
 	uint32_t value;
 	uint32_t pow;
 	
+	for (int i=0; i<3; i++)
+		buf[i] = 0;
+	
 	switch (offset){
 		case 1:
 		  if (fseek(fp, PARA1, SEEK_SET) != 0){
@@ -119,7 +125,7 @@ void processRead(FILE *fp, int offset){
 			}
 			ret = fread(buf, 1, 1, fp);
 			if (ret = 1){
-				value = (uint32_t)buf[0];
+				value = (uint8_t)buf[0];
 				cout << "遙控骰子：" << value << endl;
 			}
 			fclose(fp);
@@ -133,7 +139,7 @@ void processRead(FILE *fp, int offset){
 			}
 			ret = fread(buf, 1, 1, fp);
 			if (ret = 1){
-				value = (uint32_t)buf[0];
+				value = (uint8_t)buf[0];
 				cout << "路障：" << value << endl;
 			}
 			fclose(fp);
@@ -147,7 +153,7 @@ void processRead(FILE *fp, int offset){
 			}
 			ret = fread(buf, 1, 1, fp);
 			if (ret = 1){
-				value = (uint32_t)buf[0];
+				value = (uint8_t)buf[0];
 				cout << "機器娃娃：" << value << endl;
 			}
 			fclose(fp);
@@ -159,11 +165,11 @@ void processRead(FILE *fp, int offset){
 				fclose(fp);
 				return;
 			}
-			ret = fread(buf, 3, 3, fp);
-			if (ret = 3){
+			ret = fread(buf, 1, 4, fp);
+			if (ret = 4){
 				value = 0;
-				for (int i=0, pow=1; i<3; i++){
-					value = value + (buf[i]*pow);
+				for (int i=0, pow=1; i<4; i++){
+					value = value + ((uint8_t)buf[i]*pow);
 					pow = pow * 256;
 				}
 				cout << "現金：" << value << endl;
@@ -177,11 +183,11 @@ void processRead(FILE *fp, int offset){
 				fclose(fp);
 				return;
 			}
-			ret = fread(buf, 3, 3, fp);
-			if (ret = 3){
+			ret = fread(buf, 1, 4, fp);
+			if (ret = 4){
 				value = 0;
-				for (int i=0, pow=1; i<3; i++){
-					value = value + (buf[i]*pow);
+				for (int i=0, pow=1; i<4; i++){
+					value = value + ((uint8_t)buf[i]*pow);
 					pow = pow * 256;
 				}
 				cout << "存款：" << value << endl;
@@ -195,11 +201,11 @@ void processRead(FILE *fp, int offset){
 				fclose(fp);
 				return;
 			}
-			ret = fread(buf, 2, 2, fp);
+			ret = fread(buf, 1, 2, fp);
 			if (ret = 2){
 				value = 0;
 				for (int i=0, pow=1; i<2; i++){
-					value = value + (buf[i]*pow);
+					value = value + ((uint8_t)buf[i]*pow);
 					pow = pow * 256;
 				}
 				cout << "點券：" << value << endl;
@@ -219,7 +225,20 @@ int processWrite(FILE *fp, int offset, uint32_t value){
 	for (int i=0; i<4; i++)
 		buf[i] = 0;
 	
-	for (int i=2, pow=65536; i>=0; i--){
+	if (offset >= 1 && offset <= 3){
+		if (value > 255)
+		  value = 255;
+	}
+	else if (offset >= 4 && offset <= 5){
+		if (value > 9999999)
+			value = 9999999;
+	}
+	else if (offset == 6){
+		if (value > 10000)
+		  value = 10000;
+	}
+	
+	for (int i=3, pow=16777216; i>=0; i--){
 		temp = value / pow;
 		buf[i] = temp;
 		value = value % pow;
@@ -233,9 +252,6 @@ int processWrite(FILE *fp, int offset, uint32_t value){
 				fclose(fp);
 				return 1;
 			}
-			if (value > 255){
-				value = 255;
-			}
 			fwrite(buf, 1, 1, fp);
 		  break;
 			
@@ -244,9 +260,6 @@ int processWrite(FILE *fp, int offset, uint32_t value){
 				cout << "錯誤" << endl;
 				fclose(fp);
 				return 1;
-			}
-			if (value > 255){
-				value = 255;
 			}
 			fwrite(buf, 1, 1, fp);
 		  break;
@@ -257,9 +270,6 @@ int processWrite(FILE *fp, int offset, uint32_t value){
 				fclose(fp);
 				return 1;
 			}
-			if (value > 255){
-				value = 255;
-			}
 			fwrite(buf, 1, 1, fp);
 		  break;
 			
@@ -269,15 +279,25 @@ int processWrite(FILE *fp, int offset, uint32_t value){
 				fclose(fp);
 				return 1;
 			}
-			if (value > 16777215){
-				value = 16777215;
-			}
-			fwrite(buf, 3, 3, fp);
+			fwrite(buf, 1, 4, fp);
 		  break;
 			
 		case 5:
+		  if (fseek(fp, PARA5, SEEK_SET) != 0){
+				cout << "錯誤" << endl;
+				fclose(fp);
+				return 1;
+			}
+			fwrite(buf, 1, 4, fp);
 		  break;
+			
 		case 6:
+		  if (fseek(fp, PARA6, SEEK_SET) != 0){
+				cout << "錯誤" << endl;
+				fclose(fp);
+				return 1;
+			}
+			fwrite(buf, 1, 2, fp);
 		  break;
 	}
 	
