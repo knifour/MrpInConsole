@@ -20,6 +20,12 @@ comp: comp.o
 comp.o: comp.cpp
 	$(cc) $(CFLAGS) comp.cpp
 	
+cheat: cheat.o
+	$(cc) $(LFLAGS) -o cheat cheat.o
+	
+cheat.o: cheat.cpp
+	$(cc) $(CFLAGS) cheat.cpp
+
 args: args.o
 	$(cc) $(LFLAGS) -o args args.o
 	
