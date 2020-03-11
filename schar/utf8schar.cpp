@@ -27,7 +27,7 @@ UTF8SCHAR::UTF8SCHAR(const char *p){
 	}
 }
 
-void UTF8SCHAR::SetChar(uint8_t const *p, bool p1, int p2, int p3){
+void UTF8SCHAR::setChar(uint8_t const *p, bool p1, int p2, int p3){
 	int len;
 	
 	len = Utf8Len(p);
@@ -51,7 +51,7 @@ void UTF8SCHAR::SetChar(uint8_t const *p, bool p1, int p2, int p3){
 	mBColor = p3;
 }
 
-int UTF8SCHAR::DLen(){
+int UTF8SCHAR::getDLen(){
 	return Utf8DLen(Utf8);
 }
 

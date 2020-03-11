@@ -27,7 +27,7 @@ int main(void){
 		return 1;
 	}
 	
-	ReadSqlCommand(filename.c_str(), &sql);
+	readSqlCommand(filename.c_str(), &sql);
 	
 	if (mysql_query(conn, sql.c_str())){
 		printf("%s\n", mysql_error(conn));

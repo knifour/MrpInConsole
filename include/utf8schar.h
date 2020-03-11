@@ -14,8 +14,8 @@ public:
 	UTF8SCHAR(int pFColor, int pBColor=0);
 	UTF8SCHAR(const UTF8SCHAR &p);
 	UTF8SCHAR(const char *p);
-	void SetChar(uint8_t const *, bool, int, int) override;
-	int DLen() override;
+	void setChar(uint8_t const *, bool, int, int) override;
+	int getDLen() override;
 	UTF8SCHAR& operator=(const UTF8SCHAR &p);
 	friend std::ostream& operator<<(std::ostream &s, UTF8SCHAR p);
 	void print() override;

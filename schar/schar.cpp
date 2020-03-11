@@ -17,30 +17,30 @@ bool SCHAR::operator==(const SCHAR &rhs){
 	return true;
 }
 
-bool SCHAR::IsValid(void){
+bool SCHAR::isValid(void){
 	return mValid;
 }
 
-void SCHAR::SetValid(const bool p){
+void SCHAR::setValid(const bool p){
 	mValid = p;
 }
 
-void SCHAR::SetUnderLine(bool p){
+void SCHAR::setUnderLine(bool p){
 	mUnderLine = p;
 }
 
-void SCHAR::SetFColor(int pFColor){
+void SCHAR::setFColor(int pFColor){
 	mFColor = pFColor;
 }
 
-void SCHAR::SetBColor(int pBColor){
+void SCHAR::setBColor(int pBColor){
 	mBColor = pBColor;
 }
 
-int SCHAR::GetFColor(void){
+int SCHAR::getFColor(void){
 	return mFColor;
 }
 
-int SCHAR::GetBColor(void){
+int SCHAR::getBColor(void){
 	return mBColor;
 }

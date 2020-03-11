@@ -57,30 +57,30 @@ void SCREEN::cls(void){
 	Locate(1, 1);
 }
 
-void SCREEN::SetUnderLine(bool p){
+void SCREEN::setUnderLine(bool p){
 	UnderLine = p;
 }
 
 // 以顏色代碼設定前景色，顏色代碼超出範圍無效
-void SCREEN::SetFColor(int p){
+void SCREEN::setFColor(int p){
 	if (p >= 0 && p <= 255)
 	  CurFColor = p;
 }
 
 // 以RGB值設定前景色，RGB值範圍為0~5
-void SCREEN::SetFColor(int r, int g, int b){
-	SetFColor(16 + r*36 + g*6 + b);
+void SCREEN::setFColor(int r, int g, int b){
+	setFColor(16 + r*36 + g*6 + b);
 }
 
 // 以顏色代碼設定背景色，顏色代碼超出範圍無效
-void SCREEN::SetBColor(int p){
+void SCREEN::setBColor(int p){
 	if (p >= 0 && p <= 255)
 	  CurBColor = p;
 }
 
 // 以RGB值設定背景色，RGB值範圍為0~5
-void SCREEN::SetBColor(int r, int g, int b){
-	SetBColor(16 + r*36 + g*6 + b);
+void SCREEN::setBColor(int r, int g, int b){
+	setBColor(16 + r*36 + g*6 + b);
 }
 
 // 重設螢幕屬性
@@ -109,14 +109,14 @@ void SCREEN::Init(int FColor, int BColor){
 	uint8_t blank[] = " ";
 	
 	mActive = false;
-	SetFColor(FColor);
-	SetBColor(BColor);
-	SetUnderLine(false);
+	setFColor(FColor);
+	setBColor(BColor);
+	setUnderLine(false);
 	
 	for (int i=1; i<=LINS; i++){
 		for (int j=1; j<=COLS; j++){
 			if (SetSP(i, j)){
-			  sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
+			  sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 			}
 		}
 	}	
@@ -173,8 +173,8 @@ bool SCREEN::PrintFromFile(const char *filename){
 		bcolor = stoi(tmp, nullptr);
 	}
 	
-	SetFColor(fcolor);
-	SetBColor(bcolor);
+	setFColor(fcolor);
+	setBColor(bcolor);
 	while (getline(scr, buf)){
 		Locate(lin, col);
 		print(buf);
@@ -383,17 +383,17 @@ void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 	if (InWideHead()){     // 如果位於寬字元開頭，把下半個字元設定成空白
 		if (NextValid){         
 			SetSP(lin, NextCol);  
-			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
+			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	} else if (InWideTail()){  // 如果位於寬字元結尾，把前半個字元設定成空白
 	  if (PrevValid){
 			SetSP(lin, PrevCol);
-			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
+			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
 	SetSP(lin, col);  // 指標指向座標位置
-	sp->SetChar(p, UnderLine, CurFColor, CurBColor);   // 存入欲顯示字元
+	sp->setChar(p, UnderLine, CurFColor, CurBColor);   // 存入欲顯示字元
 	
 	sp = oldsp;
 }
@@ -429,7 +429,7 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 	if (InWideTail()){  // 如果顯示位置位於寬字元結尾
 	  if (PrevValid){  // 如果前個字元未超過螢幕範圍，把該字元設定成空白
 			SetSP(lin, PrevCol);
-			sp->SetChar(blank, UnderLine, CurFColor, CurBColor);
+			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
@@ -438,18 +438,18 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 		if (InWideHead()){ // 如果下個字元位於寬字元開頭
 			if (NNextValid){  // 如果下下個字元未超出螢幕範圍
 				SetSP(lin, NNextCol); // 指標指向下下個字元
-				sp->SetChar(blank, UnderLine, CurFColor, CurBColor); // 把下下個字元設成空白
+				sp->setChar(blank, UnderLine, CurFColor, CurBColor); // 把下下個字元設成空白
 			}
 		}
 	}
 	
 	SetSP(lin, col);  // 指標指向欲顯示位置
 	if (NextValid){   // 如果下個字元未超出螢幕範圍
-		sp->SetChar(p, UnderLine, CurFColor, CurBColor);  // 存入欲顯示字元
+		sp->setChar(p, UnderLine, CurFColor, CurBColor);  // 存入欲顯示字元
 		SetSP(lin, NextCol);  // 指標指向下個字元
-		sp->SetValid(false);  // 將下個字元設定成無效字元
+		sp->setValid(false);  // 將下個字元設定成無效字元
 	} else {  // 如果下個字元超出螢幕範圍
-		sp->SetChar(blank, UnderLine, CurFColor, CurBColor); // 將欲顯示字元設定成空白
+		sp->setChar(blank, UnderLine, CurFColor, CurBColor); // 將欲顯示字元設定成空白
 	}
 	
 	sp = oldsp;
@@ -503,7 +503,7 @@ bool SCREEN::NextPos(int &pCol){
 bool SCREEN::InWideHead(){
 	int len;
 	
-	len = sp->DLen();
+	len = sp->getDLen();
 	if (len == 2)
 		return true;
 	else
@@ -511,7 +511,7 @@ bool SCREEN::InWideHead(){
 }
 
 bool SCREEN::InWideTail(){
-	if (sp->IsValid())
+	if (sp->isValid())
 		return false;
 	else
 		return true;

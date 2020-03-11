@@ -3,6 +3,6 @@
 
 #include <iostream>
 
-int ReadSqlCommand(const char *, std::string *);
+int readSqlCommand(const char *, std::string *);
 
 #endif

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <mysqlutil.h>
 
-int ReadSqlCommand(const char *filename, std::string *sql){
+int readSqlCommand(const char *filename, std::string *sql){
 	std::string buf;
 	std::fstream file;
 	

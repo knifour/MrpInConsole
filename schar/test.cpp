@@ -10,7 +10,7 @@ int main(){
 	
 	a->print();
 	a->SetChar(tmp, false, 9, 0);
-	a->SetFColor(ATTR::HYELLOW);
+	a->setFColor(ATTR::HYELLOW);
 	a->print();
 	std::cout << "\n";
 	return 0;

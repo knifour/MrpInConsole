@@ -26,13 +26,13 @@ int main(void){
 	ms.print((uint8_t*)buf);*/
 	/*ms.SetActive(false);*/
 	cursor(false);
-	ms.SetFColor(11);
+	ms.setFColor(11);
 	ms.Locate(6, 17);
-	ms.SetUnderLine(true);
+	ms.setUnderLine(true);
 	ms.print("A001");
 	ms.Locate(6, 29);
 	ms.print("中區");
-	ms.SetUnderLine(false);
+	ms.setUnderLine(false);
 	ms.SetActive(true);
 	
 	ch = getch();

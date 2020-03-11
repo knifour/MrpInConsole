@@ -18,11 +18,11 @@ public:
 	int GetLins(void);                                             // 取得螢幕列數
 	int GetCols(void);                                             // 取得螢幕每列字數
 	void Locate(int, int);                                         // 設定游標位置
-	void SetFColor(int);
-	void SetFColor(int, int, int);
-	void SetBColor(int);
-	void SetBColor(int, int, int);
-	void SetUnderLine(bool);
+	void setFColor(int);
+	void setFColor(int, int, int);
+	void setBColor(int);
+	void setBColor(int, int, int);
+	void setUnderLine(bool);
 	void ResetAttr(void);                                          // 重設所有屬性(包括顏色)
 	void cls(void);                                                // 清除螢幕
 	bool PrintFromFile(const char *filename);                      // 讀取檔案並把它印在螢幕上面，第一行有四個參數，分別指定->列,行,前景色,背景色

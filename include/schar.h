@@ -10,25 +10,19 @@ protected:
 	bool mUnderLine;
 	int mFColor;
 	int mBColor;
-	/* ATTR mFColor;
-	ATTR mBColor; */
 	
 public:
   SCHAR();
 	bool operator==(const SCHAR &rhs);
-	bool IsValid(void);
-	void SetValid(const bool);
-	/* void SetFColor(ATTR pFColor);
-	void SetBColor(ATTR pBColor);
-	ATTR GetFColor(void);
-	ATTR GetBColor(void); */
-	void SetUnderLine(bool);
-	void SetFColor(int);
-	void SetBColor(int);
-	int GetFColor(void);
-	int GetBColor(void);
-	virtual void SetChar(uint8_t const *, bool, int, int) = 0;
-	virtual int DLen() = 0;
+	bool isValid(void);
+	void setValid(const bool);
+	void setUnderLine(bool);
+	void setFColor(int);
+	void setBColor(int);
+	int getFColor(void);
+	int getBColor(void);
+	virtual void setChar(uint8_t const *, bool, int, int) = 0;
+	virtual int getDLen() = 0;
 	virtual void print() = 0;
 };
 
