@@ -9,7 +9,10 @@ using namespace std;
 int main(void){
 	unsigned char ch;
 	
-  ch = getch();
+  hideCursor();
+	ch = getch();
+	cout << ch << endl;
+	showCursor();
   
 	return 0;
 }

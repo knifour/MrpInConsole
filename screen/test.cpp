@@ -14,28 +14,28 @@ int main(void){
 	char ch;
 	
 	/*start = clock();*/
-	ms.SetActive(false);
+	ms.setActive(false);
 	ms.cls();
-	ms.PrintFromFile("menu.scr");
-	/*ms.SetActive(true);*/
+	ms.printFromFile("menu.scr");
+	/*ms.setActive(true);*/
 	
 	/*end = clock();
 	cputime = (end-start)/CLOCKS_PER_SEC;
-	ms.Locate(25, 1);
+	ms.locate(25, 1);
 	sprintf(buf, "total time = %lf", cputime);
 	ms.print((uint8_t*)buf);*/
-	/*ms.SetActive(false);*/
-	cursor(false);
+	/*ms.setActive(false);*/
+	hideCursor();
 	ms.setFColor(11);
-	ms.Locate(6, 17);
+	ms.locate(6, 17);
 	ms.setUnderLine(true);
 	ms.print("A001");
-	ms.Locate(6, 29);
+	ms.locate(6, 29);
 	ms.print("中區");
 	ms.setUnderLine(false);
-	ms.SetActive(true);
+	ms.setActive(true);
 	
 	ch = getch();
-	cursor(true);
+	showCursor();
 	return 0;
 }

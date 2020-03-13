@@ -35,14 +35,15 @@ char getche(void){
 	return getch_(1);
 }
 
-void cursor(bool p){
-	if (p)
-		std::cout << "\x1B[?25h";  // 顯示游標
-	else
-		std::cout << "\x1B[?25l";  // 隱藏游標
+void showCursor(void){
+  std::cout << "\x1B[?25h";  // 顯示游標
 }
 
-void CurPos(int& lin, int& col){  // 取得游標位置
+void hideCursor(void){
+	std::cout << "\x1B[?25l";  // 隱藏游標
+}
+
+void getCursorPos(int& lin, int& col){  // 取得游標位置
 	char buf[10];
 	char ch;
 	int cnt = 0;
@@ -127,7 +128,7 @@ char input(int &key){
 	}
 }
 
-int Utf8Len(std::string const &utf8){
+int getFirstCharBytesU8(std::string const &utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len =
 	  (first_byte >> 7) == 0 ? 1 :
@@ -138,7 +139,7 @@ int Utf8Len(std::string const &utf8){
 	return len;
 }
 
-int Utf8Len(uint8_t const *utf8){
+int getFirstCharBytesU8(uint8_t const *utf8){
 	uint8_t first_byte = utf8[0];
 	int len =
 	  (first_byte >> 7) == 0 ? 1 :
@@ -149,7 +150,7 @@ int Utf8Len(uint8_t const *utf8){
 	return len;
 }
 
-int Utf8Len(char first_byte){
+int getFirstCharBytesU8(char first_byte){
 	int len =
 	  (first_byte >> 7) == 0 ? 1 :
 		(first_byte & 0xF0) == 0xF0 ? 4 :
@@ -159,7 +160,7 @@ int Utf8Len(char first_byte){
 	return len;
 }
 
-int Utf8DLen(std::string const &utf8){
+int getFirstDLenU8(std::string const &utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = (uint8_t)utf8[0];
 	uint8_t len = 
@@ -187,7 +188,7 @@ int Utf8DLen(std::string const &utf8){
 	return 1;
 }
 
-int Utf8DLen(uint8_t const *utf8){
+int getFirstDLenU8(uint8_t const *utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = utf8[0];
 	uint8_t len = 
@@ -218,7 +219,7 @@ int Utf8DLen(uint8_t const *utf8){
 int FromUtf8(std::string const &utf8, char *buf){
 	int len;
 	
-	len = Utf8Len(utf8);
+	len = getFirstCharBytesU8(utf8);
 	for (int i=0; i<len; i++){
 		buf[i] = (char)utf8[i];
 	}
@@ -227,13 +228,13 @@ int FromUtf8(std::string const &utf8, char *buf){
 	return len;
 }
 
-int Utf8RealLen(uint8_t const *utf8){
+int getCharsU8(uint8_t const *utf8){
 	int result = 0;
 	int len;
 	int i = 0;
 	
 	while (utf8[i] != 0){
-		len = Utf8Len(utf8[i]);
+		len = getFirstCharBytesU8(utf8[i]);
 		result = result + 1;
 		i = i + len;
 	}
@@ -241,13 +242,13 @@ int Utf8RealLen(uint8_t const *utf8){
 	return result;
 }
 
-int Utf8RealLen(std::string const &utf8){
+int getCharsU8(std::string const &utf8){
 	int result = 0;
 	int len;
 	int i = 0;
 	
 	while (utf8[i] != 0){
-		len = Utf8Len(utf8[i]);
+		len = getFirstCharBytesU8(utf8[i]);
 		result = result + 1;
 		i = i + len;
 	}
@@ -255,14 +256,14 @@ int Utf8RealLen(std::string const &utf8){
 	return result;
 }
 
-int Utf8RealDLen(uint8_t const *utf8){
+int getDLenU8(uint8_t const *utf8){
 	int result = 0;
 	int len, dlen;
 	int i = 0;
 	
 	while (utf8[i] != 0){
-		len = Utf8Len(utf8[i]);
-		dlen = Utf8DLen(&utf8[i]);
+		len = getFirstCharBytesU8(utf8[i]);
+		dlen = getFirstDLenU8(&utf8[i]);
 		result = result + dlen;
 		i = i + len;
 	}
@@ -270,14 +271,14 @@ int Utf8RealDLen(uint8_t const *utf8){
 	return result;
 }
 
-int Utf8RealDLen(std::string const &utf8){
+int getDLenU8(std::string const &utf8){
 	int result = 0;
 	int len, dlen;
 	int i = 0;
 	
 	while (utf8[i] != 0){
-		len = Utf8Len(utf8[i]);
-		dlen = Utf8DLen((uint8_t*)&utf8[i]);
+		len = getFirstCharBytesU8(utf8[i]);
+		dlen = getFirstDLenU8((uint8_t*)&utf8[i]);
 		result = result + dlen;
 		i = i + len;
 	}
@@ -301,7 +302,7 @@ int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length){
 		return rlen;
 	}
 	
-	rlen = Utf8RealLen(utf8);
+	rlen = getCharsU8(utf8);
 	if (start > rlen){
 		buf[bps] = 0;
 		return rlen;
@@ -309,14 +310,14 @@ int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length){
 	
 	rlen = 1;
 	while (rlen < start){
-		len = Utf8Len(utf8[ps]);
+		len = getFirstCharBytesU8(utf8[ps]);
 		ps = ps + len;
 		rlen = rlen + 1;
 	}
 	
 	rlen = 0;
 	while (utf8[ps] != 0){
-		len = Utf8Len(utf8[ps]);
+		len = getFirstCharBytesU8(utf8[ps]);
 		for (int i=0; i<len; i++){
 			buf[bps] = utf8[ps];
 			ps++;
@@ -349,7 +350,7 @@ std::string Utf8Mids(uint8_t const *utf8, int start, int length){
 		return std::string("");
 	}
 	
-	rlen = Utf8RealLen(utf8);
+	rlen = getCharsU8(utf8);
 	if (start > rlen){
 		buf[bps] = 0;
 		return std::string("");
@@ -357,14 +358,14 @@ std::string Utf8Mids(uint8_t const *utf8, int start, int length){
 	
 	rlen = 1;
 	while (rlen < start){
-		len = Utf8Len(utf8[ps]);
+		len = getFirstCharBytesU8(utf8[ps]);
 		ps = ps + len;
 		rlen = rlen + 1;
 	}
 	
 	rlen = 0;
 	while (utf8[ps] != 0){
-		len = Utf8Len(utf8[ps]);
+		len = getFirstCharBytesU8(utf8[ps]);
 		for (int i=0; i<len; i++){
 			buf[bps] = utf8[ps];
 			ps++;

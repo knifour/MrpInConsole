@@ -16,28 +16,29 @@
 
 char getch(void);  /* 等待輸入，不顯示輸入字元 */
 char getche(void); /* 等待輸入，顯示輸入字元 */
-void cursor(bool); /* 顯示或隱藏游標 */
-void CurPos(int&, int&); /* 取得游標位置 */
+void showCursor(void); /* 顯示游標 */
+void hideCursor(void); /* 隱藏游標 */
+void getCursorPos(int&, int&); /* 取得游標位置 */
 char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
-int Utf8Len(std::string const &utf8);
-int Utf8Len(uint8_t const *utf8);
-int Utf8Len(char first_byte);
+int getFirstCharBytesU8(std::string const &utf8);
+int getFirstCharBytesU8(uint8_t const *utf8);
+int getFirstCharBytesU8(char first_byte);
 
 /* 計算UTF8字元的顯示長度(只判斷傳入字串的第一個字元) */
-int Utf8DLen(std::string const &utf8);
-int Utf8DLen(uint8_t const *utf8);
+int getFirstDLenU8(std::string const &utf8);
+int getFirstDLenU8(uint8_t const *utf8);
 
 int FromUtf8(std::string const &utf8, char *buf);
 
 /* 計算字串字數，無論中文、英文都算1個字 */
-int Utf8RealLen(uint8_t const *utf8);
-int Utf8RealLen(std::string const &utf8);
+int getCharsU8(uint8_t const *utf8);
+int getCharsU8(std::string const &utf8);
 
 /* 計算UTF8字串的總顯示長度 */
-int Utf8RealDLen(uint8_t const *utf8);
-int Utf8RealDLen(std::string const &utf8);
+int getDLenU8(uint8_t const *utf8);
+int getDLenU8(std::string const &utf8);
 
 int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length);
 std::string Utf8Mids(uint8_t const *utf8, int start, int length);

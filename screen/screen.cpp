@@ -3,18 +3,18 @@
 #include <screen.h>
 
 SCREEN::SCREEN(){
-	GetConsoleSize(LINS, COLS);         // 取得螢幕大小(總列數及每列字數)
-	CreateBuffer();
-  Init();
+	getConsoleSize(LINS, COLS);         // 取得螢幕大小(總列數及每列字數)
+	createBuffer();
+  init();
 }
 
 SCREEN::SCREEN(int FColor, int BColor){
-	GetConsoleSize(LINS, COLS);
-	CreateBuffer();
-  Init(FColor, BColor);	
+	getConsoleSize(LINS, COLS);
+	createBuffer();
+  init(FColor, BColor);	
 }
 
-void SCREEN::CreateBuffer(void){
+void SCREEN::createBuffer(void){
 	/* 依據螢幕大小建立螢幕緩衝區 */
 	ScreenBuf = new UTF8SCHAR*[LINS];  // 依據螢幕總列數建立UTF8SCHAR指標陣列
 	for (int i=0; i<LINS; i++){
@@ -35,7 +35,7 @@ int SCREEN::GetCols(void){
 /* Lin代表列, Col代表行 */
 /* 螢幕左上角為 1, 1 */
 /* 設定超過螢幕範圍會自動調整成適合螢幕大小的位置 */
-void SCREEN::Locate(int Lin, int Col){
+void SCREEN::locate(int Lin, int Col){
 	char Buf[10];
 	
 	if (Lin < 1) Lin = 1;
@@ -52,9 +52,9 @@ void SCREEN::cls(void){
 	bool OldActive;
 	
 	OldActive = mActive;
-	Init(CurFColor, CurBColor);
-	SetActive(OldActive);
-	Locate(1, 1);
+	init(CurFColor, CurBColor);
+	setActive(OldActive);
+	locate(1, 1);
 }
 
 void SCREEN::setUnderLine(bool p){
@@ -84,7 +84,7 @@ void SCREEN::setBColor(int r, int g, int b){
 }
 
 // 重設螢幕屬性
-void SCREEN::ResetAttr(void){
+void SCREEN::resetAttr(void){
 	cout << "\x1B[0m";
 	UnderLine = false;
 	CurFColor = ATTR::WHITE;
@@ -92,7 +92,7 @@ void SCREEN::ResetAttr(void){
 }
 
 // 取得螢幕大小
-void SCREEN::GetConsoleSize(int &LINS, int &COLS){
+void SCREEN::getConsoleSize(int &LINS, int &COLS){
 	struct winsize size;
 	
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &size); /* ioctl()       需要include <sys/ioctl.h> */
@@ -104,7 +104,7 @@ void SCREEN::GetConsoleSize(int &LINS, int &COLS){
 /* 將所有字元設定成空白字元 */
 /* 依參數設定前景、背景 */
 /* 預設值前景：白色，背景：黑色 */
-void SCREEN::Init(int FColor, int BColor){
+void SCREEN::init(int FColor, int BColor){
 	int Off;
 	uint8_t blank[] = " ";
 	
@@ -115,7 +115,7 @@ void SCREEN::Init(int FColor, int BColor){
 	
 	for (int i=1; i<=LINS; i++){
 		for (int j=1; j<=COLS; j++){
-			if (SetSP(i, j)){
+			if (setSP(i, j)){
 			  sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 			}
 		}
@@ -125,7 +125,7 @@ void SCREEN::Init(int FColor, int BColor){
 // 根據傳送過來的檔名讀取該檔內容並印在螢幕上
 // 檔案第一行必須有四個數字也以逗號分隔
 // 四個數字代表的意義分別為：列,行,前景色,背景色
-bool SCREEN::PrintFromFile(const char *filename){
+bool SCREEN::printFromFile(const char *filename){
 	fstream scr;
 	string buf, tmp;
 	int cnt;
@@ -176,7 +176,7 @@ bool SCREEN::PrintFromFile(const char *filename){
 	setFColor(fcolor);
 	setBColor(bcolor);
 	while (getline(scr, buf)){
-		Locate(lin, col);
+		locate(lin, col);
 		print(buf);
 		lin++;
 	}
@@ -203,27 +203,27 @@ void SCREEN::print(uint8_t *p){
 	col = StartCol = PrevCol = CurCol;
 	
 	oldsp = sp;
-  SetSP(lin, col); // 指標指向開頭顯示位置
-	if (InWideTail()) // 如果開頭位置為寬字元之後半部
-		if (PrevPos(PrevCol)) // 如果前一個字元未超過螢幕範圍
+  setSP(lin, col); // 指標指向開頭顯示位置
+	if (isWideTail()) // 如果開頭位置為寬字元之後半部
+		if (getPrevPos(PrevCol)) // 如果前一個字元未超過螢幕範圍
 			StartCol = StartCol - 1;  // 將開始重印位置指向前一字元
 	
-  len = Utf8RealDLen(p);  // 計算實際列印長度
+  len = getDLenU8(p);  // 計算實際列印長度
 	EndCol = col + len - 1;
 	if (EndCol > COLS)
 		EndCol = COLS;
-	SetSP(lin, EndCol);
-	if (InWideHead())  // 要列印的最後一個字元位於位於寬字元開頭
-		NextPos(EndCol);  // 將結束重印位置指向字串結尾的後一個字元
+	setSP(lin, EndCol);
+	if (isWideHead())  // 要列印的最後一個字元位於位於寬字元開頭
+		getNextPos(EndCol);  // 將結束重印位置指向字串結尾的後一個字元
 	
-	len = Str2Screen(p);
+	len = printString(p);
 	if (mActive){
 		for (j=StartCol; j<=EndCol; j++){
-			Locate(lin, j);
-			SetSP(lin, j);
+			locate(lin, j);
+			setSP(lin, j);
 			sp->print();
 		}
-		Locate(lin, j);
+		locate(lin, j);
 	}
 	
 	sp = oldsp;
@@ -241,15 +241,15 @@ void SCREEN::printcode(int lin, int col){
 	cout << ScreenBuf[lin-1][col-1];
 }
 
-void SCREEN::SetActive(const bool p){
+void SCREEN::setActive(const bool p){
 	if (mActive != p){
 	  mActive = p;
 		if (mActive)
-			Refresh();
+			refresh();
 	}
 }
 
-void SCREEN::Refresh(void){
+void SCREEN::refresh(void){
 	int OldLin, OldCol;
 	
 	if (!mActive)
@@ -259,15 +259,15 @@ void SCREEN::Refresh(void){
 	OldCol = CurCol;
 	for (int i=1; i<=LINS; i++)
 		for (int j=1; j<=COLS; j++){
-			Locate(i, j);
-			if (SetSP(i, j)){
+			locate(i, j);
+			if (setSP(i, j)){
 			  sp->print();
 			}
 		}
-	Locate(OldLin, OldCol);
+	locate(OldLin, OldCol);
 }
 
-void SCREEN::Refresh(int pLin, int pStrCol, int pEndCol){
+void SCREEN::refresh(int pLin, int pStrCol, int pEndCol){
 	int OldLin, OldCol;
 	SCHAR *oldsp;
 	
@@ -284,37 +284,37 @@ void SCREEN::Refresh(int pLin, int pStrCol, int pEndCol){
 	OldCol = CurCol;
 	oldsp = sp;
 	
-	SetSP(pLin, pStrCol);
-	if (InWideTail())
-		if (PrevPos(pStrCol))
+	setSP(pLin, pStrCol);
+	if (isWideTail())
+		if (getPrevPos(pStrCol))
 			pStrCol = pStrCol - 1;
 		
 	for (int j=pStrCol; j<=pEndCol; j++){
-		Locate(pLin, j);
-		if (SetSP(pLin, j))
+		locate(pLin, j);
+		if (setSP(pLin, j))
 			sp->print();
 	}	
 	
-	Locate(OldLin, OldCol);
+	locate(OldLin, OldCol);
 	sp = oldsp;
 }
 
 /* 將要顯示的字串儲存在螢幕緩衝區 */
 /* 傳回值為實際轉換的長度 */
-/* 將字串擷取成單一字元給Char2Screen()處理 */
-int SCREEN::Str2Screen(uint8_t *p){
+/* 將字串擷取成單一字元給printChar()處理 */
+int SCREEN::printString(uint8_t *p){
 	int lin, col;
 	int len, rlen;
 	uint8_t buf[100];
 	
 	lin = CurLin;
 	col = CurCol;
-	len = Utf8RealLen(p);  // 計算要列印字串的字數，無論中、英文字元都算一個字
+	len = getCharsU8(p);  // 計算要列印字串的字數，無論中、英文字元都算一個字
 	rlen = 0;
 	for (int i=1; i<=len; i++){
 		Utf8Mid(p, buf, i, 1);
-		Char2Screen(buf, lin, col);
-		if (Utf8DLen(buf) == 2){
+		printChar(buf, lin, col);
+		if (getFirstDLenU8(buf) == 2){
 			col = col + 2;
 			rlen = rlen + 2;
 		} else {
@@ -332,7 +332,7 @@ int SCREEN::Str2Screen(uint8_t *p){
 /* 超過螢幕範圍自動截斷 */
 /* 判斷要顯示的字元是寬字元還是單字元，依據結果分開處理 */
 /* 中、日、韓及特殊畫框符號之寬度為2，其餘為1 */
-void SCREEN::Char2Screen(uint8_t *p, int pLin, int pCol){
+void SCREEN::printChar(uint8_t *p, int pLin, int pCol){
 	int len;
 	
 	if (pLin < 1 || pLin > LINS){
@@ -343,14 +343,14 @@ void SCREEN::Char2Screen(uint8_t *p, int pLin, int pCol){
 		return;
 	}
 	
-	len = Utf8DLen(p);
+	len = getFirstDLenU8(p);
 	switch (len){
 		case 1:
-		  SingleChar(p, pLin, pCol);
+		  printSingleChar(p, pLin, pCol);
 			break;
 			
 		case 2:
-		  WideChar(p, pLin, pCol);
+		  printWideChar(p, pLin, pCol);
 			break;
 	}
 	
@@ -364,7 +364,7 @@ void SCREEN::Char2Screen(uint8_t *p, int pLin, int pCol){
 /* 開始位置若為寬字元，下一個字會被自動設成空白 */
 /* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
 /* 則該字元會被設為空白 */
-void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
+void SCREEN::printSingleChar(uint8_t *p, int pLin, int pCol){
 	SCHAR *oldsp;
 	int lin, col;
 	int PrevCol, NextCol;
@@ -376,23 +376,23 @@ void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 	
 	oldsp = sp;
 	
-	PrevValid = PrevPos(PrevCol);
-	NextValid = NextPos(NextCol);
+	PrevValid = getPrevPos(PrevCol);
+	NextValid = getNextPos(NextCol);
 	
-	SetSP(lin, col);
-	if (InWideHead()){     // 如果位於寬字元開頭，把下半個字元設定成空白
+	setSP(lin, col);
+	if (isWideHead()){     // 如果位於寬字元開頭，把下半個字元設定成空白
 		if (NextValid){         
-			SetSP(lin, NextCol);  
+			setSP(lin, NextCol);  
 			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
-	} else if (InWideTail()){  // 如果位於寬字元結尾，把前半個字元設定成空白
+	} else if (isWideTail()){  // 如果位於寬字元結尾，把前半個字元設定成空白
 	  if (PrevValid){
-			SetSP(lin, PrevCol);
+			setSP(lin, PrevCol);
 			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
-	SetSP(lin, col);  // 指標指向座標位置
+	setSP(lin, col);  // 指標指向座標位置
 	sp->setChar(p, UnderLine, CurFColor, CurBColor);   // 存入欲顯示字元
 	
 	sp = oldsp;
@@ -405,7 +405,7 @@ void SCREEN::SingleChar(uint8_t *p, int pLin, int pCol){
 /* 開始位置若為無效字元，表示前一個字為寬字元，前一個字會被自動設成空白 */
 /* 開始位置若位於每列最後一個字元，且要顯示的字為寬字元 */
 /* 則該字元會被設為空白 */
-void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
+void SCREEN::printWideChar(uint8_t *p, int pLin, int pCol){
 	SCHAR *oldsp;
 	int lin, col;
 	int PrevCol, NextCol, NNextCol;
@@ -416,37 +416,37 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 	col = PrevCol = NextCol = pCol;
 	oldsp = sp;
 	
-	PrevValid = PrevPos(PrevCol);
-	NextValid = NextPos(NextCol);
+	PrevValid = getPrevPos(PrevCol);
+	NextValid = getNextPos(NextCol);
 	if (NextValid){
 		NNextCol = NextCol;
-		NNextValid = NextPos(NNextCol);
+		NNextValid = getNextPos(NNextCol);
 	} else {
 		NNextValid = false;
 	}
 	
-	SetSP(lin, col);
-	if (InWideTail()){  // 如果顯示位置位於寬字元結尾
+	setSP(lin, col);
+	if (isWideTail()){  // 如果顯示位置位於寬字元結尾
 	  if (PrevValid){  // 如果前個字元未超過螢幕範圍，把該字元設定成空白
-			SetSP(lin, PrevCol);
+			setSP(lin, PrevCol);
 			sp->setChar(blank, UnderLine, CurFColor, CurBColor);
 		}
 	}
 	
 	if (NextValid){ // 如果下個字元未超出螢幕範圍
-		SetSP(lin, NextCol); // 指標指向下一個字元
-		if (InWideHead()){ // 如果下個字元位於寬字元開頭
+		setSP(lin, NextCol); // 指標指向下一個字元
+		if (isWideHead()){ // 如果下個字元位於寬字元開頭
 			if (NNextValid){  // 如果下下個字元未超出螢幕範圍
-				SetSP(lin, NNextCol); // 指標指向下下個字元
+				setSP(lin, NNextCol); // 指標指向下下個字元
 				sp->setChar(blank, UnderLine, CurFColor, CurBColor); // 把下下個字元設成空白
 			}
 		}
 	}
 	
-	SetSP(lin, col);  // 指標指向欲顯示位置
+	setSP(lin, col);  // 指標指向欲顯示位置
 	if (NextValid){   // 如果下個字元未超出螢幕範圍
 		sp->setChar(p, UnderLine, CurFColor, CurBColor);  // 存入欲顯示字元
-		SetSP(lin, NextCol);  // 指標指向下個字元
+		setSP(lin, NextCol);  // 指標指向下個字元
 		sp->setValid(false);  // 將下個字元設定成無效字元
 	} else {  // 如果下個字元超出螢幕範圍
 		sp->setChar(blank, UnderLine, CurFColor, CurBColor); // 將欲顯示字元設定成空白
@@ -456,7 +456,7 @@ void SCREEN::WideChar(uint8_t *p, int pLin, int pCol){
 }
 
 /* 設定sp指標值，如果超過螢幕範圍將回傳false */
-bool SCREEN::SetSP(int pLin, int pCol){
+bool SCREEN::setSP(int pLin, int pCol){
 	int lin, col;
 	
 	if (pLin < 1 || pLin > LINS)
@@ -474,7 +474,7 @@ bool SCREEN::SetSP(int pLin, int pCol){
 
 /* 計算傳入游標位置之前一個字元的游標位置 */
 /* 傳回值若為false表示已在每列最左邊，參數pLin及pCol之值將不會改變 */
-bool SCREEN::PrevPos(int &pCol){
+bool SCREEN::getPrevPos(int &pCol){
 	int tcol;
 	
 	tcol = pCol - 1;
@@ -488,7 +488,7 @@ bool SCREEN::PrevPos(int &pCol){
 
 /* 計算傳入游標位置之下一個字元的游標位置 */
 /* 傳回值若為false表示已在螢幕最右邊，參數pLin及pCol之值將不會改變 */
-bool SCREEN::NextPos(int &pCol){
+bool SCREEN::getNextPos(int &pCol){
 	int tcol;
 	
 	tcol = pCol + 1;
@@ -500,7 +500,7 @@ bool SCREEN::NextPos(int &pCol){
 	return true;
 }
 
-bool SCREEN::InWideHead(){
+bool SCREEN::isWideHead(){
 	int len;
 	
 	len = sp->getDLen();
@@ -510,7 +510,7 @@ bool SCREEN::InWideHead(){
 		return false;
 }
 
-bool SCREEN::InWideTail(){
+bool SCREEN::isWideTail(){
 	if (sp->isValid())
 		return false;
 	else
@@ -518,7 +518,7 @@ bool SCREEN::InWideTail(){
 }
 
 SCREEN::~SCREEN(){
-	ResetAttr();
+	resetAttr();
 	for (int i=0; i<LINS; i++)
 		delete[] ScreenBuf[i];
 	

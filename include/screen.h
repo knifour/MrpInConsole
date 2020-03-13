@@ -17,22 +17,22 @@ public:
 	~SCREEN();                                                     // 解構式，釋放螢幕緩衝區記憶體，恢復黑底、白字
 	int GetLins(void);                                             // 取得螢幕列數
 	int GetCols(void);                                             // 取得螢幕每列字數
-	void Locate(int, int);                                         // 設定游標位置
+	void locate(int, int);                                         // 設定游標位置
 	void setFColor(int);
 	void setFColor(int, int, int);
 	void setBColor(int);
 	void setBColor(int, int, int);
 	void setUnderLine(bool);
-	void ResetAttr(void);                                          // 重設所有屬性(包括顏色)
+	void resetAttr(void);                                          // 重設所有屬性(包括顏色)
 	void cls(void);                                                // 清除螢幕
-	bool PrintFromFile(const char *filename);                      // 讀取檔案並把它印在螢幕上面，第一行有四個參數，分別指定->列,行,前景色,背景色
+	bool printFromFile(const char *filename);                      // 讀取檔案並把它印在螢幕上面，第一行有四個參數，分別指定->列,行,前景色,背景色
 	void print(const char *p);                                     // 將字串印在螢幕上面，可接受三種參數 char*、string、uint8_t*
 	void print(const string p);
 	void print(uint8_t *p);
 	void printcode(int, int);
-	void SetActive(bool const);                                    // 設定螢幕是否為顯示狀態
-	void Refresh(void);                                            // 根據螢幕緩衝區的內容刷新螢幕
-  void Refresh(int, int, int);                                   // 第一個參數指定重印某一列，第二、三個參數指定重印的起始、終止字元	
+	void setActive(bool const);                                    // 設定螢幕是否為顯示狀態
+	void refresh(void);                                            // 根據螢幕緩衝區的內容刷新螢幕
+  void refresh(int, int, int);                                   // 第一個參數指定重印某一列，第二、三個參數指定重印的起始、終止字元	
 
 private:
   // 成員變數
@@ -45,18 +45,18 @@ private:
 	bool UnderLine;                                                // 是否畫底線
 	
 	// 成員函數
-	void GetConsoleSize(int &, int &);                             // 取得螢幕列數及每列字數
-  void CreateBuffer(void);                                       // 建立螢幕緩衝區	
-	void Init(int FColor=ATTR::WHITE, int BColor=ATTR::BLACK);     // 若未指定參數時預設為黑底、白字                 // 螢幕物件初始化，可於初始化時設定顏色
-	int Str2Screen(uint8_t *p);                                    // 將要列印的字串轉存到螢幕緩衝區
-  void Char2Screen(uint8_t *p, int pLin, int pCol);              // 將要列印的字元存進螢幕緩衝區
-  void SingleChar(uint8_t *p, int pLin, int pCol);               // 處理寬度為1的字元
-  void WideChar(uint8_t *p, int pLin, int pCol);	               // 處理寬度為2的字元
-  bool SetSP(int pLin, int pCol);                                // 依照游標位置取得螢幕緩衝區指標sp，螢幕左上角位置為1,1
-	bool PrevPos(int&);                                            // 計算上一個游標位置
-	bool NextPos(int&);                                            // 計算下一個游標位置
-  bool InWideHead();                                             // 根據sp值判斷是否位於寬字元開頭，呼叫前先設定sp指標值
-  bool InWideTail();	                                           // 根據sp值判斷是否位於寬字元結尾，呼叫前先設定sp指標值
+	void getConsoleSize(int &, int &);                             // 取得螢幕列數及每列字數
+  void createBuffer(void);                                       // 建立螢幕緩衝區	
+	void init(int FColor=ATTR::WHITE, int BColor=ATTR::BLACK);     // 若未指定參數時預設為黑底、白字                 // 螢幕物件初始化，可於初始化時設定顏色
+	int printString(uint8_t *p);                                   // 將要列印的字串轉存到螢幕緩衝區
+  void printChar(uint8_t *p, int pLin, int pCol);                // 將要列印的字元存進螢幕緩衝區
+  void printSingleChar(uint8_t *p, int pLin, int pCol);          // 處理寬度為1的字元
+  void printWideChar(uint8_t *p, int pLin, int pCol);	           // 處理寬度為2的字元
+  bool setSP(int pLin, int pCol);                                // 依照游標位置取得螢幕緩衝區指標sp，螢幕左上角位置為1,1
+	bool getPrevPos(int&);                                         // 計算上一個游標位置
+	bool getNextPos(int&);                                         // 計算下一個游標位置
+  bool isWideHead();                                             // 根據sp值判斷是否位於寬字元開頭，呼叫前先設定sp指標值
+  bool isWideTail();	                                           // 根據sp值判斷是否位於寬字元結尾，呼叫前先設定sp指標值
 };
 
 #endif

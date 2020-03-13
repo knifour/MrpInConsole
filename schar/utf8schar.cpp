@@ -30,7 +30,7 @@ UTF8SCHAR::UTF8SCHAR(const char *p){
 void UTF8SCHAR::setChar(uint8_t const *p, bool p1, int p2, int p3){
 	int len;
 	
-	len = Utf8Len(p);
+	len = getFirstCharBytesU8(p);
 	if (len > UTF8MAXLEN)
 		len = UTF8MAXLEN;
 	if (len==0){
@@ -52,7 +52,7 @@ void UTF8SCHAR::setChar(uint8_t const *p, bool p1, int p2, int p3){
 }
 
 int UTF8SCHAR::getDLen(){
-	return Utf8DLen(Utf8);
+	return getFirstDLenU8(Utf8);
 }
 
 UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR &p){
