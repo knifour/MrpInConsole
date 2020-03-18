@@ -20,6 +20,9 @@ void showCursor(void); /* 顯示游標 */
 void hideCursor(void); /* 隱藏游標 */
 void getCursorPos(int&, int&); /* 取得游標位置 */
 char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
+void* new2D(int h, int w, int size); /* 動態二維陣列 */
+
+#define NEW2D(H, W, TYPE) (TYPE **)new2D(H, W, sizeof(TYPE))
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
 int getFirstCharBytesU8(std::string const &utf8);

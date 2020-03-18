@@ -128,6 +128,20 @@ char input(int &key){
 	}
 }
 
+/* 動態二維陣列 */
+/* 使用者以指指標接收回傳的指標值 */
+/* 使用者必須自行釋放函式配置的記憶體 */
+void* new2D(int h, int w, int size){
+	int i;
+	void **p;
+	
+	p = (void**)new char[h*sizeof(void*) + h*w*size];
+	for (i=0; i < h; i++)
+		p[i] = ((char*)(p+h)) + i*w*size;
+	
+  return p;
+}
+
 int getFirstCharBytesU8(std::string const &utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len =
