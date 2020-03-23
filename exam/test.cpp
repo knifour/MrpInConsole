@@ -3,12 +3,33 @@
 #include <iconv.h>
 #include <stdio.h>
 #include <string.h>
+#include "util.h"
 
 using namespace std;
 
 int main(void){
-	fstream src("/home/knifour/MENU.SCR", ifstream::in);
-	string buf;
+	fstream src("/home/supervisor/mrpdata/BF/BSE/PARCRE.WIN", ifstream::in);
+	string buf, dst;
+	int status;
+	
+	while(getline(src, buf)){
+		for (int i=0; i<buf.length(); i++){
+			if (buf[i] == 13){
+				buf.erase(i, 1);
+				break;
+			}
+		}
+		dst = convertBig5toUtf8(buf, &status);
+		if (status == 0){
+			cout << dst << endl;
+		} else {
+			cout << status << endl;
+		}
+	}
+	
+	src.close();
+	return 0;
+	/*string buf;
 	char ibuf[200], obuf[1024];
 	char *strsrc, *strdst;
 	size_t inbyte, outbyte, ret;
@@ -45,5 +66,5 @@ int main(void){
 	
 	iconv_close(cnv);
 	src.close();
-  return 0;
+  return 0;*/
 }

@@ -13,6 +13,9 @@
 #include <string>
 #include <stdint.h>
 #include <keypad.h>
+#include <iconv.h>
+#include <stdio.h>
+#include <string.h>
 
 char getch(void);  /* 等待輸入，不顯示輸入字元 */
 char getche(void); /* 等待輸入，顯示輸入字元 */
@@ -45,5 +48,8 @@ int getDLenU8(std::string const &utf8);
 
 int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length);
 std::string Utf8Mids(uint8_t const *utf8, int start, int length);
+
+std::string convertBig5toUtf8(char *src, int *status);
+std::string convertBig5toUtf8(std::string src, int *status);
 
 #endif
