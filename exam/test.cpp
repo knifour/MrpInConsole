@@ -1,63 +1,49 @@
 #include <iostream>
-#include <limits>
-#include <stdint.h>
+#include <fstream>
+#include <iconv.h>
+#include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
 int main(void){
-	/*string tmp;
-	int c = 30;
-	ATTR b = (ATTR)c;
-	char Buf[20];
+	fstream src("/home/knifour/MENU.SCR", ifstream::in);
+	string buf;
+	char ibuf[200], obuf[1024];
+	char *strsrc, *strdst;
+	size_t inbyte, outbyte, ret;
+	iconv_t cnv;
 	
-	tmp = string(UL);
-	for (int i=0; i<2; i++)
-		tmp = tmp + string(HZ);
-	tmp = tmp + string(UM);
-	for (int i=0; i<4; i++)
-		tmp = tmp + string(HZ);
-	tmp = tmp + string(UR);
-	
-	cout << "列印寬度為：" << Utf8RealDLen(tmp) << endl;
-	cout << tmp << endl;
-	
-	sprintf(Buf, "\x1B[48;5;%dm", 0);
-	cout << Buf;
-	
-	cout << "\x1B[7m";
-	for (int i=0; i<16; i++){
-		sprintf(Buf, "\x1b[38;5;%dm", i);
-		cout << Buf << "X";
+	cnv = iconv_open("utf8", "big5");
+	if (cnv == (iconv_t)-1){
+		cout << "open convert error!" << endl;
+		return 1;
 	}
-	cout << "\x1B[0m" << endl;
 	
-	for (int i=0; i<6; i++){
-		for (int j=0; j<6; j++){
-			for (int k=0; k<6; k++){
-	      sprintf(Buf, "\x1B[38;5;%dm", 16+i*36+j*6+k);
-				cout << Buf << "X";
+	while(getline(src, buf)){
+		for (int i=0; i<buf.length(); i++){
+			if (buf[i] == 13){
+				buf.erase(i, 1);
+				break;
 			}
-	  }
-		cout << endl;
+		}
+		strcpy(ibuf, buf.c_str());
+		strsrc = ibuf;
+		strdst = obuf;
+		inbyte = strlen(strsrc)+1;
+		outbyte = 1024;
+		ret = iconv(cnv, &strsrc, &inbyte, &strdst, &outbyte);
+		if (ret == -1){
+			cout << "convert error!" << endl;
+			cout << "in bytes:" << inbyte << endl;
+			cout << "reserve bytes:" << outbyte << endl;
+			iconv_close(cnv);
+			return 1;
+		}
+		cout << obuf << endl;
 	}
 	
-	for (int i=232; i<256; i++){
-		sprintf(Buf, "\x1B[38;5;%dm", i);
-		cout << Buf << "X";
-	}
-	cout << "\x1B[0m" << endl;
-
-  unsigned char ch;
-	
-	cout << "\x1B[2J";
-	while ((ch=getch()) != '`'){
-		printf("%X\n", ch);
-	} */
-  numeric_limits<int64_t> a;
-  
-  cout << a.min() << endl;
-  cout << a.max() << endl;
-  cout << a.digits10 << endl;
-	
+	iconv_close(cnv);
+	src.close();
   return 0;
 }
