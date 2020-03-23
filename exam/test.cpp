@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(void){
-	fstream src("/home/supervisor/mrpdata/BF/BSE/PARCRE.WIN", ifstream::in);
+	fstream src("/home/supervisor/data/COBOL/BF/BSE/PARCRE.WIN", ifstream::in);
 	string buf, dst;
 	int status;
 	
