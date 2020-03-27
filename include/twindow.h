@@ -20,6 +20,7 @@ public:
 	/* 'l' -> 左上角列座標, 'c' -> 左上角行座標 */
 	/* 'L' -> 視窗總列數, 'C' -> 視窗總行數 */
 	/* 'F' -> 視窗前景色, 'B' -> 視窗背景色 */
+	friend class TWMGR;
 	TWINDOW();
   TWINDOW(SCREEN*, const char *, ...);
 	~TWINDOW();

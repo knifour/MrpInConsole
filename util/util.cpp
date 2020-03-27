@@ -27,10 +27,12 @@ char getch_(int echo){
 	return ch;
 }
 
+/* 模擬Windows的getch()函數，按鍵不會顯示在終端機上面 */
 char getch(void){
 	return getch_(0);
 }
 
+/* 模擬Windows的getch()函數，按鍵會顯示在終端機上面 */
 char getche(void){
 	return getch_(1);
 }

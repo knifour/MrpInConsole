@@ -6,6 +6,7 @@
 
 #include <screen.h>
 #include <twindow.h>
+#include <stdint.h>
 
 class TWMGR{
 public:
@@ -15,7 +16,9 @@ public:
 
 private:
   SCREEN *mParant;
+	uint8_t **ScreenOverlay;
 	TWINDOW *buf[10];
+	uint8_t **Overlay[10];
 	int TWCount;
 };
 

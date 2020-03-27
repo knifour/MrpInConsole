@@ -25,6 +25,9 @@ void getCursorPos(int&, int&); /* 取得游標位置 */
 char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
 void* new2D(int h, int w, int size); /* 動態二維陣列 */
 
+/* 動態二維陣列巨集，使用者傳入二維陣列大小及型態即可建立 */
+/* 使用者以指指標形式接收動態配置記憶體 */
+/* 使用者須以delete []指令刪除動態配置的記憶體 */
 #define NEW2D(H, W, TYPE) (TYPE **)new2D(H, W, sizeof(TYPE))
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
@@ -49,6 +52,7 @@ int getDLenU8(std::string const &utf8);
 int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length);
 std::string Utf8Mids(uint8_t const *utf8, int start, int length);
 
+/* 將Big5編碼的Byte Stream轉換成Utf8編碼的Byte Stream */
 std::string convertBig5toUtf8(char *src, int *status);
 std::string convertBig5toUtf8(std::string src, int *status);
 

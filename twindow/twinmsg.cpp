@@ -1,6 +1,28 @@
 #include <twinmsg.h>
 
-TWinMsg::TWinMsg(SCREEN *p, const char *msg, const char *fmt, ...){
+TWinMsg::TWinMsg(SCREEN *p, const uint8_t *msg) : TWINDOW() {
+	int len;
+	
+	if (p == NULL){
+		return;
+	} else {
+		mParant = p;
+	}
+	
+	len = getDLenU8(msg);
+	if (len == 0){
+		return;
+	}
+	
+	mLINS = 1;
+	mCOLS = len;
+	mLin = (p->GetLins() - mLINS) / 2 + 1;
+	mCol = (p->GetCols() - mCOLS) / 2 + 1;
+	mError = false;
+	mVisible = true;
+}
+
+TWinMsg::TWinMsg(SCREEN *p, const uint8_t *msg, const char *fmt, ...){
 	if (p == NULL){
 		return;
 	} else {
