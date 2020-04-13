@@ -10,6 +10,8 @@ exam/keypad
 exam/args
 exam/comp
 exam/cheat
+exam/search
+exam/TempFile
 mysql/myhello
 ncurses/hello
 ncurses/test

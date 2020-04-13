@@ -32,5 +32,11 @@ args: args.o
 args.o: args.cpp
 	$(cc) $(CFLAGS) args.cpp
 	
+search: search.o
+	$(cc) $(LFLAGS) -o search search.o
+	
+search.o: search.cpp
+	$(cc) $(CFLAGS) search.cpp
+	
 clean:
 	rm *.o
