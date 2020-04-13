@@ -241,7 +241,7 @@ void saveTempFile(void){
 	
 	f1 = fopen(FILENAME, "wb");
 	for (int i=0; i<Count; i++)
-		fwrite(&Memory[i], 1, Mode, f1);
+		fwrite(&Memory[i], 1, 4, f1);
 	fclose(f1);
 }
 

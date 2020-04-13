@@ -38,5 +38,11 @@ search: search.o
 search.o: search.cpp
 	$(cc) $(CFLAGS) search.cpp
 	
+modify: modify.o
+	$(cc) $(LFLAGS) -o modify modify.o
+	
+modify.o: modify.cpp
+	$(cc) $(CFLAGS) modify.cpp 
+ 
 clean:
 	rm *.o
