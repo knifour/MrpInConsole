@@ -7,6 +7,27 @@ DATETIME::DATETIME(){
 	getHMS();
 }
 
+DATETIME::DATETIME(int year, int month, int day){
+	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	
+	if (year < 1970) 
+		mYear = 1970;
+	else
+		mYear = year;
+	
+	if (month < 1 || month > 12)
+		mMonth = 1;
+	else
+		mMonth = month;
+	
+	if (isLeap(mYear) mdays[1] = 29;
+	
+	if (day > mdays[month-1])
+		mDay = 1;
+	else
+		mDay = day;
+}
+
 string DATETIME::getDateString(int mode){
 	char buf[20];
 	

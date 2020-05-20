@@ -10,6 +10,8 @@ using namespace std;
 class DATETIME {
 public:
 	DATETIME();
+	DATETIME(int, int, int);
+	DATETIME(int, int, int, int, int, int);
 	string getDateString(int);
 	string getTimeString(int);
 	int getYear(void) {return mYear;};
