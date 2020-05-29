@@ -24,6 +24,8 @@ public:
 	int getMinute(void) {return mMinute;};
 	int getSecond(void) {return mSecond;};
 	int getDayOfWeek(void) {return (mOrigin/86400+4)%7;};
+	
+	// 運算子重載
 	DATETIME operator =(DATETIME source);
 	bool operator ==(DATETIME other);
 	bool operator >(DATETIME other);

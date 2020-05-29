@@ -22,7 +22,7 @@ DATETIME::DATETIME(int year, int month, int day){
 	
 	if (isLeap(mYear)) mdays[1] = 29;
 	
-	if (day > mdays[month-1])
+	if (day < 1 || day > mdays[month-1])
 		mDay = 1;
 	else
 		mDay = day;
@@ -69,42 +69,6 @@ DATETIME::DATETIME(int year, int month, int day, int hour, int minute, int secon
 	setOrigin();
 }
 
-DATETIME DATETIME::operator =(DATETIME source){
-	mOrigin = source.mOrigin;
-	mYear = source.mYear;
-	mMonth = source.mMonth;
-	mHour = source.mHour;
-	mMinute = source.mMinute;
-	mSecond = source.mSecond;
-	
-	return *this;
-}
-
-bool DATETIME::operator ==(DATETIME other){
-	if (mOrigin==other.mOrigin)
-		return true;
-	else
-		return false;
-}
-
-bool DATETIME::operator >(DATETIME other){
-	if (mOrigin>other.mOrigin)
-		return true;
-	else
-		return false;
-}
-
-bool DATETIME::operator <(DATETIME other){
-	if (mOrigin<other.mOrigin)
-		return true;
-	else
-		return false;
-}
-
-int DATETIME::operator -(DATETIME other){
-	return (mOrigin-other.mOrigin);
-}
-
 string DATETIME::getDateString(int mode){
 	char buf[20];
 	
@@ -145,7 +109,7 @@ void DATETIME::getYMD(void){
 	int yd = 365;
 	while (days > yd){
 		mYear++;
-		days = days -yd;
+		days = days - yd;
 		yd = isLeap(mYear) ? 366 : 365;
 	}
 	
@@ -187,4 +151,40 @@ bool DATETIME::isLeap(int year){
 	return (year % 400 == 0) ? true  :
 	       (year % 100 == 0) ? false :
 	       (year %   4 == 0) ? true  : false;
+}
+
+DATETIME DATETIME::operator =(DATETIME source){
+	mOrigin = source.mOrigin;
+	mYear = source.mYear;
+	mMonth = source.mMonth;
+	mHour = source.mHour;
+	mMinute = source.mMinute;
+	mSecond = source.mSecond;
+	
+	return *this;
+}
+
+bool DATETIME::operator ==(DATETIME other){
+	if (mOrigin==other.mOrigin)
+		return true;
+	else
+		return false;
+}
+
+bool DATETIME::operator >(DATETIME other){
+	if (mOrigin>other.mOrigin)
+		return true;
+	else
+		return false;
+}
+
+bool DATETIME::operator <(DATETIME other){
+	if (mOrigin<other.mOrigin)
+		return true;
+	else
+		return false;
+}
+
+int DATETIME::operator -(DATETIME other){
+	return (mOrigin-other.mOrigin);
 }

@@ -1,4 +1,4 @@
-#include <datetime.h>
+#include <date.h>
 #include <iostream>
 
 void delay(int);
@@ -7,11 +7,13 @@ using namespace std;
 
 int main(void){
 	string dname[7] = {"日", "一", "二", "三", "四", "五", "六"};
-	DATETIME then;
+	DATE now;
+  DATE newday = now;
 	
-	DATETIME now;
-	
-	cout << then-now << endl;
+	cout << now.toString(1) << endl;
+	cout << "星期" << dname[now.getDayOfWeek()] << endl;
+	cout << newday.toString(2) << endl;
+	cout << "星期" << dname[newday.getDayOfWeek()] << endl;
   
 	return 0;
 }
