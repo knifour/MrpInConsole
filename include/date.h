@@ -12,8 +12,8 @@ class DATE {
 public:
 	DATE();
 	DATE(int, int, int);
-	DATE(DATE &);
-	DATE(DATETIME &);
+	DATE(const DATE &);
+	DATE(const DATETIME &);
 	string toString(int);
 	int getYear(void) {return mYear;};
 	int getMonth(void) {return mMonth;};
@@ -21,10 +21,10 @@ public:
 	int getDayOfWeek(void) {return (mDays%7);};
 	
 	// 運算子重載
-	DATE operator =(DATE source);
-	DATE operator =(DATETIME source);
-	int  operator -(DATE other);
-	DATE operator +(int day);
+	DATE operator =(const DATE source);
+	DATE operator =(const DATETIME source);
+	int  operator -(const DATE other);
+	DATE operator +(const int day);
 
 private:
   // 成員變數

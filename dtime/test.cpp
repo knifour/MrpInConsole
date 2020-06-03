@@ -8,7 +8,9 @@ using namespace std;
 int main(void){
 	string dname[7] = {"日", "一", "二", "三", "四", "五", "六"};
 	DATE now;
-	DATE temp(now+28);
+	DATE temp;
+	
+	temp = now + 28;
 	
   cout << temp.toString(2) << endl;
 	

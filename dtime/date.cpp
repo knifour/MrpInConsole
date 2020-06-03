@@ -30,17 +30,17 @@ DATE::DATE(int year, int month, int day){
 	setDays();
 }
 
-DATE::DATE(DATE& source){
+DATE::DATE(const DATE& source){
 	mDays = source.mDays;
 	mYear = source.mYear;
 	mMonth = source.mMonth;
 	mDay = source.mDay;
 }
 
-DATE::DATE(DATETIME& source){
-	mYear = source.getYear();
-	mMonth = source.getMonth();
-	mDay = source.getDay();
+DATE::DATE(const DATETIME& source){
+	this->mYear = source.getYear();
+	this->mMonth = source.getMonth();
+	this->mDay = source.getDay();
 	setDays();
 }
 
@@ -108,7 +108,7 @@ bool DATE::isLeap(int year){
 	       (year %   4 == 0) ? true  : false;
 }
 
-DATE DATE::operator =(DATE source){
+DATE DATE::operator =(const DATE source){
 	mDays = source.mDays;
 	mYear = source.mYear;
 	mMonth = source.mMonth;
@@ -117,7 +117,7 @@ DATE DATE::operator =(DATE source){
 	return *this;
 }
 
-DATE DATE::operator =(DATETIME source){
+DATE DATE::operator =(const DATETIME source){
 	mYear = source.getYear();
 	mMonth = source.getMonth();
 	mDay = source.getDay();
@@ -126,11 +126,11 @@ DATE DATE::operator =(DATETIME source){
 	return *this;
 }
 
-int DATE::operator -(DATE other){
+int DATE::operator -(const DATE other){
 	return (mDays - other.mDays);
 }
 
-DATE DATE::operator +(const int& day){
+DATE DATE::operator +(const int day){
 	DATE temp(*this);
 	int td = temp.mDay + day;
 	
