@@ -130,7 +130,7 @@ int DATE::operator -(DATE other){
 	return (mDays - other.mDays);
 }
 
-DATE DATE::operator +(int day){
+DATE DATE::operator +(const int& day){
 	DATE temp(*this);
 	int td = temp.mDay + day;
 	
