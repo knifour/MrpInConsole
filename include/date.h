@@ -12,6 +12,8 @@ class DATE {
 public:
 	DATE();
 	DATE(int, int, int);
+	DATE(DATE &);
+	DATE(DATETIME &);
 	string toString(int);
 	int getYear(void) {return mYear;};
 	int getMonth(void) {return mMonth;};
@@ -20,6 +22,9 @@ public:
 	
 	// 運算子重載
 	DATE operator =(DATE source);
+	DATE operator =(DATETIME source);
+	int  operator -(DATE other);
+	DATE operator +(int day);
 
 private:
   // 成員變數
@@ -29,7 +34,7 @@ private:
 	int mDay;
 	
 	// 成員函數
-  void getYMD(time_t);
+  void setYMD(time_t);
 	void setDays(void);
 	bool isLeap(int);
 };

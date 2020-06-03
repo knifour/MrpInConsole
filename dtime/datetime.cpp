@@ -3,8 +3,8 @@
 
 DATETIME::DATETIME(){
 	mOrigin = time(NULL)+28800;  // 加28800是把GMT時間調整成台北時間
-	getYMD();
-	getHMS();
+	setYMD();
+	setHMS();
 }
 
 DATETIME::DATETIME(int year, int month, int day){
@@ -101,7 +101,7 @@ string DATETIME::getTimeString(void){
 	return string(buf);
 }
 
-void DATETIME::getYMD(void){
+void DATETIME::setYMD(void){
 	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
 	int days = mOrigin / 86400 + 1;
@@ -122,7 +122,7 @@ void DATETIME::getYMD(void){
 	mDay = days;
 }
 
-void DATETIME::getHMS(void){
+void DATETIME::setHMS(void){
 	int secs = mOrigin % 86400;
 	
 	mHour = secs / 3600;

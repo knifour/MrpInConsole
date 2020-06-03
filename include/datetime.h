@@ -43,8 +43,8 @@ private:
 	int mSecond;
 	
 	// 成員函數
-  void getYMD(void);
-  void getHMS(void);
+  void setYMD(void);
+  void setHMS(void);
 	void setOrigin(void);
 	bool isLeap(int);
 };

@@ -3,15 +3,15 @@
 DATE::DATE(){
 	time_t Origin = time(NULL) + 28800; // 加28800是把GMT時間調整成台北時間
 	
-	getYMD(Origin);
+	setYMD(Origin);
 	setDays();
 }
 
 DATE::DATE(int year, int month, int day){
 	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
-	if (year < 1970) 
-		mYear = 1970;
+	if (year < 1) 
+		mYear = 1;
 	else
 		mYear = year;
 	
@@ -27,6 +27,20 @@ DATE::DATE(int year, int month, int day){
 	else
 		mDay = day;
 	
+	setDays();
+}
+
+DATE::DATE(DATE& source){
+	mDays = source.mDays;
+	mYear = source.mYear;
+	mMonth = source.mMonth;
+	mDay = source.mDay;
+}
+
+DATE::DATE(DATETIME& source){
+	mYear = source.getYear();
+	mMonth = source.getMonth();
+	mDay = source.getDay();
 	setDays();
 }
 
@@ -55,7 +69,7 @@ string DATE::toString(int mode){
 	return string(buf);
 }
 
-void DATE::getYMD(time_t Origin){
+void DATE::setYMD(time_t Origin){
 	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
 	int days = Origin / 86400 + 1;
@@ -101,4 +115,51 @@ DATE DATE::operator =(DATE source){
 	mDay = source.mDay;
 	
 	return *this;
+}
+
+DATE DATE::operator =(DATETIME source){
+	mYear = source.getYear();
+	mMonth = source.getMonth();
+	mDay = source.getDay();
+	setDays();
+	
+	return *this;
+}
+
+int DATE::operator -(DATE other){
+	return (mDays - other.mDays);
+}
+
+DATE DATE::operator +(int day){
+	DATE temp(*this);
+	int td = temp.mDay + day;
+	
+	int days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	
+	if (isLeap(temp.mYear)) days[1] = 29;
+	
+	if (td >= 0){
+	  while (td > days[temp.mMonth-1]){
+			td = td - days[temp.mMonth-1];
+			temp.mMonth++;
+			if (temp.mMonth > 12){
+				temp.mYear++;
+				temp.mMonth = 1;
+				if (isLeap(temp.mYear)) days[1] = 29;
+			}
+		}
+	} else {
+		while (td < 0){
+			temp.mMonth--;
+			if (temp.mMonth < 0){
+				temp.mYear--;
+				temp.mMonth = 12;
+				if (isLeap(temp.mYear)) days[1] = 29;
+			}
+			td = td + days[temp.mMonth-1];
+		}
+	}
+	temp.mDay = td;
+	setDays();
+	return temp;
 }
