@@ -130,6 +130,13 @@ char input(int &key){
 	}
 }
 
+/* 傳入西元年份，判斷該年是不是閏年 */
+bool isLeap(int year){
+	return (year % 400 == 0) ? true  :
+	       (year % 100 == 0) ? false :
+	       (year %   4 == 0) ? true  : false;
+}
+
 /* 動態二維陣列 */
 /* 使用者以指指標接收回傳的指標值 */
 /* 使用者必須自行釋放函式配置的記憶體 */

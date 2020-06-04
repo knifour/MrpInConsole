@@ -23,6 +23,7 @@ void showCursor(void); /* 顯示游標 */
 void hideCursor(void); /* 隱藏游標 */
 void getCursorPos(int&, int&); /* 取得游標位置 */
 char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
+bool isLeap(int);  /* 傳入西元年份，判斷該年度是否為閏年 */
 void* new2D(int h, int w, int size); /* 動態二維陣列 */
 
 /* 動態二維陣列巨集，使用者傳入二維陣列大小及型態即可建立 */

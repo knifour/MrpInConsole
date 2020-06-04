@@ -8,8 +8,6 @@ DATE::DATE(){
 }
 
 DATE::DATE(int year, int month, int day){
-	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	
 	if (year < 1) 
 		mYear = 1;
 	else
@@ -20,9 +18,12 @@ DATE::DATE(int year, int month, int day){
 	else
 		mMonth = month;
 	
-	if (isLeap(mYear)) mdays[1] = 29;
+	if (isLeap(mYear)) 
+		MONTHDAY[1] = 29;
+	else
+		MONTHDAY[1] = 28;
 	
-	if (day < 1 || day > mdays[month-1])
+	if (day < 1 || day > MONTHDAY[month-1])
 		mDay = 1;
 	else
 		mDay = day;
@@ -38,13 +39,13 @@ DATE::DATE(const DATE& source){
 }
 
 DATE::DATE(const DATETIME& source){
-	this->mYear = source.getYear();
-	this->mMonth = source.getMonth();
-	this->mDay = source.getDay();
+	mYear = source.getYear();
+	mMonth = source.getMonth();
+	mDay = source.getDay();
 	setDays();
 }
 
-string DATE::toString(int mode){
+string DATE::toString(int mode) const{
 	char buf[20];
 	
 	switch (mode){
@@ -70,8 +71,6 @@ string DATE::toString(int mode){
 }
 
 void DATE::setYMD(time_t Origin){
-	int mdays[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	
 	int days = Origin / 86400 + 1;
 	mYear = 1970;
 	int yd = 365;
@@ -81,31 +80,31 @@ void DATE::setYMD(time_t Origin){
 		yd = isLeap(mYear) ? 366 : 365;
 	}
 	
-	if (isLeap(mYear)) mdays[1] = 29;
+	if (isLeap(mYear)) 
+		MONTHDAY[1] = 29;
+	else
+		MONTHDAY[1] = 28;
+	
 	mMonth = 1;
-	while (days > mdays[mMonth-1]){
-		days = days - mdays[mMonth-1];
+	while (days > MONTHDAY[mMonth-1]){
+		days = days - MONTHDAY[mMonth-1];
 		mMonth++;
 	}
 	mDay = days;
 }
 
 void DATE::setDays(void){
-	int days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	int lastyear = 0;
 	
-	if (isLeap(mYear)) days[1] = 29;
+	if (isLeap(mYear)) 
+		MONTHDAY[1] = 29;
+	else
+		MONTHDAY[1] = 28;
 	
 	lastyear = mYear - 1;
 	mDays = lastyear*365 + (lastyear/400) - (lastyear/100) + (lastyear/4);
-	for (int i=1; i<mMonth; i++) mDays = mDays + days[i-1];
+	for (int i=1; i<mMonth; i++) mDays = mDays + MONTHDAY[i-1];
 	mDays = mDays + mDay;
-}
-
-bool DATE::isLeap(int year){
-	return (year % 400 == 0) ? true  :
-	       (year % 100 == 0) ? false :
-	       (year %   4 == 0) ? true  : false;
 }
 
 DATE DATE::operator =(const DATE source){
@@ -134,32 +133,55 @@ DATE DATE::operator +(const int day){
 	DATE temp(*this);
 	int td = temp.mDay + day;
 	
-	int days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	calcDay(temp, td);
 	
-	if (isLeap(temp.mYear)) days[1] = 29;
+	return temp;
+}
+
+DATE DATE::operator -(const int day){
+	DATE temp(*this);
+	int td = temp.mDay - day;
+	
+	calcDay(temp, td);
+	
+	return temp;
+}
+
+void DATE::calcDay(DATE& temp, const int day){
+	if (isLeap(temp.mYear)) 
+		MONTHDAY[1] = 29;
+	else
+		MONTHDAY[1] = 28;
+	
+	int td = day;
 	
 	if (td >= 0){
-	  while (td > days[temp.mMonth-1]){
-			td = td - days[temp.mMonth-1];
+	  while (td > MONTHDAY[temp.mMonth-1]){
+			td = td - MONTHDAY[temp.mMonth-1];
 			temp.mMonth++;
 			if (temp.mMonth > 12){
 				temp.mYear++;
 				temp.mMonth = 1;
-				if (isLeap(temp.mYear)) days[1] = 29;
+				if (isLeap(temp.mYear)) 
+					MONTHDAY[1] = 29;
+				else
+					MONTHDAY[1] = 28;
 			}
 		}
 	} else {
-		while (td < 0){
+		while (td <= 0){
 			temp.mMonth--;
-			if (temp.mMonth < 0){
+			if (temp.mMonth <= 0){
 				temp.mYear--;
 				temp.mMonth = 12;
-				if (isLeap(temp.mYear)) days[1] = 29;
+				if (isLeap(temp.mYear))
+					MONTHDAY[1] = 29;
+				else
+					MONTHDAY[1] = 28;
 			}
-			td = td + days[temp.mMonth-1];
+			td = td + MONTHDAY[temp.mMonth-1];
 		}
 	}
 	temp.mDay = td;
-	setDays();
-	return temp;
+	temp.setDays();
 }

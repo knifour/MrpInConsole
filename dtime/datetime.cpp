@@ -69,7 +69,7 @@ DATETIME::DATETIME(int year, int month, int day, int hour, int minute, int secon
 	setOrigin();
 }
 
-string DATETIME::getDateString(int mode){
+string DATETIME::getDateString(int mode) const{
 	char buf[20];
 	
 	switch (mode){
@@ -94,7 +94,7 @@ string DATETIME::getDateString(int mode){
 	return string(buf);
 }
 
-string DATETIME::getTimeString(void){
+string DATETIME::getTimeString(void) const{
 	char buf[20];
 	
 	sprintf(buf, "%02d:%02d:%02d", mHour, mMinute, mSecond);
@@ -145,12 +145,6 @@ void DATETIME::setOrigin(void){
 	
 	sum = sum - OLDDAYS;
 	mOrigin = (sum*86400) + mHour*3600 + mMinute*60 + mSecond;
-}
-
-bool DATETIME::isLeap(int year){
-	return (year % 400 == 0) ? true  :
-	       (year % 100 == 0) ? false :
-	       (year %   4 == 0) ? true  : false;
 }
 
 DATETIME DATETIME::operator =(DATETIME source){

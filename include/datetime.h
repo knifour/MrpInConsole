@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <stdint.h>
+#include <util.h>
 
 using namespace std;
 
@@ -15,15 +16,15 @@ public:
 	DATETIME();
 	DATETIME(int, int, int);
 	DATETIME(int, int, int, int, int, int);
-	string getDateString(int);
-	string getTimeString(void);
-	int getYear(void) {return mYear;};
-	int getMonth(void) {return mMonth;};
-	int getDay(void) {return mDay;};
-	int getHour(void) {return mHour;};
-	int getMinute(void) {return mMinute;};
-	int getSecond(void) {return mSecond;};
-	int getDayOfWeek(void) {return (mOrigin/86400+4)%7;};
+	string getDateString (int) const;
+	string getTimeString (void) const;
+	int getYear(void) const {return mYear;};
+	int getMonth(void) const {return mMonth;};
+	int getDay(void) const {return mDay;};
+	int getHour(void) const {return mHour;};
+	int getMinute(void) const {return mMinute;};
+	int getSecond(void) const {return mSecond;};
+	int getDayOfWeek(void) const {return (mOrigin/86400+4)%7;};
 	
 	// 運算子重載
 	DATETIME operator =(DATETIME source);
@@ -46,7 +47,6 @@ private:
   void setYMD(void);
   void setHMS(void);
 	void setOrigin(void);
-	bool isLeap(int);
 };
 
 #endif
