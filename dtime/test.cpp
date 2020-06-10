@@ -1,4 +1,4 @@
-#include <date.h>
+#include <tptime.h>
 #include <iostream>
 
 void delay(int);
@@ -7,13 +7,11 @@ using namespace std;
 
 int main(void){
 	string dname[7] = {"日", "一", "二", "三", "四", "五", "六"};
-	DATE now;
-	DATE temp(2020, 1, 1);
-	
-	temp = temp + 1;
-	
-	cout << temp.toString(2) << endl;
-	cout << temp.getDays() << endl;
+	TPTIME now;
+	TPTIME noon(12, 0, 0);
+
+  cout << "現在時間" << now.toString() << endl;
+	cout << "到中午還有" << noon-now << "秒鐘" << endl;
 	
 	return 0;
 }

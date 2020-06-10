@@ -19,11 +19,11 @@ DATE::DATE(int year, int month, int day){
 		mMonth = month;
 	
 	if (isLeap(mYear)) 
-		MONTHDAY[1] = 29;
+		MDAYS[1] = 29;
 	else
-		MONTHDAY[1] = 28;
+		MDAYS[1] = 28;
 	
-	if (day < 1 || day > MONTHDAY[month-1])
+	if (day < 1 || day > MDAYS[month-1])
 		mDay = 1;
 	else
 		mDay = day;
@@ -81,13 +81,13 @@ void DATE::setYMD(time_t Origin){
 	}
 	
 	if (isLeap(mYear)) 
-		MONTHDAY[1] = 29;
+		MDAYS[1] = 29;
 	else
-		MONTHDAY[1] = 28;
+		MDAYS[1] = 28;
 	
 	mMonth = 1;
-	while (days > MONTHDAY[mMonth-1]){
-		days = days - MONTHDAY[mMonth-1];
+	while (days > MDAYS[mMonth-1]){
+		days = days - MDAYS[mMonth-1];
 		mMonth++;
 	}
 	mDay = days;
@@ -97,13 +97,13 @@ void DATE::setDays(void){
 	int lastyear = 0;
 	
 	if (isLeap(mYear)) 
-		MONTHDAY[1] = 29;
+		MDAYS[1] = 29;
 	else
-		MONTHDAY[1] = 28;
+		MDAYS[1] = 28;
 	
 	lastyear = mYear - 1;
 	mDays = lastyear*365 + (lastyear/400) - (lastyear/100) + (lastyear/4);
-	for (int i=1; i<mMonth; i++) mDays = mDays + MONTHDAY[i-1];
+	for (int i=1; i<mMonth; i++) mDays = mDays + MDAYS[i-1];
 	mDays = mDays + mDay;
 }
 
@@ -123,6 +123,27 @@ DATE DATE::operator =(const DATETIME source){
 	setDays();
 	
 	return *this;
+}
+
+bool DATE::operator ==(const DATE source){
+	if (mDays == source.mDays)
+		return true;
+	else
+		return false;
+}
+
+bool DATE::operator >(const DATE source){
+	if (mDays > source.mDays)
+		return true;
+	else
+		return false;
+}
+
+bool DATE::operator <(const DATE source){
+	if (mDays < source.mDays)
+		return true;
+	else
+		return false;
 }
 
 int DATE::operator -(const DATE other){
@@ -149,23 +170,23 @@ DATE DATE::operator -(const int day){
 
 void DATE::calcDay(DATE& temp, const int day){
 	if (isLeap(temp.mYear)) 
-		MONTHDAY[1] = 29;
+		MDAYS[1] = 29;
 	else
-		MONTHDAY[1] = 28;
+		MDAYS[1] = 28;
 	
 	int td = day;
 	
 	if (td >= 0){
-	  while (td > MONTHDAY[temp.mMonth-1]){
-			td = td - MONTHDAY[temp.mMonth-1];
+	  while (td > MDAYS[temp.mMonth-1]){
+			td = td - MDAYS[temp.mMonth-1];
 			temp.mMonth++;
 			if (temp.mMonth > 12){
 				temp.mYear++;
 				temp.mMonth = 1;
 				if (isLeap(temp.mYear)) 
-					MONTHDAY[1] = 29;
+					MDAYS[1] = 29;
 				else
-					MONTHDAY[1] = 28;
+					MDAYS[1] = 28;
 			}
 		}
 	} else {
@@ -175,11 +196,11 @@ void DATE::calcDay(DATE& temp, const int day){
 				temp.mYear--;
 				temp.mMonth = 12;
 				if (isLeap(temp.mYear))
-					MONTHDAY[1] = 29;
+					MDAYS[1] = 29;
 				else
-					MONTHDAY[1] = 28;
+					MDAYS[1] = 28;
 			}
-			td = td + MONTHDAY[temp.mMonth-1];
+			td = td + MDAYS[temp.mMonth-1];
 		}
 	}
 	temp.mDay = td;

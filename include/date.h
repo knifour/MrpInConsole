@@ -25,13 +25,16 @@ public:
 	// 運算子重載
 	DATE operator =(const DATE source);
 	DATE operator =(const DATETIME source);
+	bool operator ==(const DATE source);
+	bool operator >(const DATE source);
+	bool operator <(const DATE source);
 	int  operator -(const DATE other);
 	DATE operator +(const int day);
 	DATE operator -(const int day);
 
 private:
   // 每月份天數陣列(2月份天數會根據是不是閏年改變)
-	int MONTHDAY[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	int MDAYS[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
   // 成員變數
 	int mDays; 					// 從西元元年年1月1日到現在的天數
