@@ -4,7 +4,6 @@
 #include <ctime>
 #include <string>
 #include <iostream>
-#include <datetime.h>
 #include <util.h>
 
 using namespace std;
@@ -14,7 +13,6 @@ public:
 	TPTIME();
 	TPTIME(int, int, int);
 	TPTIME(const TPTIME &);
-	TPTIME(const DATETIME &);
 	string toString () const;
 	int getHour(void) const {return mHour;};
 	int getMinute(void) const {return mMinute;};
@@ -23,7 +21,6 @@ public:
 	
 	// 運算子重載
 	TPTIME operator =(const TPTIME source);
-	TPTIME operator =(const DATETIME source);
 	bool operator ==(const TPTIME source);
 	bool operator >(const TPTIME source);
 	bool operator <(const TPTIME source);

@@ -32,13 +32,6 @@ TPTIME::TPTIME(const TPTIME& source){
 	mSecond = source.mSecond;
 }
 
-TPTIME::TPTIME(const DATETIME& source){
-	mHour = source.getHour();
-	mMinute = source.getMinute();
-	mSecond = source.getSecond();
-	setSeconds();
-}
-
 string TPTIME::toString(void) const{
 	char buf[20];
 	
@@ -64,15 +57,6 @@ TPTIME TPTIME::operator =(const TPTIME source){
 	mHour = source.mHour;
 	mMinute = source.mMinute;
 	mSecond = source.mSecond;
-	
-	return *this;
-}
-
-TPTIME TPTIME::operator =(const DATETIME source){
-	mHour = source.getHour();
-	mMinute = source.getMinute();
-	mSecond = source.getSecond();
-	setSeconds();
 	
 	return *this;
 }
