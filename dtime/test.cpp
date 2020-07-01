@@ -1,4 +1,4 @@
-#include <tptime.h>
+#include <date.h>
 #include <iostream>
 
 void delay(int);
@@ -7,11 +7,10 @@ using namespace std;
 
 int main(void){
 	string dname[7] = {"日", "一", "二", "三", "四", "五", "六"};
-	TPTIME now;
-	TPTIME noon(12, 0, 0);
+	DATE now;
 
-  cout << "現在時間" << now.toString() << endl;
-	cout << "到中午還有" << noon-now << "秒鐘" << endl;
+  cout << "中華民國" << now.toString(MINGSLASH);
+	cout << "星期" << dname[now.getDayOfWeek()] << endl;
 	
 	return 0;
 }

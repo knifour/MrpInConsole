@@ -1,12 +1,12 @@
-#include <tptime.h>
+#include <ltime.h>
 
-TPTIME::TPTIME(){
+LTIME::LTIME(){
 	time_t Origin = time(NULL) + 28800; // 加28800是把GMT時間調整成台北時間
 	
 	setHMS(Origin);
 }
 
-TPTIME::TPTIME(int hour, int minute, int second){
+LTIME::LTIME(int hour, int minute, int second){
 	if (hour < 0 || hour > 23) 
 		mHour = 0;
 	else
@@ -25,14 +25,14 @@ TPTIME::TPTIME(int hour, int minute, int second){
 	setSeconds();
 }
 
-TPTIME::TPTIME(const TPTIME& source){
+LTIME::LTIME(const LTIME& source){
 	mSeconds = source.mSeconds;
 	mHour = source.mHour;
 	mMinute = source.mMinute;
 	mSecond = source.mSecond;
 }
 
-string TPTIME::toString(void) const{
+string LTIME::toString(void) const{
 	char buf[20];
 	
 	sprintf(buf, "%02d:%02d:%02d", mHour, mMinute, mSecond);
@@ -40,7 +40,7 @@ string TPTIME::toString(void) const{
 	return string(buf);
 }
 
-void TPTIME::setHMS(time_t Origin){
+void LTIME::setHMS(time_t Origin){
 	int secs = Origin % 86400;
 	
 	mSeconds = secs;
@@ -52,7 +52,7 @@ void TPTIME::setHMS(time_t Origin){
 	mSecond = secs % 60;
 }
 
-TPTIME TPTIME::operator =(const TPTIME source){
+LTIME LTIME::operator =(const LTIME source){
 	mSeconds = source.mSeconds;
 	mHour = source.mHour;
 	mMinute = source.mMinute;
@@ -61,33 +61,33 @@ TPTIME TPTIME::operator =(const TPTIME source){
 	return *this;
 }
 
-bool TPTIME::operator ==(const TPTIME source){
+bool LTIME::operator ==(const LTIME source){
 	if (mSeconds == source.mSeconds)
 		return true;
 	else
 		return false;
 }
 
-bool TPTIME::operator >(const TPTIME source){
+bool LTIME::operator >(const LTIME source){
 	if (mSeconds > source.mSeconds)
 		return true;
 	else
 		return false;
 }
 
-bool TPTIME::operator <(const TPTIME source){
+bool LTIME::operator <(const LTIME source){
 	if (mSeconds < source.mSeconds)
 		return true;
 	else
 		return false;
 }
 
-int TPTIME::operator -(const TPTIME other){
+int LTIME::operator -(const LTIME other){
 	return (mSeconds - other.mSeconds);
 }
 
-TPTIME TPTIME::operator +(const int second){
-	TPTIME temp(*this);
+LTIME LTIME::operator +(const int second){
+	LTIME temp(*this);
 	int ts = temp.mSecond + second;
 	
 	calcSecond(temp, ts);
@@ -95,8 +95,8 @@ TPTIME TPTIME::operator +(const int second){
 	return temp;
 }
 
-TPTIME TPTIME::operator -(const int second){
-	TPTIME temp(*this);
+LTIME LTIME::operator -(const int second){
+	LTIME temp(*this);
 	int ts = temp.mSecond - second;
 	
 	calcSecond(temp, ts);
@@ -104,7 +104,7 @@ TPTIME TPTIME::operator -(const int second){
 	return temp;
 }
 
-void TPTIME::calcSecond(TPTIME& temp, const int second){
+void LTIME::calcSecond(LTIME& temp, const int second){
 	int ts = second;
 	
 	if (ts >= 0){

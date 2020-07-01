@@ -73,19 +73,19 @@ string DATETIME::getDateString(int mode) const{
 	char buf[20];
 	
 	switch (mode){
-	case 0:
+	case ADSLASH:
 	  sprintf(buf, "%04d/%02d/%02d", mYear, mMonth, mDay);
 		break;
 		
-	case 1:
+	case AD:
 	  sprintf(buf, "%04d%02d%02d", mYear, mMonth, mDay);
 		break;
 		
-	case 2:
+	case MINGSLASH:
 		sprintf(buf, "%03d/%02d/%02d", mYear-1911, mMonth, mDay);
 		break;
 		
-	case 3:
+	case MING:
 	  sprintf(buf, "%03d%02d%02d", mYear-1911, mMonth, mDay);
 		break;
 		

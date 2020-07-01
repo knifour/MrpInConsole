@@ -1,5 +1,5 @@
-#ifndef __TPTIME_H
-#define __TPTIME_H
+#ifndef __LTIME_H
+#define __LTIME_H
 
 #include <ctime>
 #include <string>
@@ -8,11 +8,13 @@
 
 using namespace std;
 
-class TPTIME {
+// 因為系統已有標頭檔time.h，為了避免混淆
+// 所以自行設計的時間類別取名LTIME (加L是表示它只處理local time)
+class LTIME {
 public:
-	TPTIME();
-	TPTIME(int, int, int);
-	TPTIME(const TPTIME &);
+	LTIME();
+	LTIME(int, int, int);
+	LTIME(const LTIME &);
 	string toString () const;
 	int getHour(void) const {return mHour;};
 	int getMinute(void) const {return mMinute;};
@@ -20,13 +22,13 @@ public:
 	int getSeconds(void) const {return mSeconds;};
 	
 	// 運算子重載
-	TPTIME operator =(const TPTIME source);
-	bool operator ==(const TPTIME source);
-	bool operator >(const TPTIME source);
-	bool operator <(const TPTIME source);
-	int  operator -(const TPTIME other);
-	TPTIME operator +(const int day);
-	TPTIME operator -(const int day);
+	LTIME operator =(const LTIME source);
+	bool operator ==(const LTIME source);
+	bool operator >(const LTIME source);
+	bool operator <(const LTIME source);
+	int  operator -(const LTIME other);
+	LTIME operator +(const int day);
+	LTIME operator -(const int day);
 
 private:
   // 成員變數
@@ -38,7 +40,7 @@ private:
 	// 成員函數
   void setHMS(time_t);
 	void setSeconds(void) {mSeconds = mHour*3600+mMinute*60+mSecond;};
-	void calcSecond(TPTIME&, const int);
+	void calcSecond(LTIME&, const int);
 };
 
 #endif

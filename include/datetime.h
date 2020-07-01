@@ -9,6 +9,13 @@
 
 using namespace std;
 
+enum DATETYPE: int{ /* 需增加編譯條件 -std=c++11 才可以正常編譯 */
+	ADSLASH   =  0,
+	AD        =  1,
+	MINGSLASH =  2,
+	MING      =  3
+};
+
 #define OLDDAYS 719163  // 到1970年1月1日的天數(西元元年1月1日算第1天)
 
 class DATETIME {
