@@ -32,6 +32,12 @@ args: args.o
 args.o: args.cpp
 	$(cc) $(CFLAGS) args.cpp
 	
+inkey: inkey.o
+	$(cc) $(LFLAGS) -o inkey inkey.cpp
+	
+inkey.o: inkey.cpp
+	$(cc) $(CFLAGS) inkey.cpp
+	
 search: search.o
 	$(cc) $(LFLAGS) -o search search.o
 	

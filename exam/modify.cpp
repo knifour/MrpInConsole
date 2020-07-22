@@ -42,13 +42,13 @@ int main(int argc, char* argv[]){
 		strcpy(SaveFileName, argv[1]);
 	}
   
-  Offset = convertValue(argv[2]);
-  
-  Mode = convertMode(argv[3]);
+  Mode = convertMode(argv[2]);
   if (Mode == 0){
 		cout << "第二參數只能是BYTE或WORD或DWORD" << endl;
 		return 1;
 	}
+	
+	Offset = convertValue(argv[3]);
 	
 	Target = convertValue(argv[4]);
   saveData();
@@ -106,9 +106,9 @@ uint32_t convertValue(char* para){
 }
 
 void prtUsage(void){
-  cout << "語法：modify 檔名 偏移位址 BYTE|WORD|DWORD 數字" << endl  << endl;
+  cout << "語法：modify 檔名 {BYTE|WORD|DWORD} 偏移位址 數字" << endl  << endl;
 	cout << "  檔名代表遊戲存檔的路徑及檔名" << endl << endl;
-  cout << "  偏移位址代表要寫入遊戲存檔的位址" << endl;
-	cout << "  BYTE, WORD, DWORD代表寫入資料的大小" << endl;
+	cout << "  BYTE, WORD, DWORD代表寫入資料的大小(大小寫皆可)" << endl;
+	cout << "  偏移位址代表要寫入遊戲存檔的位址" << endl;
 	cout << "  數字代表要寫入的數值" << endl;
 }
