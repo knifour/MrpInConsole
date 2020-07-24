@@ -2,32 +2,32 @@
 #include <stdio.h>
 
 UTF8SCHAR::UTF8SCHAR(){
-	for (int k=0; k<UTF8MAXLEN; k++) Utf8[k] = 0;
+	for (int k=0; k<UTF8MAXLEN; k++) mCode[k] = 0;
 }
 
 UTF8SCHAR::UTF8SCHAR(int pFColor, int pBColor){
 	mFColor = pFColor;
 	mBColor = pBColor;
-	for (int k=0; k<UTF8MAXLEN; k++) Utf8[k] = 0;
+	for (int k=0; k<UTF8MAXLEN; k++) mCode[k] = 0;
 }
 
 UTF8SCHAR::UTF8SCHAR(const UTF8SCHAR& p){
 	mFColor = p.mFColor;
 	mBColor = p.mBColor;
-	for (int i=0; i<UTF8MAXLEN; i++) Utf8[i] = p.Utf8[i];
+	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = p.mCode[i];
 }
 
 UTF8SCHAR::UTF8SCHAR(const char* p){
 	for (int i=0; i<UTF8MAXLEN; i++){
 		if (p[i] == 0){
-			Utf8[i] = 0;
+			mCode[i] = 0;
 			break;
 		}
-		Utf8[i] = p[i];
+		mCode[i] = p[i];
 	}
 }
 
-void UTF8SCHAR::setChar(uint8_t const* p, bool p1, int p2, int p3){
+void UTF8SCHAR::setChar(const uint8_t* const p, bool p1, int p2, int p3){
 	int len;
 	
 	len = getFirstCharBytesU8(p);
@@ -35,15 +35,14 @@ void UTF8SCHAR::setChar(uint8_t const* p, bool p1, int p2, int p3){
 		len = UTF8MAXLEN;
 	if (len==0){
 		for (int i=0; i<UTF8MAXLEN; i++){
-			Utf8[i] = 0;
+			mCode[i] = 0;
 		}
-		Utf8[0] = 32;
-	}
-	else {
+		mCode[0] = 32;
+	}	else {
 		for (int i=0; i<len; i++){
-			Utf8[i] = p[i];
+			mCode[i] = p[i];
 		}
-		Utf8[len] = 0;
+		mCode[len] = 0;
 	}
 	mValid = true;
 	mUnderLine = p1;
@@ -52,25 +51,25 @@ void UTF8SCHAR::setChar(uint8_t const* p, bool p1, int p2, int p3){
 }
 
 int UTF8SCHAR::getDLen(){
-	return getFirstDLenU8(Utf8);
+	return getFirstDLenU8(mCode);
 }
 
-UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR& p){
+/*UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR& p){
 	mValid = p.mValid;
 	mUnderLine = p.mUnderLine;
 	mFColor = p.mFColor;
 	mBColor = p.mBColor;
-	for (int i=0; i<UTF8MAXLEN; i++) Utf8[i] = p.Utf8[i];
+	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = p.mCode[i];
 	return *this;
-}
+}*/
 
 /*bool UTF8SCHAR::operator==(const SCHAR* rhs){
 	bool result = true;
 	
 	for (int k=0; k<UTF8MAXLEN; k++){
-		if (Utf8[k]==0 || rhs->Utf8[k]==0)
+		if (mCode[k]==0 || rhs->mCode[k]==0)
 			break;
-		if (Utf8[k] != rhs->Utf8[k]){
+		if (mCode[k] != rhs->mCode[k]){
 		  result = false;
 			break;
 		}
@@ -95,14 +94,14 @@ void UTF8SCHAR::print(){
 	  sprintf(Buf, "\x1B[48;5;%dm", mBColor);
 		std::cout << Buf;
 		sprintf(Buf, "\x1B[38;5;%dm", mFColor);
-	  std::cout << Buf << Utf8;
+	  std::cout << Buf << mCode;
 	}
 }
 
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
 	s << "\x1B[0m";
 	for (int i=0; i<UTF8MAXLEN; i++)
-	  s << (int)p.Utf8[i] << " ";
+	  s << (int)p.mCode[i] << " ";
   s << std::endl;
 	return s;
 }

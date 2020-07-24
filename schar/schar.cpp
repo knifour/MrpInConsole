@@ -8,14 +8,31 @@ SCHAR::SCHAR(){
 	mBColor = 0;
 }
 
-/* bool SCHAR::operator==(const SCHAR& rhs){
-	if (mFColor != rhs.mFColor)
-		return false;
-	if (mBColor != rhs.mBColor)
-		return false;
+void SCHAR::operator=(const SCHAR& rhs){
+	mValid = rhs.mValid;
+	mUnderLine = rhs.mUnderLine;
+	mFColor = rhs.mFColor;
+	mBColor = rhs.mBColor;
 	
-	return true;
-} */
+	for(int k=0; k<MAXBYTES; k++){
+		mCode[k] = rhs.mCode[k];
+	}
+}
+
+bool SCHAR::operator==(const SCHAR& rhs){
+	bool result = true;
+	
+	for(int k=0; k<MAXBYTES; k++){
+		if (mCode[k]==0 || rhs.mCode[k]==0)
+			break;
+		if (mCode[k] != rhs.mCode[k]){
+			result = false;
+			break;
+		}
+	}
+	
+	return result;
+}
 
 bool SCHAR::isValid(void){
 	return mValid;
