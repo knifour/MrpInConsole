@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 class SCHAR {
-protected:
+private:
   bool mValid;
 	bool mUnderLine;
 	int mFColor;
@@ -13,7 +13,7 @@ protected:
 	
 public:
   SCHAR();
-	bool operator==(const SCHAR &rhs);
+	// bool operator==(const SCHAR &rhs);
 	bool isValid(void);
 	void setValid(const bool);
 	void setUnderLine(bool);
@@ -21,6 +21,7 @@ public:
 	void setBColor(int);
 	int getFColor(void);
 	int getBColor(void);
+	virtual bool operator==(const SCHAR &rhs) = 0;
 	virtual void setChar(uint8_t const *, bool, int, int) = 0;
 	virtual int getDLen() = 0;
 	virtual void print() = 0;

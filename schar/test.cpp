@@ -9,7 +9,7 @@ int main(){
 	SCHAR *a = new UTF8SCHAR("繽");
 	
 	a->print();
-	a->SetChar(tmp, false, 9, 0);
+	a->setChar(tmp, false, 9, 0);
 	a->setFColor(ATTR::HYELLOW);
 	a->print();
 	std::cout << "\n";
