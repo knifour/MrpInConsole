@@ -8,14 +8,14 @@ SCHAR::SCHAR(){
 	mBColor = 0;
 }
 
-bool SCHAR::operator==(const SCHAR &rhs){
+/* bool SCHAR::operator==(const SCHAR& rhs){
 	if (mFColor != rhs.mFColor)
 		return false;
 	if (mBColor != rhs.mBColor)
 		return false;
 	
 	return true;
-}
+} */
 
 bool SCHAR::isValid(void){
 	return mValid;

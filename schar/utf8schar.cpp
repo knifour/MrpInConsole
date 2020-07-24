@@ -11,13 +11,13 @@ UTF8SCHAR::UTF8SCHAR(int pFColor, int pBColor){
 	for (int k=0; k<UTF8MAXLEN; k++) Utf8[k] = 0;
 }
 
-UTF8SCHAR::UTF8SCHAR(const UTF8SCHAR &p){
+UTF8SCHAR::UTF8SCHAR(const UTF8SCHAR& p){
 	mFColor = p.mFColor;
 	mBColor = p.mBColor;
 	for (int i=0; i<UTF8MAXLEN; i++) Utf8[i] = p.Utf8[i];
 }
 
-UTF8SCHAR::UTF8SCHAR(const char *p){
+UTF8SCHAR::UTF8SCHAR(const char* p){
 	for (int i=0; i<UTF8MAXLEN; i++){
 		if (p[i] == 0){
 			Utf8[i] = 0;
@@ -27,7 +27,7 @@ UTF8SCHAR::UTF8SCHAR(const char *p){
 	}
 }
 
-void UTF8SCHAR::setChar(uint8_t const *p, bool p1, int p2, int p3){
+void UTF8SCHAR::setChar(uint8_t const* p, bool p1, int p2, int p3){
 	int len;
 	
 	len = getFirstCharBytesU8(p);
@@ -55,7 +55,7 @@ int UTF8SCHAR::getDLen(){
 	return getFirstDLenU8(Utf8);
 }
 
-UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR &p){
+UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR& p){
 	mValid = p.mValid;
 	mUnderLine = p.mUnderLine;
 	mFColor = p.mFColor;
@@ -63,6 +63,21 @@ UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR &p){
 	for (int i=0; i<UTF8MAXLEN; i++) Utf8[i] = p.Utf8[i];
 	return *this;
 }
+
+/*bool UTF8SCHAR::operator==(const SCHAR* rhs){
+	bool result = true;
+	
+	for (int k=0; k<UTF8MAXLEN; k++){
+		if (Utf8[k]==0 || rhs->Utf8[k]==0)
+			break;
+		if (Utf8[k] != rhs->Utf8[k]){
+		  result = false;
+			break;
+		}
+	}
+	
+	return result;
+}*/
 
 /* 依照字元本身的前景、背景顏色及是否有底線屬性印出字元 */
 /* 呼叫者須自行控制游標位置 */
