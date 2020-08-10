@@ -14,11 +14,12 @@ SCREEN::SCREEN(int FColor, int BColor){
   init(FColor, BColor);	
 }
 
+// 依據螢幕大小建立螢幕緩衝區
 void SCREEN::createBuffer(void){
-	/* 依據螢幕大小建立螢幕緩衝區 */
-	ScreenBuf = new UTF8SCHAR*[LINS];  // 依據螢幕總列數建立UTF8SCHAR指標陣列
+	// 依據螢幕總列數建立UTF8SCHAR指標陣列
+	ScreenBuf = new UTF8SCHAR*[LINS];  
 	for (int i=0; i<LINS; i++){
-		/* 依據螢幕每列字數建立UTF8SCHAR物件陣列 */
+		// 依據螢幕每列字數建立UTF8SCHAR物件陣列
 		ScreenBuf[i] = new UTF8SCHAR[COLS];  
 	}
 }
