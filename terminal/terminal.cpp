@@ -6,7 +6,7 @@ TERMINAL::TERMINAL{
   init();
 }
 
-SCREEN::SCREEN(int FColor, int BColor){
+TERMINAL::TERMINAL(int FColor, int BColor){
 	getConsoleSize();
 	createBuffer();
   init(FColor, BColor);	
