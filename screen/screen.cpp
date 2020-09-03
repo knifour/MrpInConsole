@@ -114,6 +114,8 @@ void SCREEN::init(int FColor, int BColor){
 	setBColor(BColor);
 	setUnderLine(false);
 	
+	// 送出清除螢幕訊號
+	cout << "\x1B[2J"; 
 	for (int i=1; i<=LINS; i++){
 		for (int j=1; j<=COLS; j++){
 			if (setSP(i, j)){
