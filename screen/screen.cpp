@@ -109,7 +109,7 @@ void SCREEN::init(int FColor, int BColor){
 	int Off;
 	uint8_t blank[] = " ";
 	
-	mActive = false;
+	mActive = true;
 	setFColor(FColor);
 	setBColor(BColor);
 	setUnderLine(false);

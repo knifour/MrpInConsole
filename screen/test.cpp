@@ -14,7 +14,7 @@ int main(void){
 	char ch;
 	
 	/*start = clock();*/
-	ms.setActive(false);
+	// ms.setActive(true);
 	ms.cls();
 	ms.printFromFile("menu.scr");
 	/*ms.setActive(true);*/
@@ -25,6 +25,7 @@ int main(void){
 	sprintf(buf, "total time = %lf", cputime);
 	ms.print((uint8_t*)buf);*/
 	/*ms.setActive(false);*/
+	// ms.setActive(true);
 	hideCursor();
 	ms.setFColor(11);
 	ms.locate(6, 17);
@@ -33,7 +34,9 @@ int main(void){
 	ms.locate(6, 29);
 	ms.print("中區");
 	ms.setUnderLine(false);
-	ms.setActive(true);
+	ch = getch();
+	ms.locate(6, 32);
+	ms.print("A");
 	
 	ch = getch();
 	showCursor();

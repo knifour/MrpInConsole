@@ -41,7 +41,7 @@ protected:
 public:
   // 無參數建構式
   TERMINAL();
-	// 有參數建構式，可以指定前景色不指定被景色(此時背景色為黑色)
+	// 有參數建構式，可以指定前景色不指定背景色(此時背景色為黑色)
 	TERMINAL(int FColor, int BColor=ATTR::BLACK);
 	// 解構式
 	~TERMINAL();
