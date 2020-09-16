@@ -5,11 +5,12 @@
 #include <stdint.h>
 
 // 定義螢幕字元編碼最長的byte stream數(含字串結束字元0)
+// utf8最長編碼為6
 #define MAXBYTES 7  
 
 class SCHAR {
 protected:
-	// 儲存螢幕字元編碼
+	// 螢幕字元編碼
   uint8_t mCode[MAXBYTES];
 	// 螢幕字元是否有效(通常是寬字元的下一字)
   bool mValid;
