@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 // 定義螢幕字元編碼最長的byte stream數(含字串結束字元0)
-// utf8最長編碼為6
+// utf8最長編碼為 6 BYTES
 #define MAXBYTES 7  
 
 class SCHAR {
