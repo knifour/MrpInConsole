@@ -153,29 +153,29 @@ void* new2D(int h, int w, int size){
 
 int getFirstCharBytesU8(std::string const &utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
-	int len =
-	  (first_byte >> 7) == 0 ? 1 :
-		(first_byte & 0xF0) == 0xF0 ? 4 :
-		(first_byte & 0xE0) == 0xE0 ? 3 :
-		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
+	int len = getU8Length(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(uint8_t const *utf8){
 	uint8_t first_byte = utf8[0];
-	int len =
-	  (first_byte >> 7) == 0 ? 1 :
-		(first_byte & 0xF0) == 0xF0 ? 4 :
-		(first_byte & 0xE0) == 0xE0 ? 3 :
-		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
+	int len = getU8Length(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(char first_byte){
+	int len = getU8Length((uint8_t)first_byte);
+	
+	return len;
+}
+
+int getU8Length(uint8_t first_byte){
 	int len =
 	  (first_byte >> 7) == 0 ? 1 :
+		(first_byte & 0xFC) == 0xFC ? 6 :
+		(first_byte & 0xF8) == 0xF8 ? 5 :
 		(first_byte & 0xF0) == 0xF0 ? 4 :
 		(first_byte & 0xE0) == 0xE0 ? 3 :
 		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
@@ -186,11 +186,7 @@ int getFirstCharBytesU8(char first_byte){
 int getFirstDLenU8(std::string const &utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = (uint8_t)utf8[0];
-	uint8_t len = 
-	  (first_byte >> 7) == 0 ? 1 :
-		(first_byte & 0xF0) == 0xF0 ? 4 :
-		(first_byte & 0xE0) == 0xE0 ? 3 :
-		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
+	int len = getU8Length(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){
@@ -214,11 +210,7 @@ int getFirstDLenU8(std::string const &utf8){
 int getFirstDLenU8(uint8_t const *utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = utf8[0];
-	uint8_t len = 
-	  (first_byte >> 7) == 0 ? 1 :
-		(first_byte & 0xF0) == 0xF0 ? 4 :
-		(first_byte & 0xE0) == 0xE0 ? 3 :
-		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
+	int len = getU8Length(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){

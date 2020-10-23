@@ -36,6 +36,9 @@ int getFirstCharBytesU8(std::string const &utf8);
 int getFirstCharBytesU8(uint8_t const *utf8);
 int getFirstCharBytesU8(char first_byte);
 
+// 計算UTF8編碼長度, 以unsigned char為參數傳入函數即可計算
+int getU8Length(uint8_t first_byte);
+
 /* 計算UTF8字元的顯示長度(只判斷傳入字串的第一個字元) */
 int getFirstDLenU8(std::string const &utf8);
 int getFirstDLenU8(uint8_t const *utf8);
