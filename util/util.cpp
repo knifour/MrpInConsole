@@ -95,28 +95,28 @@ char input(int &key){
 		}
 		if (esc){
 			switch (cnt){
-				case 1:
-				  if (ch == FUNCKEY || ch == PADKEY){
-						cnt++;
-						continue;
-					} else {
-						break;
-					}
-				case 2:
-				  if (ch >= HOME && ch <= PAGEDOWN){
-						cnt++;
-						key = ch;
-						continue;
-					} else if ((ch >= KEY_UP && ch <= KEYPAD5) || (ch >= KEY_F1 && ch <= KEY_F12)){
-						key = ch;
-						return 0;
-					}
+			case 1:
+			  if (ch == FUNCKEY || ch == PADKEY){
+					cnt++;
+					continue;
+				} else {
 					break;
-				case 3:
-				  if (ch == 126){
-						return 0;
-					}
-					break;
+				}
+			case 2:
+			  if (ch >= HOME && ch <= PAGEDOWN){
+					cnt++;
+					key = ch;
+					continue;
+				} else if ((ch >= KEY_UP && ch <= KEYPAD5) || (ch >= KEY_F1 && ch <= KEY_F12)){
+					key = ch;
+					return 0;
+				}
+				break;
+			case 3:
+			  if (ch == 126){
+					return 0;
+				}
+				break;
 			}
 		}
 		if ((ch >= 1 && ch <= 31) || ch == BACKSPACE){
@@ -151,14 +151,14 @@ void* new2D(int h, int w, int size){
   return p;
 }
 
-int getFirstCharBytesU8(std::string const &utf8){
+int getFirstCharBytesU8(const std::string& utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len = getU8Length(first_byte);
 	
 	return len;
 }
 
-int getFirstCharBytesU8(uint8_t const *utf8){
+int getFirstCharBytesU8(const uint8_t* utf8){
 	uint8_t first_byte = utf8[0];
 	int len = getU8Length(first_byte);
 	
@@ -183,7 +183,7 @@ int getU8Length(uint8_t first_byte){
 	return len;
 }
 
-int getFirstDLenU8(std::string const &utf8){
+int getFirstDLenU8(const std::string& utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = (uint8_t)utf8[0];
 	int len = getU8Length(first_byte);
@@ -207,7 +207,7 @@ int getFirstDLenU8(std::string const &utf8){
 	return 1;
 }
 
-int getFirstDLenU8(uint8_t const *utf8){
+int getFirstDLenU8(const uint8_t* utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = utf8[0];
 	int len = getU8Length(first_byte);

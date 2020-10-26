@@ -17,14 +17,29 @@
 #include <stdio.h>
 #include <string.h>
 
-char getch(void);  /* 等待輸入，不顯示輸入字元 */
-char getche(void); /* 等待輸入，顯示輸入字元 */
-void showCursor(void); /* 顯示游標 */
-void hideCursor(void); /* 隱藏游標 */
-void getCursorPos(int&, int&); /* 取得游標位置 */
-char input(int&);  /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
-bool isLeap(int);  /* 傳入西元年份，判斷該年度是否為閏年 */
-void* new2D(int h, int w, int size); /* 動態二維陣列 */
+/* 等待輸入，不顯示輸入字元 */
+char getch(void); 
+
+/* 等待輸入，顯示輸入字元 */
+char getche(void); 
+
+/* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
+char input(int&);  
+
+/* 顯示游標 */
+void showCursor(void); 
+
+/* 隱藏游標 */
+void hideCursor(void); 
+
+/* 取得游標位置 */
+void getCursorPos(int&, int&); 
+
+/* 傳入西元年份，判斷該年度是否為閏年 */
+bool isLeap(int);  
+
+/* 動態二維陣列 */
+void* new2D(int h, int w, int size); 
 
 /* 動態二維陣列巨集，使用者傳入二維陣列大小及型態即可建立 */
 /* 使用者以指指標形式接收動態配置記憶體 */
@@ -32,16 +47,16 @@ void* new2D(int h, int w, int size); /* 動態二維陣列 */
 #define NEW2D(H, W, TYPE) (TYPE **)new2D(H, W, sizeof(TYPE))
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
-int getFirstCharBytesU8(std::string const &utf8);
-int getFirstCharBytesU8(uint8_t const *utf8);
+int getFirstCharBytesU8( const std::string& utf8);
+int getFirstCharBytesU8(const uint8_t* utf8);
 int getFirstCharBytesU8(char first_byte);
 
 // 計算UTF8編碼長度, 以unsigned char為參數傳入函數即可計算
 int getU8Length(uint8_t first_byte);
 
 /* 計算UTF8字元的顯示長度(只判斷傳入字串的第一個字元) */
-int getFirstDLenU8(std::string const &utf8);
-int getFirstDLenU8(uint8_t const *utf8);
+int getFirstDLenU8(const std::string& utf8);
+int getFirstDLenU8(const uint8_t* utf8);
 
 int FromUtf8(std::string const &utf8, char *buf);
 
