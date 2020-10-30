@@ -4,11 +4,71 @@
 #include <stdio.h>
 #include <string.h>
 #include "util.h"
+#include "tableset.h"
 
 using namespace std;
 
 int main(void){
-	fstream src("/home/supervisor/data/COBOL/BF/BSE/PARCRE.WIN", ifstream::in);
+	char SPC[] = "  ";
+	
+	for (int i=0; i<7; i++){
+		for (int j=0; j<18; j++){
+			switch (i){
+			case 0:
+			  if (j%2==0){
+					if (j==0)
+						cout << UL;
+					else if (j==8)
+						cout << UM;
+					else if (j==16)
+						cout << UR;
+					else
+						cout << HZ;
+				}
+				break;
+			case 1:
+			case 3:
+			case 4:
+			case 5:
+			  if (j%2==0){
+					if (j==0|j==8|j==16)
+						cout << VT;
+					else
+						cout << SPC;
+				}
+				break;
+			case 2:
+			  if (j%2==0){
+					if (j==0)
+						cout << ML;
+					else if (j==8)
+						cout << MM;
+					else if (j==16)
+						cout << MR;
+					else
+						cout << HZ;
+				}
+			  break;
+			case 6:
+			  if (j%2==0){
+					if (j==0)
+						cout << DL;
+					else if (j==8)
+						cout << DM;
+					else if (j==16)
+						cout << DR;
+					else
+						cout << HZ;
+				}
+			  break;
+		  }
+	  }
+		cout << endl;
+	}
+	
+	return 0;
+	
+	/*fstream src("/home/supervisor/data/COBOL/BF/BSE/PARCRE.WIN", ifstream::in);
 	string buf, dst;
 	int status;
 	
@@ -28,43 +88,5 @@ int main(void){
 	}
 	
 	src.close();
-	return 0;
-	/*string buf;
-	char ibuf[200], obuf[1024];
-	char *strsrc, *strdst;
-	size_t inbyte, outbyte, ret;
-	iconv_t cnv;
-	
-	cnv = iconv_open("utf8", "big5");
-	if (cnv == (iconv_t)-1){
-		cout << "open convert error!" << endl;
-		return 1;
-	}
-	
-	while(getline(src, buf)){
-		for (int i=0; i<buf.length(); i++){
-			if (buf[i] == 13){
-				buf.erase(i, 1);
-				break;
-			}
-		}
-		strcpy(ibuf, buf.c_str());
-		strsrc = ibuf;
-		strdst = obuf;
-		inbyte = strlen(strsrc)+1;
-		outbyte = 1024;
-		ret = iconv(cnv, &strsrc, &inbyte, &strdst, &outbyte);
-		if (ret == -1){
-			cout << "convert error!" << endl;
-			cout << "in bytes:" << inbyte << endl;
-			cout << "reserve bytes:" << outbyte << endl;
-			iconv_close(cnv);
-			return 1;
-		}
-		cout << obuf << endl;
-	}
-	
-	iconv_close(cnv);
-	src.close();
-  return 0;*/
+	return 0;*/
 }

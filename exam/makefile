@@ -3,10 +3,10 @@ CFLAGS=-c -std=c++11 -fPIC -D_GNU_SOURCE -I../include
 LFLAGS=-L..
 
 test: test.o
-	$(cc) $(LFLAGS) -o test test.o -lknifour -ltermcap
+	$(cc) $(LFLAGS) -o test test.o -lknifour
 	
 test.o: test.cpp
-	$(cc) $(CFLAGS) test.cpp
+	$(cc) $(CFLAGS) -DDOUBLELINE test.cpp
 	
 keypad: keypad.o
 	$(cc) $(LFLAGS) -o keypad keypad.o -lknifour
