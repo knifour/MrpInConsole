@@ -6,7 +6,7 @@ test: test.o
 	$(cc) $(LFLAGS) -o test test.o -lknifour
 	
 test.o: test.cpp
-	$(cc) $(CFLAGS) -DDOUBLELINE test.cpp
+	$(cc) $(CFLAGS) test.cpp
 	
 keypad: keypad.o
 	$(cc) $(LFLAGS) -o keypad keypad.o -lknifour
