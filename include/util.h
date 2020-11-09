@@ -1,21 +1,31 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
-#define SEC0_LOW  0x2500  /* 定義寬字元Unicode碼區段0下限 */
-#define SEC0_HIGH 0x257F  /* 定義寬字元Unicode碼區段0上限 */
-#define SEC1_LOW  0x2E80  /* 定義寬字元Unicode碼區段1下限 */
-#define SEC1_HIGH 0xA4FF  /* 定義寬字元Unicode碼區段1上限 */
-#define SEC2_LOW  0xAC00  /* 定義寬字元Unicode碼區段2下限 */
-#define SEC2_HIGH 0xD7FF  /* 定義寬字元Unicode碼區段2上限 */
-#define SEC3_LOW  0xF900  /* 定義寬字元Unicode碼區段3下限 */
-#define SEC3_HIGH 0xFFFD  /* 定義寬字元Unicode碼區段3上限 */
-
 #include <string>
 #include <stdint.h>
 #include <keypad.h>
 #include <iconv.h>
 #include <stdio.h>
 #include <string.h>
+
+#define SEC0_LOW  ((uint32_t)0x2500)   /* 定義CJK寬字元區段開始 */
+#define SEC0_HIGH ((uint32_t)0x257F)  
+#define SEC1_LOW  ((uint32_t)0x2E80)  
+#define SEC1_HIGH ((uint32_t)0x9FFF)  
+#define SEC2_LOW  ((uint32_t)0xAC00)  
+#define SEC2_HIGH ((uint32_t)0xD7AF)  
+#define SEC3_LOW  ((uint32_t)0xF900)  
+#define SEC3_HIGH ((uint32_t)0xFA6D)  
+#define SEC4_LOW  ((uint32_t)0xFF01)
+#define SEC4_HIGH ((uint32_t)0xFF5E)
+#define SEC5_LOW  ((uint32_t)0xFFE0)
+#define SEC5_HIGH ((uint32_t)0xFFE6)
+#define SEC6_LOW  ((uint32_t)0x1D300)
+#define SEC6_HIGH ((uint32_t)0x1D35F)
+#define SEC7_LOW  ((uint32_t)0x20000)
+#define SEC7_HIGH ((uint32_t)0x2EBEF)
+#define SEC8_LOW  ((uint32_t)0x2F800)
+#define SEC8_HIGH ((uint32_t)0x2FA1F) /* 定義CJK寬字元區段結束 */
 
 /* 等待輸入，不顯示輸入字元 */
 char getch(void); 
@@ -47,16 +57,19 @@ void* new2D(int h, int w, int size);
 #define NEW2D(H, W, TYPE) (TYPE **)new2D(H, W, sizeof(TYPE))
 
 /* 計算UTF8 BYTE STREAM長度(只判斷傳入字串的第一個字元) */
-int getFirstCharBytesU8( const std::string& utf8);
+int getFirstCharBytesU8(const std::string& utf8);
 int getFirstCharBytesU8(const uint8_t* utf8);
 int getFirstCharBytesU8(char first_byte);
 
 // 計算UTF8編碼長度, 以unsigned char為參數傳入函數即可計算
-int getU8Length(uint8_t first_byte);
+int getUtfLength(uint8_t first_byte);
 
 /* 計算UTF8字元的顯示長度(只判斷傳入字串的第一個字元) */
 int getFirstDLenU8(const std::string& utf8);
 int getFirstDLenU8(const uint8_t* utf8);
+
+/* 根據unicode值判斷是否為寬字元 */
+bool isWideChar(uint32_t);
 
 int FromUtf8(std::string const &utf8, char *buf);
 

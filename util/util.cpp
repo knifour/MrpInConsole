@@ -153,64 +153,51 @@ void* new2D(int h, int w, int size){
 
 int getFirstCharBytesU8(const std::string& utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
-	int len = getU8Length(first_byte);
+	int len = getUtfLength(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(const uint8_t* utf8){
 	uint8_t first_byte = utf8[0];
-	int len = getU8Length(first_byte);
+	int len = getUtfLength(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(char first_byte){
-	int len = getU8Length((uint8_t)first_byte);
+	int len = getUtfLength((uint8_t)first_byte);
 	
 	return len;
 }
 
-int getU8Length(uint8_t first_byte){
-	int len =
-	  (first_byte >> 7) == 0 ? 1 :
-		(first_byte & 0xFC) == 0xFC ? 6 :
-		(first_byte & 0xF8) == 0xF8 ? 5 :
-		(first_byte & 0xF0) == 0xF0 ? 4 :
-		(first_byte & 0xE0) == 0xE0 ? 3 :
-		(first_byte & 0xC0) == 0xC0 ? 2 : 0;
-	
-	return len;
+int getUtfLength(uint8_t first_byte){
+	return (first_byte >> 7)   == 0    ? 1 :
+		     (first_byte & 0xFC) == 0xFC ? 6 :
+		     (first_byte & 0xF8) == 0xF8 ? 5 :
+		     (first_byte & 0xF0) == 0xF0 ? 4 :
+		     (first_byte & 0xE0) == 0xE0 ? 3 :
+		     (first_byte & 0xC0) == 0xC0 ? 2 : 0;
 }
 
 int getFirstDLenU8(const std::string& utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = (uint8_t)utf8[0];
-	int len = getU8Length(first_byte);
+	int len = getUtfLength(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){
 		unicode <<= 6;
 		unicode += ((uint8_t)utf8[i]) & 0x3F;
 	}
-	
-	if (unicode >= (uint32_t)SEC0_LOW && unicode <= (uint32_t)SEC0_HIGH){
-		return 2;
-	} else if (unicode >= (uint32_t)SEC1_LOW && (uint32_t)SEC2_HIGH){
-		return 2;
-  } else if (unicode >= (uint32_t)SEC2_LOW && unicode <= (uint32_t)SEC2_HIGH){
-		return 2;
-	} else if (unicode >= (uint32_t)SEC3_LOW && unicode <= (uint32_t)SEC3_HIGH){
-		return 2;
-	}
-	
-	return 1;
+
+  return isWideChar(unicode) ? 2 : 1;	
 }
 
 int getFirstDLenU8(const uint8_t* utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = utf8[0];
-	int len = getU8Length(first_byte);
+	int len = getUtfLength(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){
@@ -218,17 +205,19 @@ int getFirstDLenU8(const uint8_t* utf8){
 		unicode += (utf8[i]) & 0x3F;
 	}
 	
-	if (unicode >= (uint32_t)SEC0_LOW && unicode <= (uint32_t)SEC0_HIGH){
-		return 2;
-	} else if (unicode >= (uint32_t)SEC1_LOW && (uint32_t)SEC2_HIGH){
-		return 2;
-  } else if (unicode >= (uint32_t)SEC2_LOW && unicode <= (uint32_t)SEC2_HIGH){
-		return 2;
-	} else if (unicode >= (uint32_t)SEC3_LOW && unicode <= (uint32_t)SEC3_HIGH){
-		return 2;
-	}
-	
-	return 1;
+	return isWideChar(unicode) ? 2 : 1;
+}
+
+bool isWideChar(uint32_t unicode){
+	return (unicode >= SEC0_LOW && unicode <= SEC0_HIGH) ? true :
+	       (unicode >= SEC1_LOW && unicode <= SEC1_HIGH) ? true :
+				 (unicode >= SEC2_LOW && unicode <= SEC2_HIGH) ? true :
+				 (unicode >= SEC3_LOW && unicode <= SEC3_HIGH) ? true :
+				 (unicode >= SEC4_LOW && unicode <= SEC4_HIGH) ? true :
+				 (unicode >= SEC5_LOW && unicode <= SEC5_HIGH) ? true :
+				 (unicode >= SEC6_LOW && unicode <= SEC6_HIGH) ? true :
+				 (unicode >= SEC7_LOW && unicode <= SEC7_HIGH) ? true :
+				 (unicode >= SEC8_LOW && unicode <= SEC8_HIGH) ? true : false;
 }
 
 int FromUtf8(std::string const &utf8, char *buf){
