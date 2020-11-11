@@ -20,7 +20,7 @@ util.o: $(dir0)/util/util.cpp $(dir0)/include/util.h
 	$(cc) $(CFLAGS) $(dir0)/util/util.cpp
 	
 utf8.o: $(dir0)/utf8/utf8.cpp $(dir0)/include/utf8.h
-	$(cc) $(CFLAGS) $(dir0)/utf8.cpp
+	$(cc) $(CFLAGS) $(dir0)/utf8/utf8.cpp
         
 schar.o: $(dir0)/schar/schar.cpp $(dir0)/include/schar.h
 	$(cc) $(CFLAGS) $(dir0)/schar/schar.cpp
