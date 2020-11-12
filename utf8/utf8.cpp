@@ -27,37 +27,37 @@ int isUtf8(const uint8_t* str){
 	return len;
 }
 	
-bool countChars(const std::string& str, int& len){
+int countChars(const std::string& str){
   int temp;
   int i = 0;
+	int len = 0;
 	uint8_t* buf = (uint8_t*)str.c_str();
 		
-	len = 0;
  	while (buf[i] != 0){
 		temp = isUtf8(&buf[i]);
-	  if (temp <= 0)
-			return false;
+	  if (temp < 0)
+			return -1;
 	  len = len + 1;
 	  i = i + temp;
   }
 	
-  return true;
+  return len;
  }
 	
-bool countChars(uint8_t const* str, int& len){
+int countChars(uint8_t const* str){
   int temp;
   int i = 0;
+	int len = 0;
 	
- 	len = 0;
 	while (str[i] != 0){
 		temp = isUtf8(&str[i]);
-	  if (temp <= 0)
-			return false;
+	  if (temp < 0)
+			return -1;
 	  len = len + 1;
 	  i = i + temp;
   }
 	
-  return true;
+  return len;
 }
 
 }

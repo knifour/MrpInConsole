@@ -18,16 +18,16 @@ int isUtf8(const uint8_t* str);
 
 // 計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(string)
-// 參數2：回傳參數1字串共幾個字元(呼叫函式之後此變數值一定會被改變)
-// 回傳值  ture：正確
-//        false：字串內有不合法的UTF8編碼
-bool countChars(const std::string& str, int&);
+// 回傳值 >= 0：字元數
+//         = 0：空字串
+//          -1：字串內有不合法的UTF8編碼
+int countChars(const std::string& str);
 
 // 計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(uint8_t*)
-// 參數2：回傳參數1字串共幾個字元(呼叫函式之後此變數值一定會被改變)
-// 回傳值  ture：正確
-//        false：字串內有不合法的UTF8編碼
-bool countChars(const uint8_t* str, int&);
+// 回傳值 >= 0：字元數
+//         = 0：空字串
+//          -1：字串內有不合法的UTF8編碼
+int countChars(const uint8_t* str);
 	
 }
