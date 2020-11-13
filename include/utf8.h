@@ -72,5 +72,49 @@ int getFirstDisplayLength(const std::string&);
 //        = 1：一般字元
 //        = 0：空字串
 int getFirstDisplayLength(const uint8_t*);
+
+// 取得字串的顯示寬度
+// 參數：字串(string&)
+// 回傳值 > 0：字串顯示寬度
+//        = 0：空字串
+int getDisplayLength(const std::string&);
+
+// 取得字串的顯示寬度
+// 參數：字串(uint8_t*)
+// 回傳值 > 0：字串顯示寬度
+//        = 0：空字串
+int getDisplayLength(const uint8_t*);
+
+// 攫取UTF8中間字串
+// 參數1：原始字串(string&)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：起始位置(以字元為單位，中英文都算1個字)
+// 參數4：攫取長度
+// 回傳值：實際攫取的字元數
+int getMidStr(const std::string&, uint8_t*, int, int);
+
+// 攫取UTF8中間字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：起始位置(以字元為單位，中英文都算1個字)
+// 參數4：攫取長度
+// 回傳值：實際攫取的字元數
+int getMidStr(const uint8_t*, uint8_t*, int, int);
+
+// 攫取UTF8中間字串，以string型式回傳攫取到的字串
+// 警告：緩衝取只有500 BYTES，欲擷取字串的編碼總長度不可超過499 BYTES
+// 參數1：原始字串(string&)
+// 參數2：起始位置(以字元為單位，中英文都算1個字)
+// 參數3：攫取長度
+// 回傳值：攫取的字串
+std::string getMidStr(const std::string&, int, int);
+
+// 攫取UTF8中間字串，以string型式回傳攫取到的字串
+// 警告：緩衝取只有500 BYTES，欲擷取字串的編碼總長度不可超過499 BYTES
+// 參數1：原始字串(uint8_t*)
+// 參數2：起始位置(以字元為單位，中英文都算1個字)
+// 參數3：攫取長度
+// 回傳值：攫取的字串
+std::string getMidStr(const uint8_t*, int, int);
 	
 }

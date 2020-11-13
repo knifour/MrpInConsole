@@ -112,4 +112,125 @@ int getFirstDisplayLength(const uint8_t* str){
 	return isWideChar(fromUtf2Unicode(str)) ? 2 : 1;
 }
 
+int getDisplayLength(const std::string& str){
+	int result = 0;
+	int len, dlen;
+	int i = 0;
+	
+	while (str[i] != 0){
+		len = getUtfLength((uint8_t)str[i]);
+		dlen = getFirstDisplayLength((uint8_t*)&str[i]);
+		result = result + dlen;
+		i = i + len;
+	}
+	
+	return result;
+}
+
+int getDisplayLength(const uint8_t* str){
+	int result = 0;
+	int len, dlen;
+	int i = 0;
+	
+	while (str[i] != 0){
+		len = getUtfLength(str[i]);
+		dlen = getFirstDisplayLength(&str[i]);
+		result = result + dlen;
+		i = i + len;
+	}
+	
+	return result;
+}
+
+int getMidStr(const std::string& src, uint8_t* dst, int start, int length){
+	return getMidStr((uint8_t*)&src[0], dst, start, length);
+}
+
+int getMidStr(const uint8_t* src, uint8_t* dst, int start, int length){
+	int rlen = 0;
+	int len;
+	int ps = 0;
+	int bps = 0;
+	
+	if (start <= 0 || start > countChars(src)){
+		dst[bps] = 0;
+		return rlen;
+	}
+	
+	if (length <= 0){
+		dst[bps] = 0;
+		return rlen;
+	}
+	
+	rlen = 1;
+	while (rlen < start){
+		len = getUtfLength(src[ps]);
+		ps = ps + len;
+		rlen = rlen + 1;
+	}
+	
+	rlen = 0;
+	while (src[ps] != 0){
+		len = getUtfLength(src[ps]);
+		for (int i=0; i<len; i++){
+			dst[bps] = src[ps];
+			ps++;
+			bps++;
+		}
+		rlen = rlen + 1;
+		if (rlen >= length){
+			break;
+		}
+	}
+	dst[bps] = 0;
+	
+	return rlen;
+}
+
+std::string getMidStr(const std::string& src, int start, int length){
+	return getMidStr((uint8_t*)&src[0], start, length);
+}
+
+std::string getMidStr(const uint8_t* src, int start, int length){
+	uint8_t buf[500];
+	int rlen = 0;
+	int len;
+	int ps = 0;
+	int bps = 0;
+	
+	if (start <= 0 || start > countChars(src)){
+		buf[bps] = 0;
+		return std::string("");
+	}
+	
+	if (length <= 0){
+		buf[bps] = 0;
+		return std::string("");
+	}
+	
+	rlen = 1;
+	while (rlen < start){
+		len = getUtfLength(src[ps]);
+		ps = ps + len;
+		rlen = rlen + 1;
+	}
+	
+	rlen = 0;
+	while (src[ps] != 0){
+		len = getUtfLength(src[ps]);
+		for (int i=0; i<len; i++){
+			buf[bps] = src[ps];
+			ps++;
+			bps++;
+		}
+		rlen = rlen + 1;
+		if (rlen >= length){
+			break;
+		}
+	}
+	buf[bps] = 0;
+	
+	return std::string((char*)buf);
+}
+
 }
