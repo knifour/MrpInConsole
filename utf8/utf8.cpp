@@ -28,21 +28,8 @@ int isUtf8(const uint8_t* str){
 }
 	
 int countChars(const std::string& str){
-  int temp;
-  int i = 0;
-	int len = 0;
-	uint8_t* buf = (uint8_t*)str.c_str();
-		
- 	while (buf[i] != 0){
-		temp = isUtf8(&buf[i]);
-	  if (temp < 0)
-			return -1;
-	  len = len + 1;
-	  i = i + temp;
-  }
-	
-  return len;
- }
+	return countChars((uint8_t*)str.c_str());
+}
 	
 int countChars(uint8_t const* str){
   int temp;
@@ -55,6 +42,28 @@ int countChars(uint8_t const* str){
 			return -1;
 	  len = len + 1;
 	  i = i + temp;
+  }
+	
+  return len;
+}
+
+int countChars(const std::string& str, int& codelen){
+	return countChars((uint8_t*)str.c_str(), codelen);
+}
+
+int countChars(const uint8_t* str, int& codelen){
+  int temp;
+  int i = 0;
+	int len = 0;
+	
+	codelen = 0;
+	while (str[i] != 0){
+		temp = isUtf8(&str[i]);
+	  if (temp < 0)
+			return -1;
+	  len = len + 1;
+	  i = i + temp;
+		codelen = codelen + temp;
   }
 	
   return len;
