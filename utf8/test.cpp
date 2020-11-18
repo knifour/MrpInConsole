@@ -7,22 +7,17 @@ using namespace std;
 using namespace utf8;
 
 int main(void){
-	//string a = "不織布尺寸54\"x91.4m;每捲125平方公尺";
+	string a = "圓腳3公分排水板";
+	uint8_t buf[100];
 	//uint8_t a[] = {0xE7, 0xB7, 0xA8, 0xE7, 0xA2, 0xBC};
-	fstream src;
-	string buf;
-	int len;
-
-	src.open("../CJK.txt", ios::in);
-	if (!src)
-		return -1;
 	
-	while (getline(src, buf)){
-		cout << "原字串：" << buf << endl;
-		cout << "字元數：" << countChars(buf, len) << endl;
-		cout << "編碼總長度：" << len << endl;
-		cout << "螢幕顯示寬度：" << getDisplayLength(buf) << endl;
-	}
+	cout << "原字串：" << a << endl;
+	cout << "擷取中間字串：" << getMidStr(a, 3, 3) << endl;
+	cout << "擷取中間字串且超過原字串長度：" << getMidStr(a, 6, 6) << endl;
+	cout << "擷取左字串：" << getLeftStr(a, 2) << endl;
+	cout << "攫取左字串且超過原字串長度：" << getLeftStr(a, 10) << endl;
+	cout << "攫取右字串：" << getRightStr(a, 6) << endl;
+	cout << "攫取右字串且超過原字串長度：" << getRightStr(a, 20) << endl;
 	
 	return 0;
 }

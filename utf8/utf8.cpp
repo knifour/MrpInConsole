@@ -268,4 +268,46 @@ std::string getMidStr(const uint8_t* src, int start, int length){
 	return std::string((char*)buf);
 }
 
+int getLeftStr(const std::string& src, uint8_t* dst, int length){
+	return getLeftStr((uint8_t*)&src[0], dst, length);
+}
+
+int getLeftStr(const uint8_t* src, uint8_t* dst, int length){
+	return getMidStr(src, dst, 1, length);
+}
+
+std::string getLeftStr(const std::string& src, int length){
+	return getLeftStr((uint8_t*)&src[0], length);
+}
+
+std::string getLeftStr(const uint8_t* src, int length){
+	return getMidStr(src, 1, length);
+}
+
+int getRightStr(const std::string& src, uint8_t* dst, int length){
+	return getRightStr((uint8_t*)&src[0], dst, length);
+}
+
+int getRightStr(const uint8_t* src, uint8_t* dst, int length){
+	int rellen = countChars(src);
+	
+	if (length > rellen)
+		length = rellen;
+	
+	return getMidStr(src, dst, rellen-length+1, length);
+}
+
+std::string getRightStr(const std::string& src, int length){
+	return getRightStr((uint8_t*)&src[0], length);
+}
+
+std::string getRightStr(const uint8_t* src, int length){
+	int rellen = countChars(src);
+	
+	if (length > rellen)
+		length = rellen;
+	
+	return getMidStr(src, rellen-length+1, length);
+}
+
 }

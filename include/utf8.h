@@ -53,7 +53,7 @@ int countChars(const uint8_t*);
 
 // 計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(string&)
-// 參數2：UTF8編碼總長度(int&)
+// 參數2：回傳UTF8編碼總長度(int&)
 // 回傳值 >= 0：字元數
 //         = 0：空字串
 //          -1：字串內有不合法的UTF8編碼
@@ -61,7 +61,7 @@ int countChars(const std::string&, int&);
 
 // 計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(uint8_t*)
-// 參數2：UTF8編碼總長度(int&)
+// 參數2：回傳UTF8編碼總長度(int&)
 // 回傳值 >= 0：字元數
 //         = 0：空字串
 //          -1：字串內有不合法的UTF8編碼
@@ -128,5 +128,57 @@ std::string getMidStr(const std::string&, int, int);
 // 參數3：攫取長度
 // 回傳值：攫取的字串
 std::string getMidStr(const uint8_t*, int, int);
-	
+
+// 攫取UTF8左字串
+// 參數1：原始字串(string&)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：攫取長度
+// 回傳值：實際攫取的字元數
+int getLeftStr(const std::string&, uint8_t*, int);
+
+// 攫取UTF8左字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：攫取長度
+// 回傳值：實際攫取的字元數
+int getLeftStr(const uint8_t*, uint8_t*, int);
+
+// 攫取UTF8左字串
+// 參數1：原始字串(string&)
+// 參數2：攫取長度
+// 回傳值：攫取到的字串(string)
+std::string getLeftStr(const std::string&, int);
+
+// 攫取UTF8左字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：攫取長度
+// 回傳值：攫取到的字串(string)
+std::string getLeftStr(const uint8_t*, int);
+
+// 攫取UTF8右字串
+// 參數1：原始字串(string&)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：攫取長度
+// 回傳值：實際攫取的字元數
+int getRightStr(const std::string&, uint8_t*, int);
+
+// 攫取UTF8右字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+// 參數3：攫取長度
+// 回傳值：實際攫取的字元數
+int getRightStr(const uint8_t*, uint8_t*, int);
+
+// 攫取UTF8右字串
+// 參數1：原始字串(string&)
+// 參數2：攫取長度
+// 回傳值：攫取到的字串(string)
+std::string getRightStr(const std::string&, int);
+
+// 攫取UTF8右字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：攫取長度
+// 回傳值：攫取到的字串(string)
+std::string getRightStr(const uint8_t*, int);
+
 }
