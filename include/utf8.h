@@ -97,9 +97,28 @@ int getDisplayLength(const std::string&);
 //        =-1：字串含有不合法的UTF8編碼
 int getDisplayLength(const uint8_t*);
 
+// 計算攫取UTF8中間字串所需BYTES數(不會執行攫取動作)
+// 參數1：原始字串(string&)
+// 參數2：起始位置(以字元為單位，中英文都算1個字)
+// 參數3：攫取長度
+// 回傳值 > 0 ：攫取字串所需BYTES數
+//        = 0 ：空字串
+//        < 0 ：字串含有不合法的UTF8字元          
+int getMidBytes(const std::string&, int, int);
+
+// 計算攫取UTF8中間字串所需BYTES數(不會執行攫取動作)
+// 參數1：原始字串(uint8_t*)
+// 參數2：起始位置(以字元為單位，中英文都算1個字)
+// 參數3：攫取長度
+// 回傳值 > 0 ：攫取字串所需BYTES數
+//        = 0 ：空字串
+//        < 0 ：字串含有不合法的UTF8字元          
+int getMidBytes(const uint8_t*, int, int);
+
 // 攫取UTF8中間字串
 // 參數1：原始字串(string&)
 // 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+//        如果怕配置的記憶體空間不夠，建議在呼叫此函式前呼叫getMidBytes計算所需Bytes數
 // 參數3：起始位置(以字元為單位，中英文都算1個字)
 // 參數4：攫取長度
 // 回傳值：實際攫取的字元數
@@ -108,13 +127,13 @@ int getMidStr(const std::string&, uint8_t*, int, int);
 // 攫取UTF8中間字串
 // 參數1：原始字串(uint8_t*)
 // 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
+//        如果怕配置的記憶體空間不夠，建議在呼叫此函式前呼叫getMidBytes計算所需Bytes數
 // 參數3：起始位置(以字元為單位，中英文都算1個字)
 // 參數4：攫取長度
 // 回傳值：實際攫取的字元數
 int getMidStr(const uint8_t*, uint8_t*, int, int);
 
 // 攫取UTF8中間字串，以string型式回傳攫取到的字串
-// 警告：緩衝取只有500 BYTES，欲擷取字串的編碼總長度不可超過499 BYTES
 // 參數1：原始字串(string&)
 // 參數2：起始位置(以字元為單位，中英文都算1個字)
 // 參數3：攫取長度
@@ -122,7 +141,7 @@ int getMidStr(const uint8_t*, uint8_t*, int, int);
 std::string getMidStr(const std::string&, int, int);
 
 // 攫取UTF8中間字串，以string型式回傳攫取到的字串
-// 警告：緩衝取只有500 BYTES，欲擷取字串的編碼總長度不可超過499 BYTES
+// 函式會自動配置所需緩衝區，如果配置失敗將回傳空字串
 // 參數1：原始字串(uint8_t*)
 // 參數2：起始位置(以字元為單位，中英文都算1個字)
 // 參數3：攫取長度

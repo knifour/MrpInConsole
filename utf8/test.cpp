@@ -12,12 +12,12 @@ int main(void){
 	//uint8_t a[] = {0xE7, 0xB7, 0xA8, 0xE7, 0xA2, 0xBC};
 	
 	cout << "原字串：" << a << endl;
-	cout << "擷取中間字串：" << getMidStr(a, 3, 3) << endl;
-	cout << "擷取中間字串且超過原字串長度：" << getMidStr(a, 6, 6) << endl;
-	cout << "擷取左字串：" << getLeftStr(a, 2) << endl;
-	cout << "攫取左字串且超過原字串長度：" << getLeftStr(a, 10) << endl;
-	cout << "攫取右字串：" << getRightStr(a, 6) << endl;
-	cout << "攫取右字串且超過原字串長度：" << getRightStr(a, 20) << endl;
+	cout << "擷取中間字串(3, 3)：" << getMidStr(a, 3, 3) << endl;
+	cout << "擷取中間字串且超過原字串長度(6, 6)：" << getMidStr(a, 6, 6) << endl;
+	cout << "擷取左字串(2)：" << getLeftStr(a, 2) << endl;
+	cout << "攫取左字串且超過原字串長度(10)：" << getLeftStr(a, 10) << endl;
+	cout << "攫取右字串(6)：" << getRightStr(a, 6) << endl;
+	cout << "攫取右字串且超過原字串長度(20)：" << getRightStr(a, 20) << endl;
 	
 	return 0;
 }

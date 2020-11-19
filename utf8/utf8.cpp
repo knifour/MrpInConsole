@@ -177,6 +177,50 @@ int getDisplayLength(const uint8_t* str){
 	return result;
 }
 
+int getMidBytes(const std::string& src, int start, int length){
+	return getMidBytes((uint8_t*)src.c_str(), start, length);
+}
+
+int getMidBytes(const uint8_t* src, int start, int length){
+	int rlen = 0;
+	int rbytes = 0;
+	int len;
+	int ps = 0;
+	int bps = 0;
+	
+	if (start <= 0 || start > countChars(src)){
+		return rbytes;
+	}
+	
+	if (length <= 0){
+		return rbytes;
+	}
+	
+	if (!isUtf8(src)){
+		return -1;
+	}
+	
+	rlen = 1;
+	while (rlen < start){
+		len = getUtfLength(src[ps]);
+		ps = ps + len;
+		rlen = rlen + 1;
+	}
+	
+	rlen = 0;
+	while (src[ps] != 0){
+		len = getUtfLength(src[ps]);
+		ps = ps + len;
+		rbytes = rbytes + len;
+		rlen = rlen + 1;
+		if (rlen >= length){
+			break;
+		}
+	}
+	
+	return rbytes;
+}
+
 int getMidStr(const std::string& src, uint8_t* dst, int start, int length){
 	return getMidStr((uint8_t*)&src[0], dst, start, length);
 }
@@ -227,45 +271,27 @@ std::string getMidStr(const std::string& src, int start, int length){
 }
 
 std::string getMidStr(const uint8_t* src, int start, int length){
-	uint8_t buf[500];
-	int rlen = 0;
-	int len;
-	int ps = 0;
-	int bps = 0;
+	int rbytes = getMidBytes(src, start, length);
+	int rlen;
 	
-	if (start <= 0 || start > countChars(src)){
-		buf[bps] = 0;
+	if (rbytes <= 0)
+		return std::string("");
+	
+	uint8_t* buf = (uint8_t*)malloc(rbytes+1);
+	if (buf == 0)
+		return std::string("");
+	
+	rlen = getMidStr(src, buf, start, length);
+	
+	if (rlen <= 0){
+		free(buf);
 		return std::string("");
 	}
-	
-	if (length <= 0){
-		buf[bps] = 0;
-		return std::string("");
+	else{
+		std::string result = std::string((char*)buf);
+		free(buf);
+		return result;
 	}
-	
-	rlen = 1;
-	while (rlen < start){
-		len = getUtfLength(src[ps]);
-		ps = ps + len;
-		rlen = rlen + 1;
-	}
-	
-	rlen = 0;
-	while (src[ps] != 0){
-		len = getUtfLength(src[ps]);
-		for (int i=0; i<len; i++){
-			buf[bps] = src[ps];
-			ps++;
-			bps++;
-		}
-		rlen = rlen + 1;
-		if (rlen >= length){
-			break;
-		}
-	}
-	buf[bps] = 0;
-	
-	return std::string((char*)buf);
 }
 
 int getLeftStr(const std::string& src, uint8_t* dst, int length){
