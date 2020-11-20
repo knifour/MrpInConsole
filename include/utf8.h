@@ -115,6 +115,8 @@ int getMidBytes(const std::string&, int, int);
 //        < 0 ：字串含有不合法的UTF8字元          
 int getMidBytes(const uint8_t*, int, int);
 
+// 以下開始的字串操作函式，字串的起始位置都是1不是0，請注意
+
 // 攫取UTF8中間字串
 // 參數1：原始字串(string&)
 // 參數2：攫取到的字串會放在這裡(結尾自動補0)，呼叫者須自行準備足夠的記憶體空間
@@ -199,5 +201,14 @@ std::string getRightStr(const std::string&, int);
 // 參數2：攫取長度
 // 回傳值：攫取到的字串(string)
 std::string getRightStr(const uint8_t*, int);
+
+// 搜尋UTF字串內是否有特定字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：要尋找的字串(uint8_t*)
+// 參數3：起始位置
+// 回傳值 > 0 ：要尋找字串在原始字串的位置(任何合法的UTF8字元都算1個字)
+//        = 0 ：找不到
+//        < 0 ：記憶體配置失敗
+int inStr(const uint8_t*, const uint8_t*, int);
 
 }

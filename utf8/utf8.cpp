@@ -242,7 +242,7 @@ int getMidStr(const uint8_t* src, uint8_t* dst, int start, int length){
 	}
 	
 	rlen = 1;
-	while (rlen < start){
+	while (rlen < start && src[ps] != 0){
 		len = getUtfLength(src[ps]);
 		ps = ps + len;
 		rlen = rlen + 1;
@@ -278,7 +278,7 @@ std::string getMidStr(const uint8_t* src, int start, int length){
 		return std::string("");
 	
 	uint8_t* buf = (uint8_t*)malloc(rbytes+1);
-	if (buf == 0)
+	if (buf == NULL)
 		return std::string("");
 	
 	rlen = getMidStr(src, buf, start, length);
@@ -334,6 +334,40 @@ std::string getRightStr(const uint8_t* src, int length){
 		length = rellen;
 	
 	return getMidStr(src, rellen-length+1, length);
+}
+
+int inStr(const uint8_t* src, const uint8_t* target, int start){
+	const char* ps;
+	int rlen = 1;
+	int pt = 0;
+	int temp = 0;
+	
+	while (rlen < start && src[pt] != 0){
+		temp = getUtfLength(src[pt]);
+		rlen = rlen + 1;
+		pt = pt + temp;
+	}
+	
+	ps = strstr((char*)&src[pt], (char*)target);
+	
+	if (ps==NULL)
+		return 0;
+	
+	int len = (int)(ps - (char*)src);
+	
+	char* buf = (char*)malloc(len+1);
+	if (buf == NULL)
+		return -1;
+	
+	for (int i=0; i<len; i++)
+		buf[i] = (char)src[i];
+	buf[len] = 0;
+	
+	int pos = countChars(buf) + 1;
+	
+	free(buf);
+
+	return pos;
 }
 
 }
