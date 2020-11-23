@@ -7,19 +7,14 @@ using namespace std;
 using namespace utf8;
 
 int main(void){
-	string a = "圓腳3公分排水板";
-	char target[] = "排水板";
-	uint8_t buf[100];
-	//uint8_t a[] = {0xE7, 0xB7, 0xA8, 0xE7, 0xA2, 0xBC};
+	string a = "材質：NYLON;尺寸(長寬)：5.9x2.6x12.5cm;說明：不織布交疊處建議10~15cm";
+	string temp;
 	
-	cout << "原字串：" << a << endl;
-	cout << "inStr函式：" << inStr((uint8_t*)a.c_str(), (uint8_t*)"排水板", 4) << endl;
-	cout << "擷取中間字串(8, 3)：" << getMidStr(a, 9, 3) << endl;
-	cout << "擷取中間字串且超過原字串長度(6, 6)：" << getMidStr(a, 6, 6) << endl;
-	cout << "擷取左字串(2)：" << getLeftStr(a, 2) << endl;
-	cout << "攫取左字串且超過原字串長度(10)：" << getLeftStr(a, 10) << endl;
-	cout << "攫取右字串(6)：" << getRightStr(a, 6) << endl;
-	cout << "攫取右字串且超過原字串長度(20)：" << getRightStr(a, 20) << endl;
-	
+	cout << "字串顯示寬度：" << getDisplayLength(a) << endl;
+
+  for (int i=1; i<=countChars(a); i++){
+		temp = getMidStr(a, i, 1);
+		cout << temp << " -> " << getFirstDisplayLength(temp) << endl;
+	}	
 	return 0;
 }

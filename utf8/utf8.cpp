@@ -114,17 +114,7 @@ int countChars(const uint8_t* str, int& codelen){
 }
 
 int getFirstDisplayLength(const std::string& str){
-	uint32_t unicode;
-	
-	if (str[0] == 0)
-		return 0;
-	
-	unicode = fromUtf2Unicode((uint8_t*)str.c_str());
-	
-	if (unicode==0)
-		return -1;
-	else
-		return isWideChar(unicode) ? 2 : 1;
+	return getFirstDisplayLength((uint8_t*)str.c_str());
 }
 
 int getFirstDisplayLength(const uint8_t* str){
@@ -142,21 +132,7 @@ int getFirstDisplayLength(const uint8_t* str){
 }
 
 int getDisplayLength(const std::string& str){
-	int result = 0;
-	int len, dlen;
-	int i = 0;
-	
-	if (!isUtf8(str))
-		return -1;
-	
-	while (str[i] != 0){
-		len = getUtfLength((uint8_t)str[i]);
-		dlen = getFirstDisplayLength((uint8_t*)&str[i]);
-		result = result + dlen;
-		i = i + len;
-	}
-	
-	return result;
+	return getDisplayLength((uint8_t*)str.c_str());
 }
 
 int getDisplayLength(const uint8_t* str){
@@ -336,11 +312,18 @@ std::string getRightStr(const uint8_t* src, int length){
 	return getMidStr(src, rellen-length+1, length);
 }
 
+int inStr(const std::string& src, const std::string& dst, int start){
+	return inStr((uint8_t*)src.c_str(), (uint8_t*)dst.c_str(), start);
+}
+
 int inStr(const uint8_t* src, const uint8_t* target, int start){
 	const char* ps;
 	int rlen = 1;
 	int pt = 0;
 	int temp = 0;
+	
+	if (target[0] == 0)
+		return 0;
 	
 	while (rlen < start && src[pt] != 0){
 		temp = getUtfLength(src[pt]);
