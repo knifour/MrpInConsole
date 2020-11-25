@@ -49,13 +49,17 @@ bool isUtf8(const uint8_t* str){
 	for (uint8_t s=0; str[s]!=0; s=s+len){
 		len = getUtfLength(str[s]);
 	
-	  if (len==0)
+	  if (len==0){
+			printf("str=%d len=%d s=%d\n", str[s], len, s);
 		  return false;
+		}
 		
 	  for (int i=1; i<len; i++){
 		  temp = (str[s+i]>>6)^0x02;
-		  if (temp != 0)
+		  if (temp != 0){
+				printf("i=%d\n", i);
 			  return false;
+			}
 	  }
 	}
 		
@@ -76,8 +80,9 @@ int countChars(uint8_t const* str){
 	
 	while (str[i] != 0){
 		temp = getUtfLength(str[i]);
-	  if (temp == 0)
+	  if (temp == 0){
 			return -1;
+		}
 	  len = len + 1;
 	  i = i + temp;
   }
@@ -351,6 +356,36 @@ int inStr(const uint8_t* src, const uint8_t* target, int start){
 	free(buf);
 
 	return pos;
+}
+
+std::string replaceStr(const std::string& src, const std::string& spec, const std::string& target, bool mode){
+  return replaceStr((uint8_t*)src.c_str(), (uint8_t*)spec.c_str(), (uint8_t*)target.c_str(), mode);	
+}
+
+std::string replaceStr(const uint8_t* src, const uint8_t* spec, const uint8_t* target, bool mode){
+	bool first = true;
+	int len, ps, i, speclen;
+	
+	std::string result = std::string((char*)src);
+	len = countChars(result);
+	printf("len=%d\n", len);
+	speclen = countChars(spec);
+	i = 1;
+	ps = 1;
+	while (i <= len && ps != 0){
+		ps = inStr((uint8_t*)result.c_str(), spec, i);
+		if (ps != 0){
+			result = getLeftStr(result, ps-1) + std::string((char*)target) + getRightStr(result, len-(ps+speclen)+1);
+			if (first){
+				first = false;
+				if (!mode)
+					break;
+			}
+		}
+		i = ps + speclen;
+	}
+	
+	return result;
 }
 
 }

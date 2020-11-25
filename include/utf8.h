@@ -256,7 +256,7 @@ std::string getRightStr(const uint8_t*, int);
 // 用途：搜尋UTF字串內是否有特定字串
 // 參數1：原始字串(string&)
 // 參數2：要尋找的字串(string&)
-// 參數3：搜尋起始位置
+// 參數3：搜尋起始位置(可省略，表示從頭開始搜尋)
 // 回傳值 > 0 ：要尋找字串在原始字串的位置(任何合法的UTF8字元都算1個字)
 //        = 0 ：找不到
 //        < 0 ：記憶體配置失敗
@@ -265,11 +265,29 @@ int inStr(const std::string&, const std::string&, int start=1);
 // 用途：搜尋UTF字串內是否有特定字串
 // 參數1：原始字串(uint8_t*)
 // 參數2：要尋找的字串(uint8_t*)
-// 參數3：搜尋起始位置
+// 參數3：搜尋起始位置(可省略，表示從頭開始搜尋)
 // 回傳值 > 0 ：要尋找字串在原始字串的位置(任何合法的UTF8字元都算1個字)
 //        = 0 ：找不到
 //        < 0 ：記憶體配置失敗
 int inStr(const uint8_t*, const uint8_t*, int start=1);
+
+// 用途：將原始字串中的特定字串取代成目標字串
+// 參數1：原始字串(string&)
+// 參數2：特定字串(string&)
+// 參數3：目標字串(string&)
+// 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
+// 回傳值：取代後的字串(string)
+//        
+std::string replaceStr(const std::string&, const std::string&, const std::string&, bool mode=true);
+
+// 用途：將原始字串中的特定字串取代成目標字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：特定字串(uint8_t*)
+// 參數3：目標字串(uint8_t*)
+// 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
+// 回傳值：取代後的字串(string)
+//        
+std::string replaceStr(const uint8_t*, const uint8_t*, const uint8_t*, bool mode=true);
 
 }
 
