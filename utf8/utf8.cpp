@@ -46,13 +46,11 @@ bool isUtf8(const uint8_t* str){
 	uint8_t temp;
 	int len;
 	
-	for (uint8_t s=0; str[s]!=0; s=s+len){
+	for (uint32_t s=0; str[s]!=0; s=s+len){
 		len = getUtfLength(str[s]);
-	
-	  if (len==0){
-			printf("str=%d len=%d s=%d\n", str[s], len, s);
+	  if (len==0)
 		  return false;
-		}
+		
 		
 	  for (int i=1; i<len; i++){
 		  temp = (str[s+i]>>6)^0x02;
@@ -366,23 +364,27 @@ std::string replaceStr(const uint8_t* src, const uint8_t* spec, const uint8_t* t
 	bool first = true;
 	int len, ps, i, speclen;
 	
-	std::string result = std::string((char*)src);
+	std::string result((char*)src);
 	len = countChars(result);
-	printf("len=%d\n", len);
 	speclen = countChars(spec);
+	
+	if (len == -1 || speclen == -1)
+		return std::string("");
+	
 	i = 1;
 	ps = 1;
 	while (i <= len && ps != 0){
 		ps = inStr((uint8_t*)result.c_str(), spec, i);
 		if (ps != 0){
 			result = getLeftStr(result, ps-1) + std::string((char*)target) + getRightStr(result, len-(ps+speclen)+1);
+      len = countChars(result);			
 			if (first){
 				first = false;
 				if (!mode)
 					break;
 			}
 		}
-		i = ps + speclen;
+		i = ps;
 	}
 	
 	return result;
