@@ -273,8 +273,8 @@ int inStr(const uint8_t*, const uint8_t*, int start=1);
 
 // 用途：將原始字串中的特定字串取代成目標字串
 // 參數1：原始字串(string&)
-// 參數2：特定字串(string&)
-// 參數3：目標字串(string&)
+// 參數2：指定字串(string&)
+// 參數3：代換字串(string&)
 // 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
 // 回傳值：取代後的字串(string)
 //        
@@ -282,8 +282,8 @@ std::string replaceStr(const std::string&, const std::string&, const std::string
 
 // 用途：將原始字串中的特定字串取代成目標字串
 // 參數1：原始字串(uint8_t*)
-// 參數2：特定字串(uint8_t*)
-// 參數3：目標字串(uint8_t*)
+// 參數2：指定字串(uint8_t*)
+// 參數3：代換字串(uint8_t*)
 // 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
 // 回傳值：取代後的字串(string)
 //        

@@ -356,27 +356,27 @@ int inStr(const uint8_t* src, const uint8_t* target, int start){
 	return pos;
 }
 
-std::string replaceStr(const std::string& src, const std::string& spec, const std::string& target, bool mode){
-  return replaceStr((uint8_t*)src.c_str(), (uint8_t*)spec.c_str(), (uint8_t*)target.c_str(), mode);	
+std::string replaceStr(const std::string& src, const std::string& target, const std::string& replace, bool mode){
+  return replaceStr((uint8_t*)src.c_str(), (uint8_t*)target.c_str(), (uint8_t*)replace.c_str(), mode);	
 }
 
-std::string replaceStr(const uint8_t* src, const uint8_t* spec, const uint8_t* target, bool mode){
+std::string replaceStr(const uint8_t* src, const uint8_t* target, const uint8_t* replace, bool mode){
 	bool first = true;
-	int len, ps, i, speclen;
+	int len, ps, i, targetlen;
 	
 	std::string result((char*)src);
 	len = countChars(result);
-	speclen = countChars(spec);
+	targetlen = countChars(target);
 	
-	if (len == -1 || speclen == -1)
+	if (len == -1 || targetlen == -1)
 		return std::string("");
 	
 	i = 1;
 	ps = 1;
 	while (i <= len && ps != 0){
-		ps = inStr((uint8_t*)result.c_str(), spec, i);
+		ps = inStr((uint8_t*)result.c_str(), target, i);
 		if (ps != 0){
-			result = getLeftStr(result, ps-1) + std::string((char*)target) + getRightStr(result, len-(ps+speclen)+1);
+			result = getLeftStr(result, ps-1) + std::string((char*)replace) + getRightStr(result, len-(ps+targetlen)+1);
       len = countChars(result);			
 			if (first){
 				first = false;
