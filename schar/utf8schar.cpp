@@ -27,7 +27,8 @@ UTF8SCHAR::UTF8SCHAR(const char* p){
 	for (int i=0; i<UTF8MAXLEN; i++)
 		mCode[i] = 0;
 	
-	len = getFirstCharBytesU8((uint8_t*)p);
+	// len = getFirstCharBytesU8((uint8_t*)p);
+	len = getUtfLength((uint8_t)p[0]);
 	if (len > UTF8MAXLEN){
 		mCode[0] = 32;
 	} else if (len == 0){
@@ -39,13 +40,14 @@ UTF8SCHAR::UTF8SCHAR(const char* p){
 	}
 }
 
-void UTF8SCHAR::setChar(const uint8_t* const p, bool p1, int p2, int p3){
+void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
 	int len;
 	
 	for (int i=0; i<UTF8MAXLEN; i++)
 		mCode[i] = 0;
 	
-	len = getFirstCharBytesU8(p);
+	// len = getFirstCharBytesU8(p);
+	len = getUtfLength(p[0]);
 	if (len > UTF8MAXLEN){
 		mCode[0] = 32;
 	} else if (len==0){
@@ -62,7 +64,8 @@ void UTF8SCHAR::setChar(const uint8_t* const p, bool p1, int p2, int p3){
 }
 
 int UTF8SCHAR::getDLen(){
-	return getFirstDLenU8(mCode);
+	// return getFirstDLenU8(mCode);
+	return getFirstDisplayLength(mCode);
 }
 
 /*UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR& p){

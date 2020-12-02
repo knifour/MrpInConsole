@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 SCHAR::SCHAR(){
-	std::cout << "SCHAR creater!" << std::endl;
   mValid = true;
 	mUnderLine = false;
 	mFColor = 7;

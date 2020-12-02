@@ -153,25 +153,25 @@ void* new2D(int h, int w, int size){
 
 int getFirstCharBytesU8(const std::string& utf8){
 	uint8_t first_byte = (uint8_t)utf8[0];
-	int len = getUtfLength(first_byte);
+	int len = getUtfLengthU8(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(const uint8_t* utf8){
 	uint8_t first_byte = utf8[0];
-	int len = getUtfLength(first_byte);
+	int len = getUtfLengthU8(first_byte);
 	
 	return len;
 }
 
 int getFirstCharBytesU8(char first_byte){
-	int len = getUtfLength((uint8_t)first_byte);
+	int len = getUtfLengthU8((uint8_t)first_byte);
 	
 	return len;
 }
 
-int getUtfLength(uint8_t first_byte){
+int getUtfLengthU8(uint8_t first_byte){
 	return (first_byte >> 7)   == 0    ? 1 :
 		     (first_byte & 0xFC) == 0xFC ? 6 :
 		     (first_byte & 0xF8) == 0xF8 ? 5 :
@@ -183,7 +183,7 @@ int getUtfLength(uint8_t first_byte){
 int getFirstDLenU8(const std::string& utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = (uint8_t)utf8[0];
-	int len = getUtfLength(first_byte);
+	int len = getUtfLengthU8(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){
@@ -197,7 +197,7 @@ int getFirstDLenU8(const std::string& utf8){
 int getFirstDLenU8(const uint8_t* utf8){
 	uint32_t unicode = 0;
 	uint8_t first_byte = utf8[0];
-	int len = getUtfLength(first_byte);
+	int len = getUtfLengthU8(first_byte);
 	
 	unicode += (uint8_t)(first_byte << len) >> len;
 	for (uint8_t i=1; i<len; i++){
