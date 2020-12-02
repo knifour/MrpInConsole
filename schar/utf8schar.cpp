@@ -118,7 +118,8 @@ void UTF8SCHAR::print(){
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
 	s << "\x1B[0m";
 	for (int i=0; i<UTF8MAXLEN; i++)
-	  s << (int)p.mCode[i] << " ";
+	  printf("%02X ", p.mCode[i]);
+	  //s << (int)p.mCode[i] << " ";
   s << std::endl;
 	return s;
 }

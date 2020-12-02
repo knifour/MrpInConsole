@@ -5,9 +5,17 @@
 #include <stdint.h>
 #include <iostream>
 
-// 定義螢幕字元編碼最長的byte stream數(含字串結束字元0)
-// utf8最長編碼為 6 BYTES
-#define MAXBYTES 7  
+#define __UNICODE_BMP
+
+#ifdef __UNICODE_BMP
+  // 如果定義了基本多文種平面(BMP)，表示只支援原始定義的Unicode文字(後來加入的Unicode字元都不支援)
+	// 則將UTF8最大長度設定為4(含字串結束字元0)
+  #define MAXBYTES 4
+#else
+  // 如果未定義基本文種平面的話將支援所有Unicode定義的文字
+  // 則將UTF8最大長度設定為7(含字串結束字元0)
+  #define MAXBYTES 7  
+#endif
 
 class SCHAR {
 protected:
@@ -49,7 +57,7 @@ public:
 	bool operator==(const SCHAR& rhs);
 	
 	// 純虛擬函數
-	virtual void setChar(const uint8_t* const, bool, int, int) = 0;
+	virtual void setChar(const uint8_t*, bool, int, int) = 0;
 	virtual int getDLen() = 0;
 	virtual void print() = 0;
 };

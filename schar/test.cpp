@@ -11,12 +11,14 @@ int main(){
 	SCHAR* a = new UTF8SCHAR("繽紛");
 	SCHAR* b = new UTF8SCHAR("紛");
 	UTF8SCHAR d("景");
-	SCHAR* c = new UTF8SCHAR(d);
+	SCHAR* c = &d;
 	
 	a->print();
 	b->print();
 	c->print();
 	cout << endl;
+	
+	cout << d;
 	
 	if (*a == *b)
 		cout << "相同" << endl;
