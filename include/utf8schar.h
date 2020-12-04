@@ -17,20 +17,30 @@
   #define UTF8MAXLEN 7
 #endif
 
+using namespace std;
 using namespace utf8;
 
 class UTF8SCHAR : public SCHAR {
+protected:
+  // 字元編碼
+	uint8_t mCode[UTF8MAXLEN];
+	
 public:
   UTF8SCHAR();
-	UTF8SCHAR(int pFColor, int pBColor=0);
+	UTF8SCHAR(int, int pBColor=0);
 	UTF8SCHAR(const UTF8SCHAR& p);
 	UTF8SCHAR(const char* p);
+	UTF8SCHAR(const char* p, int, int pBColor=0);
 	friend std::ostream& operator<<(std::ostream& s, UTF8SCHAR p);
+	
+	// 運算子重載
+	UTF8SCHAR& operator=(const UTF8SCHAR& rhs);
+	bool operator==(const UTF8SCHAR& rhs);
 	
 	// 重載父類別虛擬函數
 	void setChar(const uint8_t*, bool, int, int) override;
-	int getDLen() override;
-	void print() override;
+	int getDisplayLength() override;
+	void printMember() override;
 };
 
 #endif

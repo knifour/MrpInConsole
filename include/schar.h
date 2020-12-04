@@ -5,9 +5,9 @@
 #include <stdint.h>
 #include <iostream>
 
-#define __UNICODE_BMP
+// #define __UNICODE_BMP
 
-#ifdef __UNICODE_BMP
+/*#ifdef __UNICODE_BMP
   // 如果定義了基本多文種平面(BMP)，表示只支援原始定義的Unicode文字(後來加入的Unicode字元都不支援)
 	// 則將UTF8最大長度設定為4(含字串結束字元0)
   #define MAXBYTES 4
@@ -15,12 +15,10 @@
   // 如果未定義基本文種平面的話將支援所有Unicode定義的文字
   // 則將UTF8最大長度設定為7(含字串結束字元0)
   #define MAXBYTES 7  
-#endif
+#endif*/
 
 class SCHAR {
 protected:
-	// 螢幕字元編碼
-  uint8_t mCode[MAXBYTES];
 	// 螢幕字元是否有效(通常是寬字元的下一字)
   bool mValid;
 	// 是否畫底線
@@ -53,13 +51,13 @@ public:
 	int getBColor(void);
 	
 	// 運算子重載
-	void operator=(const SCHAR& rhs);
-	bool operator==(const SCHAR& rhs);
+	// void operator=(const SCHAR& rhs);
+	// bool operator==(const SCHAR& rhs);
 	
 	// 純虛擬函數
 	virtual void setChar(const uint8_t*, bool, int, int) = 0;
-	virtual int getDLen() = 0;
-	virtual void print() = 0;
+	virtual int getDisplayLength() = 0;
+	virtual void printMember() = 0;
 };
 
 #endif

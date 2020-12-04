@@ -7,34 +7,23 @@
 using namespace std;
 
 int main(){
-	uint8_t tmp[] = "紛";
-	SCHAR* a = new UTF8SCHAR("繽紛");
-	SCHAR* b = new UTF8SCHAR("紛");
-	UTF8SCHAR d("景");
-	SCHAR* c = &d;
+	UTF8SCHAR a("繽",  9, 4);
+	UTF8SCHAR b("紛",  9, 4);
+	UTF8SCHAR c("景",  9, 4);
+	UTF8SCHAR d("觀",  9, 4);
 	
-	a->print();
-	b->print();
-	c->print();
-	cout << endl;
+	a.printMember();
+	b.printMember();
+	c.printMember();
+	d.printMember();
 	
-	cout << d;
-	
-	if (*a == *b)
-		cout << "相同" << endl;
-	else
-		cout << "不同" << endl;
-	
-	*a = *b;
-	
-	a->print();
-	b->print();
-	cout << endl;
-	
-	if (*a == *b)
-		cout << "相同" << endl;
-	else
-		cout << "不同" << endl;
+	if (a == c)
+	  cout << "a與c相同" << endl;
+		
+	if (b == d)
+	  cout << "b與d相同" << endl;
+		
+	cout << a << b << c << d << endl;
 	
 	return 0;
 }

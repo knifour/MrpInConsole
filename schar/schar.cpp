@@ -9,7 +9,7 @@ SCHAR::SCHAR(){
 }
 
 // 複製螢幕字元
-void SCHAR::operator=(const SCHAR& rhs){
+/*void SCHAR::operator=(const SCHAR& rhs){
 	mValid = rhs.mValid;
 	mUnderLine = rhs.mUnderLine;
 	mFColor = rhs.mFColor;
@@ -35,7 +35,7 @@ bool SCHAR::operator==(const SCHAR& rhs){
 	}
 	
 	return result;
-}
+}*/
 
 // 判斷是否為有效字元
 bool SCHAR::isValid(void){
