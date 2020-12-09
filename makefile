@@ -25,7 +25,7 @@ utf8.o: $(dir0)/utf8/utf8.cpp $(dir0)/include/utf8.h
 schar.o: $(dir0)/schar/schar.cpp $(dir0)/include/schar.h
 	$(cc) $(CFLAGS) $(dir0)/schar/schar.cpp
         
-utf8schar.o: $(dir0)/schar/utf8schar.cpp $(dir0)/include/utf8schar.h
+utf8schar.o: $(dir0)/schar/utf8schar.cpp $(dir0)/include/schar.h $(dir0)/include/utf8schar.h
 	$(cc) $(CFLAGS) $(dir0)/schar/utf8schar.cpp     
         
 screen.o: $(dir0)/screen/screen.cpp $(dir0)/include/screen.h

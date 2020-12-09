@@ -12,6 +12,10 @@ int main(){
 	UTF8SCHAR c("景",  9, 4);
 	UTF8SCHAR d("觀",  9, 4);
 	
+	b.setFColor(ATTR::HYELLOW);
+	c.setBColor(ATTR::RED);
+	c.setFColor(ATTR::HWHITE);
+	
 	a.printMember();
 	b.printMember();
 	c.printMember();

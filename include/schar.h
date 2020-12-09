@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <iostream>
 
-// #define __UNICODE_BMP
+#define __UNICODE_BMP
 
 /*#ifdef __UNICODE_BMP
   // 如果定義了基本多文種平面(BMP)，表示只支援原始定義的Unicode文字(後來加入的Unicode字元都不支援)
