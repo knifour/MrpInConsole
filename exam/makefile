@@ -53,8 +53,8 @@ modify.o: modify.cpp
 nnpra: nnpra.o
 	$(cc) $(LFLAGS) -o nnpra nnpra.o
 
-nnpra.o: nnpra.cpp
-	$(cc) $(CFLAGS) nnpra.cpp nnpra.h
+nnpra.o: nnpra.cpp nnpra.h
+	$(cc) $(CFLAGS) nnpra.cpp
  
 clean:
 	rm *.o
