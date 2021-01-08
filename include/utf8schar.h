@@ -39,6 +39,7 @@ public:
 	
 	// 重載父類別虛擬函數
 	void setChar(const uint8_t*, bool, int, int) override;
+	std::string getChar() override;
 	int getDisplayLength() override;
 	void printMember() override;
 };

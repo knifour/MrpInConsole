@@ -84,6 +84,10 @@ void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
 	mBColor = p3;
 }
 
+string UTF8SCHAR::getChar(){
+	return string((char*)mCode);
+}
+
 int UTF8SCHAR::getDisplayLength(){
 	return getFirstDisplayLength(mCode);
 }

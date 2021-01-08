@@ -42,6 +42,10 @@ bool SCHAR::isValid(void){
 	return mValid;
 }
 
+bool SCHAR::getUnderLine(void){
+	return mUnderLine;
+}
+
 // 設定是否為有效字元
 void SCHAR::setValid(const bool p){
 	mValid = p;

@@ -4,6 +4,7 @@
 #include <attr.h>
 #include <stdint.h>
 #include <iostream>
+#include <string>
 
 #define __UNICODE_BMP
 
@@ -35,6 +36,8 @@ public:
 	bool isValid(void);
 	// 設定此字元是否為有效螢幕字元
 	void setValid(const bool);
+	// 取得是否畫底線
+	bool getUnderLine();
 	// 設定是否畫底線
 	void setUnderLine(bool);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
@@ -56,6 +59,7 @@ public:
 	
 	// 純虛擬函數
 	virtual void setChar(const uint8_t*, bool, int, int) = 0;
+	virtual std::string getChar() = 0;
 	virtual int getDisplayLength() = 0;
 	virtual void printMember() = 0;
 };

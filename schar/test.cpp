@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void printChar(UTF8SCHAR);
+
 int main(){
 	UTF8SCHAR a("繽",  9, 4);
 	UTF8SCHAR b("紛",  9, 4);
@@ -29,5 +31,28 @@ int main(){
 		
 	cout << a << b << c << d << endl;
 	
+	printChar(a);
+	printChar(b);
+	printChar(c);
+	printChar(d);
+	cout << endl;
+	
 	return 0;
+}
+
+void printChar(UTF8SCHAR c){
+	char Buf[20];
+	
+	if (c.isValid()){
+		if (c.getUnderLine())
+			cout << "\x1B[4m";
+	  else
+			cout << "\x1B[24m";
+	}
+		
+	  sprintf(Buf, "\x1B[48;5;%dm", c.getBColor());
+		cout << Buf;
+		sprintf(Buf, "\x1B[38;5;%dm", c.getFColor());
+	  cout << Buf;
+    cout << c.getChar() << "\x1B[0m";
 }
