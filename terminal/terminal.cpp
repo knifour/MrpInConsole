@@ -1,6 +1,6 @@
 #include <terminal.h>
 
-TERMINAL::TERMINAL{
+TERMINAL::TERMINAL(){
 	getConsoleSize();
 	createBuffer();
   init();
@@ -42,9 +42,9 @@ void TERMINAL::getConsoleSize(){
 	
 	// ioctl()       需要include <sys/ioctl.h>
 	// STDOUT_FILENO 需要include <unistd.h>
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &size); /
-	mLIN = size.ws_row;
-	mCOL = size.ws_col;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+	mLINS = size.ws_row;
+	mCOLS = size.ws_col;
 }
 
 void TERMINAL::createBuffer(void){
@@ -118,9 +118,9 @@ void TERMINAL::locate(int pLin, int pCol){
 	char Buf[10];
 	
 	if (pLin < 1) mCurLin = 1;
-	if (pLin > LINS) mCurLin = LINS;
+	if (pLin > mLINS) mCurLin = mLINS;
 	if (pCol < 1) mCurCol = 1;
-	if (pCol > COLS) mCurCol = COLS;
+	if (pCol > mCOLS) mCurCol = mCOLS;
 	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
 	cout << Buf;
 }

@@ -48,13 +48,13 @@ public:
 	// 重設所有屬性(包括顏色)
 	void resetAttr(void);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
-	setFColor(int);
+	void setFColor(int);
 	// 以RGB設定前景色，RGB值為0~5
-	stFColor(int, int, int);
+	void setFColor(int, int, int);
 	// 以顏色代碼設定背景色，顏色代碼超出範圍無效
-	setBColor(int);
+	void setBColor(int);
 	// 以RGB設定背景色，RGB值為0~5
-	setBColor(int, int, int);
+	void setBColor(int, int, int);
 	// 設定是否畫底線
 	void setUnderLine(bool);
 	// 取得終端機列數
@@ -62,9 +62,9 @@ public:
 	// 取得終端機行數
 	int getCOLS();
 	// 清除終端機
-	int cls();
+	void cls();
 	// 設定游標位置(超出終端機範圍無效，且傳回false)
 	void locate(int, int);
-}
+};
 
 #endif

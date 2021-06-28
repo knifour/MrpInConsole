@@ -22,5 +22,6 @@ ncurses/twinkle
 ncurses/win
 schar/test
 screen/test
+terminal/terminal
 twindow/test
 util/test
