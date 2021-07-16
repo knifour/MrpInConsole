@@ -5,6 +5,7 @@
 *.a
 
 #忽略專案所有執行檔
+ctest/test
 dtime/test
 exam/test
 exam/keypad
