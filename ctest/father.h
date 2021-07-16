@@ -10,9 +10,14 @@ protected:
 public:
 	FATHER();
   
-	void setValue(int);
-	bool operator==(const FATHER& rhs);
-	void printMember();
+	void setBase(int);
+	virtual bool operator==(const FATHER& rhs) = 0;
+	virtual FATHER& operator=(const FATHER& rhs) = 0;
+	virtual void printMember() = 0;
+	
+	virtual void setSon(int) = 0;
+	int getBase() const;
+	virtual int getSon() const = 0;
 };
 
 #endif

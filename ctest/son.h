@@ -10,10 +10,12 @@ protected:
 public:
 	SON();
 	
-	void setValue(int);
+	void setSon(int) override;
 	
-	bool operator==(const SON& rhs);
-	void printMember();
+	bool operator==(const FATHER& rhs) override;
+	FATHER& operator=(const FATHER& rhs) override;
+	void printMember() override;
+	int getSon() const override;
 };
 
 #endif

@@ -7,11 +7,11 @@ FATHER::FATHER(){
 	mBase = 35;
 }
 
-void FATHER::setValue(int value){
+void FATHER::setBase(int value){
 	mBase = value;
 }
 
-bool FATHER::operator==(const FATHER& rhs){
+/*bool FATHER::operator==(const FATHER& rhs){
 	if (mBase == rhs.mBase)
 		return true;
 	else
@@ -20,4 +20,8 @@ bool FATHER::operator==(const FATHER& rhs){
 
 void FATHER::printMember(){
 	cout << "Father: " << mBase << endl;
+}*/
+
+int FATHER::getBase() const{
+	return mBase;
 }
