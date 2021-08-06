@@ -8,41 +8,12 @@ SCHAR::SCHAR(){
 	mBColor = 0;
 }
 
-// 複製螢幕字元
-/*void SCHAR::operator=(const SCHAR& rhs){
-	mValid = rhs.mValid;
-	mUnderLine = rhs.mUnderLine;
-	mFColor = rhs.mFColor;
-	mBColor = rhs.mBColor;
-	
-	// 確保在有效字元編碼之後都是0
-	for(int k=0; k<MAXBYTES; k++) mCode[k]=0;
-	
-	for(int k=0; k<MAXBYTES; k++) mCode[k] = rhs.mCode[k];
-}
-
-// 判斷兩螢幕字元是否相等(字元編碼完全相同即視為相等)
-bool SCHAR::operator==(const SCHAR& rhs){
-	bool result = true;
-	
-	for(int k=0; k<MAXBYTES; k++){
-		if (mCode[k]==0 || rhs.mCode[k]==0)
-			break;
-		if (mCode[k] != rhs.mCode[k]){
-			result = false;
-			break;
-		}
-	}
-	
-	return result;
-}*/
-
 // 判斷是否為有效字元
-bool SCHAR::isValid(void){
+bool SCHAR::isValid(void) const{
 	return mValid;
 }
 
-bool SCHAR::getUnderLine(void){
+bool SCHAR::getUnderLine(void) const{
 	return mUnderLine;
 }
 
@@ -79,11 +50,11 @@ void SCHAR::setBColor(int r, int g, int b){
 }
 
 // 取得前景色
-int SCHAR::getFColor(void){
+int SCHAR::getFColor(void) const{
 	return mFColor;
 }
 
 // 取得背景色
-int SCHAR::getBColor(void){
+int SCHAR::getBColor(void) const{
 	return mBColor;
 }

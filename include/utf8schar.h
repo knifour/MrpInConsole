@@ -34,14 +34,15 @@ public:
 	friend std::ostream& operator<<(std::ostream& s, UTF8SCHAR p);
 	
 	// 運算子重載
-	UTF8SCHAR& operator=(const UTF8SCHAR& rhs);
-	bool operator==(const UTF8SCHAR& rhs);
+	SCHAR& operator=(const SCHAR& rhs) override;
+	bool operator==(const SCHAR& rhs) override;
 	
 	// 重載父類別虛擬函數
 	void setChar(const uint8_t*, bool, int, int) override;
-	std::string getChar() override;
+	std::string getChar() const override;
 	int getDisplayLength() override;
 	void printMember() override;
+	void printChar() override;
 };
 
 #endif

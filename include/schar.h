@@ -33,11 +33,11 @@ public:
 	// 無參數建構式
   SCHAR();
 	// 是否為有效螢幕字元
-	bool isValid(void);
+	bool isValid(void) const;
 	// 設定此字元是否為有效螢幕字元
 	void setValid(const bool);
 	// 取得是否畫底線
-	bool getUnderLine();
+	bool getUnderLine() const;
 	// 設定是否畫底線
 	void setUnderLine(bool);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
@@ -49,19 +49,20 @@ public:
 	// 以RGB設定前景色，RGB值為0~5
 	void setBColor(int, int, int);
 	// 取得前景色
-	int getFColor(void);
+	int getFColor(void) const;
 	// 取得背景色
-	int getBColor(void);
-	
-	// 運算子重載
-	// void operator=(const SCHAR& rhs);
-	// bool operator==(const SCHAR& rhs);
+	int getBColor(void) const;
 	
 	// 純虛擬函數
+	// 運算子重載
+	virtual SCHAR& operator=(const SCHAR& rhs) = 0;
+	virtual bool operator==(const SCHAR& rhs) = 0;
+	
 	virtual void setChar(const uint8_t*, bool, int, int) = 0;
-	virtual std::string getChar() = 0;
+	virtual std::string getChar() const = 0;
 	virtual int getDisplayLength() = 0;
 	virtual void printMember() = 0;
+	virtual void printChar() = 0;
 };
 
 #endif

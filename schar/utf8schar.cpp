@@ -84,7 +84,7 @@ void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
 	mBColor = p3;
 }
 
-string UTF8SCHAR::getChar(){
+string UTF8SCHAR::getChar() const{
 	return string((char*)mCode);
 }
 
@@ -92,22 +92,24 @@ int UTF8SCHAR::getDisplayLength(){
 	return getFirstDisplayLength(mCode);
 }
 
-UTF8SCHAR& UTF8SCHAR::operator=(const UTF8SCHAR& p){
-	mValid = p.mValid;
-	mUnderLine = p.mUnderLine;
-	mFColor = p.mFColor;
-	mBColor = p.mBColor;
-	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = p.mCode[i];
+SCHAR& UTF8SCHAR::operator=(const SCHAR& rhs){
+	mValid = rhs.isValid();
+	mUnderLine = rhs.getUnderLine();
+	mFColor = rhs.getFColor();
+	mBColor = rhs.getBColor();
+	const string buf = rhs.getChar();
+	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = (uint8_t)buf[i];
 	return *this;
 }
 
-bool UTF8SCHAR::operator==(const UTF8SCHAR& rhs){
+bool UTF8SCHAR::operator==(const SCHAR& rhs){
 	bool result = true;
 	
+	const string buf = rhs.getChar();
 	for (int k=0; k<UTF8MAXLEN; k++){
-		if (mCode[k]==0 || rhs.mCode[k]==0)
+		if (mCode[k]==0 || buf[k]==0)
 			break;
-		if (mCode[k] != rhs.mCode[k]){
+		if (mCode[k] != (uint8_t)buf[k]){
 		  result = false;
 			break;
 		}
@@ -116,11 +118,21 @@ bool UTF8SCHAR::operator==(const UTF8SCHAR& rhs){
 	return result;
 }
 
+void UTF8SCHAR::printMember(){
+	cout << "Valid:" << ((mValid) ? "true" : "false") << endl;
+	cout << "UnderLine:" << ((mUnderLine) ? "true" : "false") << endl;
+	cout << "FColor:" << mFColor << endl;
+	cout << "BColor:" << mBColor << endl;
+	for (int i=0; i<UTF8MAXLEN; i++)
+	  printf("%02X ", mCode[i]);
+	cout << endl << endl;
+}
+
 /* 依照字元本身的前景、背景顏色及是否有底線屬性印出字元 */
 /* 呼叫者須自行控制游標位置 */
 /* 列印後預設的前景、背景顏色及底線屬性會被修改成本字元所有屬性 */
 /* 呼叫者須自行恢復預設的前景、背景顏色及底線屬性 */
-/*void UTF8SCHAR::print(){
+void UTF8SCHAR::printChar(){
 	char Buf[20];
 	
 	if (!mValid)
@@ -137,16 +149,6 @@ bool UTF8SCHAR::operator==(const UTF8SCHAR& rhs){
 		sprintf(Buf, "\x1B[38;5;%dm", mFColor);
 	  std::cout << Buf << mCode;
 	}
-}*/
-
-void UTF8SCHAR::printMember(){
-	cout << "Valid:" << ((mValid) ? "true" : "false") << endl;
-	cout << "UnderLine:" << ((mUnderLine) ? "true" : "false") << endl;
-	cout << "FColor:" << mFColor << endl;
-	cout << "BColor:" << mBColor << endl;
-	for (int i=0; i<UTF8MAXLEN; i++)
-	  printf("%02X ", mCode[i]);
-	cout << endl << endl;
 }
 
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
