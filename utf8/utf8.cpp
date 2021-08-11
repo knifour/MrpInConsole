@@ -51,11 +51,9 @@ bool isUtf8(const uint8_t* str){
 	  if (len==0)
 		  return false;
 		
-		
 	  for (int i=1; i<len; i++){
 		  temp = (str[s+i]>>6)^0x02;
 		  if (temp != 0){
-				printf("i=%d\n", i);
 			  return false;
 			}
 	  }
