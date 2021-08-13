@@ -224,7 +224,7 @@ void SCREEN::print(uint8_t *p){
 		for (j=StartCol; j<=EndCol; j++){
 			locate(lin, j);
 			setSP(lin, j);
-			sp->print();
+			sp->printChar();
 		}
 		locate(lin, j);
 	}
@@ -264,7 +264,7 @@ void SCREEN::refresh(void){
 		for (int j=1; j<=COLS; j++){
 			locate(i, j);
 			if (setSP(i, j)){
-			  sp->print();
+			  sp->printChar();
 			}
 		}
 	locate(OldLin, OldCol);
@@ -295,7 +295,7 @@ void SCREEN::refresh(int pLin, int pStrCol, int pEndCol){
 	for (int j=pStrCol; j<=pEndCol; j++){
 		locate(pLin, j);
 		if (setSP(pLin, j))
-			sp->print();
+			sp->printChar();
 	}	
 	
 	locate(OldLin, OldCol);
@@ -504,10 +504,7 @@ bool SCREEN::getNextPos(int &pCol){
 }
 
 bool SCREEN::isWideHead(){
-	int len;
-	
-	len = sp->getDLen();
-	if (len == 2)
+	if (sp->isWide())
 		return true;
 	else
 		return false;

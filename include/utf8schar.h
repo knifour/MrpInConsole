@@ -43,6 +43,7 @@ public:
 	int getDisplayLength() override;
 	void printMember() override;
 	void printChar() override;
+	bool isWide() override;
 };
 
 #endif

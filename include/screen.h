@@ -7,6 +7,7 @@
 #include <attr.h>
 #include <utf8schar.h>
 #include <fstream>
+#include <utf8.h>
 
 using namespace std;
 

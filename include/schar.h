@@ -63,6 +63,7 @@ public:
 	virtual int getDisplayLength() = 0;
 	virtual void printMember() = 0;
 	virtual void printChar() = 0;
+	virtual bool isWide() = 0;
 };
 
 #endif

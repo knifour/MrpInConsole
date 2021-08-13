@@ -151,6 +151,14 @@ void UTF8SCHAR::printChar(){
 	}
 }
 
+/* 判斷該字元是否屬於寬字元 */
+bool UTF8SCHAR::isWide(){
+	if (getFirstDisplayLength(mCode)==2)
+		return true;
+	else
+		return false;
+}
+
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
 	char Buf[20];
 	
