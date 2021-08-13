@@ -88,7 +88,7 @@ string UTF8SCHAR::getChar() const{
 	return string((char*)mCode);
 }
 
-int UTF8SCHAR::getDisplayLength(){
+int UTF8SCHAR::getDisplayLength() const{
 	return getFirstDisplayLength(mCode);
 }
 
@@ -102,7 +102,7 @@ SCHAR& UTF8SCHAR::operator=(const SCHAR& rhs){
 	return *this;
 }
 
-bool UTF8SCHAR::operator==(const SCHAR& rhs){
+bool UTF8SCHAR::operator==(const SCHAR& rhs) const{
 	bool result = true;
 	
 	const string buf = rhs.getChar();
@@ -118,7 +118,7 @@ bool UTF8SCHAR::operator==(const SCHAR& rhs){
 	return result;
 }
 
-void UTF8SCHAR::printMember(){
+void UTF8SCHAR::printMember() const {
 	cout << "Valid:" << ((mValid) ? "true" : "false") << endl;
 	cout << "UnderLine:" << ((mUnderLine) ? "true" : "false") << endl;
 	cout << "FColor:" << mFColor << endl;
@@ -132,7 +132,7 @@ void UTF8SCHAR::printMember(){
 /* 呼叫者須自行控制游標位置 */
 /* 列印後預設的前景、背景顏色及底線屬性會被修改成本字元所有屬性 */
 /* 呼叫者須自行恢復預設的前景、背景顏色及底線屬性 */
-void UTF8SCHAR::printChar(){
+void UTF8SCHAR::printChar() const {
 	char Buf[20];
 	
 	if (!mValid)
@@ -152,7 +152,7 @@ void UTF8SCHAR::printChar(){
 }
 
 /* 判斷該字元是否屬於寬字元 */
-bool UTF8SCHAR::isWide(){
+bool UTF8SCHAR::isWide() const{
 	if (getFirstDisplayLength(mCode)==2)
 		return true;
 	else

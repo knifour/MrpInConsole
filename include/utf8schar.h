@@ -35,15 +35,15 @@ public:
 	
 	// 運算子重載
 	SCHAR& operator=(const SCHAR& rhs) override;
-	bool operator==(const SCHAR& rhs) override;
+	bool operator==(const SCHAR& rhs) const override;
 	
 	// 重載父類別虛擬函數
 	void setChar(const uint8_t*, bool, int, int) override;
 	std::string getChar() const override;
-	int getDisplayLength() override;
-	void printMember() override;
-	void printChar() override;
-	bool isWide() override;
+	int getDisplayLength() const override;
+	void printMember() const override;
+	void printChar() const override;
+	bool isWide() const override;
 };
 
 #endif

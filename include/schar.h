@@ -56,14 +56,14 @@ public:
 	// 純虛擬函數
 	// 運算子重載
 	virtual SCHAR& operator=(const SCHAR& rhs) = 0;
-	virtual bool operator==(const SCHAR& rhs) = 0;
+	virtual bool operator==(const SCHAR& rhs) const = 0;
 	
 	virtual void setChar(const uint8_t*, bool, int, int) = 0;
 	virtual std::string getChar() const = 0;
-	virtual int getDisplayLength() = 0;
-	virtual void printMember() = 0;
-	virtual void printChar() = 0;
-	virtual bool isWide() = 0;
+	virtual int getDisplayLength() const = 0;
+	virtual void printMember() const = 0;
+	virtual void printChar() const = 0;
+	virtual bool isWide() const = 0;
 };
 
 #endif
