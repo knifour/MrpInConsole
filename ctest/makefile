@@ -1,18 +1,19 @@
 cc=g++
 CFLAGS=-c -std=c++11 -fPIC -D_GNU_SOURCE
-LFLAGS=-L..
-
-father.o: father.cpp
-	$(cc) $(CFLAGS) father.cpp
-	
-son.o: son.cpp
-	$(cc) $(CFLAGS) son.cpp	
-	
-test.o: test.cpp
-	$(cc) $(CFLAGS) test.cpp
+LFLAGS=
+OBJS=test.o father.o son.o
 
 test: test.o father.o son.o
-	$(cc) $(LFLAGS) -o test test.o father.o son.o
+	$(cc) -o $@ $(OBJS) $(LFLAGS)
 	
+father.o: father.cpp
+	$(cc) $(CFLAGS) $<
+	
+son.o: son.cpp
+	$(cc) $(CFLAGS) $<
+	
+test.o: test.cpp
+	$(cc) $(CFLAGS) $<
+
 clean:
 	rm *.o

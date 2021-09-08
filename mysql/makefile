@@ -5,10 +5,10 @@ CFLAGS=$(imysql) -I../include
 LFLAGS=-L.. -lknifour $(lmysql)
 
 myhello: myhello.o ../libknifour.a
-	$(cc) -o myhello myhello.o $(LFLAGS)
+	$(cc) -o $@ $< $(LFLAGS)
 	
 myhello.o: myhello.cpp
-	$(cc) $(CFLAGS) -c myhello.cpp
+	$(cc) $(CFLAGS) -c $<
 	
 clean:
 	rm myhello
