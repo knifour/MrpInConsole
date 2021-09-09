@@ -23,6 +23,8 @@ int main(){
 	c->printMember();
 	d->printMember();
 	
+	*a = *c;
+	
 	if (*a == *c)
 	  cout << "a與c相同" << endl;
 		

@@ -12,7 +12,7 @@ int main(void){
 	string target = "(uint8_t*)";
 	string replace = "(string&)";
 	
-  a = replaceStr(a, target, replace);	
+  a = replaceStr(a, target, replace, false);	
 	cout << a << endl;
 	
 	return 0;
