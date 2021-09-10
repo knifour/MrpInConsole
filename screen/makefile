@@ -1,12 +1,12 @@
 cc=g++
 CFLAGS=-c -std=c++11 -fPIC -D_GNU_SOURCE -I../include
-LFLAGS=-L..
+LFLAGS=-L.. -lknifour
 
 test: test.o ../libknifour.a
-	$(cc) $(LFLAGS) -o test test.o -lknifour
+	$(cc) -o $@ $< $(LFLAGS)
 	
 test.o: test.cpp
-	$(cc) $(CFLAGS) test.cpp
+	$(cc) $(CFLAGS) $<
 	
 clean:
 	rm *.o
