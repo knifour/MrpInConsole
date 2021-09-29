@@ -14,7 +14,8 @@ int main(){
 	SCHAR* c = new UTF8SCHAR("景",  9, 4);
 	SCHAR* d = new UTF8SCHAR("觀",  9, 4);
 	
-	b->setFColor(ATTR::HYELLOW);
+	b->setFColor(ATTR::RED);
+	b->setUnderLine(true);
 	c->setBColor(ATTR::RED);
 	c->setFColor(ATTR::HWHITE);
 	
@@ -22,8 +23,6 @@ int main(){
 	b->printMember();
 	c->printMember();
 	d->printMember();
-	
-	*a = *c;
 	
 	if (*a == *c)
 	  cout << "a與c相同" << endl;
@@ -43,7 +42,7 @@ int main(){
 }
 
 void printChar(SCHAR* c){
-	char Buf[20];
+	char Buf[60];
 	
 	if (c->isValid()){
 		if (c->getUnderLine())
@@ -52,9 +51,12 @@ void printChar(SCHAR* c){
 			cout << "\x1B[24m";
 	}
 		
-	  sprintf(Buf, "\x1B[48;5;%dm", c->getBColor());
-		cout << Buf;
-		sprintf(Buf, "\x1B[38;5;%dm", c->getFColor());
-	  cout << Buf;
-    cout << c->getChar() << "\x1B[0m";
+	/*sprintf(Buf, "\x1B[48;5;%dm", c->getBColor());
+	cout << Buf;
+	sprintf(Buf, "\x1B[38;5;%dm", c->getFColor());
+	 cout << Buf;
+   cout << c->getChar() << "\x1B[0m";*/
+		
+	sprintf(Buf, "\x1B[48;5;%dm\x1B[38;5;%dm%s\x1B[0m", c->getBColor(), c->getFColor(), c->getChar().c_str());
+	cout << Buf;	
 }
