@@ -4,7 +4,7 @@
 using namespace std;
 
 FATHER::FATHER(){
-	mBase = 35;
+	mBase = 65;
 }
 
 void FATHER::setBase(int value){

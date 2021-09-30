@@ -11,11 +11,13 @@ public:
 	SON();
 	
 	void setSon(int) override;
+	void setGrandSon(int);
 	
 	bool operator==(const FATHER& rhs) override;
 	FATHER& operator=(const FATHER& rhs) override;
 	void printMember() override;
 	int getSon() const override;
+	int getGrandSon() const;
 };
 
 #endif

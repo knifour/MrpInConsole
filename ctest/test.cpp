@@ -1,19 +1,19 @@
-#include "son.h"
+#include "grandson.h"
 #include <iostream>
 
 using namespace std;
 
 int main(void){
-	FATHER *p1 = new SON();
-	FATHER *p2 = new SON();
-	FATHER *p3 = new SON();
+	FATHER *p1 = new GRANDSON();
+	FATHER *p2 = new GRANDSON();
+	FATHER *p3 = new GRANDSON();
 	
 	if (*p1 == *p2)
 		cout << "The same" << endl;
 	else
 		cout << "Not equal" << endl;
 	
-	p2->setSon(8);
+	p2->setGrandSon(8);
 	
 	if (*p1 == *p2)
 		cout << "The same" << endl;

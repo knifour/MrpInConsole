@@ -16,8 +16,10 @@ public:
 	virtual void printMember() = 0;
 	
 	virtual void setSon(int) = 0;
+	virtual void setGrandSon(int) = 0;
 	int getBase() const;
 	virtual int getSon() const = 0;
+	virtual int getGrandSon() const = 0;
 };
 
 #endif

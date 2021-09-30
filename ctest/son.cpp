@@ -4,11 +4,15 @@
 using namespace std;
 
 SON::SON(){
-	mSon = 10;
+	mSon = 40;
 }
 
 void SON::setSon(int value){
 	mSon = value;
+}
+
+void SON::setGrandSon(int value){
+	
 }
 
 bool SON::operator==(const FATHER& rhs){
@@ -34,4 +38,8 @@ void SON::printMember(){
 
 int SON::getSon() const {
 	return mSon;
+}
+
+int SON::getGrandSon() const{
+	return 0;
 }
