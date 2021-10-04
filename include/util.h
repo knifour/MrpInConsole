@@ -9,6 +9,9 @@
 #include <string.h>
 #include <wide.h>
 
+void initTermios(int);
+void resetTermios(void);
+
 /* 等待輸入，不顯示輸入字元 */
 char getch(void); 
 

@@ -7,6 +7,7 @@ int main(void){
 	FATHER *p1 = new GRANDSON();
 	FATHER *p2 = new GRANDSON();
 	FATHER *p3 = new GRANDSON();
+	FATHER *p4 = new SON();
 	
 	if (*p1 == *p2)
 		cout << "The same" << endl;
@@ -14,6 +15,7 @@ int main(void){
 		cout << "Not equal" << endl;
 	
 	p2->setGrandSon(8);
+	p4->setSon(38);
 	
 	if (*p1 == *p2)
 		cout << "The same" << endl;
@@ -30,6 +32,7 @@ int main(void){
 	p1->printMember();
 	p2->printMember();
 	p3->printMember();
+	p4->printMember();
 	
 	return 0;
 }
