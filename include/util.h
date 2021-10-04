@@ -3,6 +3,9 @@
 
 #include <string>
 #include <stdint.h>
+#include <sys/select.h>
+#include <termios.h>
+#include <sys/ioctl.h>
 #include <keypad.h>
 #include <iconv.h>
 #include <stdio.h>
@@ -11,6 +14,7 @@
 
 void initTermios(int);
 void resetTermios(void);
+int _kbhit(void);
 
 /* 等待輸入，不顯示輸入字元 */
 char getch(void); 
