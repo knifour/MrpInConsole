@@ -4,49 +4,45 @@
  */
 #include <stdio.h>
 #include <util.h>
-/*#include <stropts.h>*/
-
 #include <unistd.h>
+#include <iostream>
+#include <string>
+#include <kbmap.h>
+
+using namespace std;
+
+string getKeycode(int);
 
 int main(int argc, char** argv) {
-	  int b;
-		unsigned char c[5];
+	int b;
+	string temp;
+	
+  printf("Press any key\n");
+	fflush(stdout);
+	initTermios(0);
+  while (!(b=_kbhit())) {
+    /*printf(".");
+    fflush(stdout); */
+    usleep(1000);
+  }
+	resetTermios();
 		
-    printf("Press any key\n");
-		fflush(stdout);
-    while (!(b=_kbhit())) {
-        /*printf(".");
-        fflush(stdout);
-        usleep(1000);*/
-    }
-		resetTermios();
-		switch(b){
-		case 1:
-		  c[0] = getch();
-			if (c[0]==127||c[0]<32)
-				printf("特殊按鍵，代號%d\n", c[0]);
-		  else
-				printf("%c", c[0]);
-			break;
-		case 2:
-		  c[0] = getch();
-			c[1] = getch();
-			printf("%x, %x", c[0], c[1]);
-			break;
-		case 3:
-		  c[0] = getch();
-			c[1] = getch();
-			c[2] = getch();
-			printf("%x %x %x", c[0], c[1], c[2]);
-			break;
-		case 4:
-		  c[0] = getch();
-			c[1] = getch();
-			c[2] = getch();
-			c[3] = getch();
-			printf("%x %x %x %x", c[0], c[1], c[2], c[3]);
-			break;
-		};
-
-    return 0;
-} 
+	string key = getKeycode(b);
+	
+	bool match = false;
+	for (int i=0; i<MAPLENGTH; i++){
+		if (key.compare(KEYMAP[i])==0){
+			cout << i << endl;
+			match = true;
+		}
+	}
+	
+	if (!match){
+		cout << "按鍵代碼：";
+		for (int i=0; i<key.length(); i++)
+			printf("%x ",key[i]);
+	  cout << endl;
+	}
+		
+  return 0;
+}

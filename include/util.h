@@ -6,15 +6,32 @@
 #include <sys/select.h>
 #include <termios.h>
 #include <sys/ioctl.h>
-#include <keypad.h>
 #include <iconv.h>
 #include <stdio.h>
 #include <string.h>
 #include <wide.h>
 
+using namespace std;
+
+/* 初始化Termios，傳入0可抑制按鍵顯示在螢幕上，程式結束前務必使用resetTermios恢復按鍵顯示 */
 void initTermios(int);
+
+/* 若有使用initTermios抑制按鍵顯示，結束前務必呼叫此函式 */
 void resetTermios(void);
+
+/* 偵測是否有按鍵輸入(不會等待使用者按鍵)，回傳值為等待讀取的按鍵數 */
+/* 如果不希望使用者的按鍵顯示在螢幕上，務必呼叫initTermios(0)抑制螢幕輸出 */
+/* 結束後務必呼叫resetTermios()恢復螢幕輸出 */
 int _kbhit(void);
+
+/* 以_kbhit偵測到使用者按鍵後，以此函式讀取使用者按鍵值，並以string的形式回傳按鍵值 */
+/* 傳入值為以_kbhit偵測到的按鍵數量 */
+string getKeycode(int);
+
+/* 等待使用者輸入按鍵 */
+/* 若傳回true表示傳址參數string回傳值為特殊按鍵    */
+/* 若傳回false表示傳址參數string回傳值為該按鍵字元 */
+bool inKey(string&);
 
 /* 等待輸入，不顯示輸入字元 */
 char getch(void); 
@@ -23,7 +40,7 @@ char getch(void);
 char getche(void); 
 
 /* 等待輸入，不顯示輸入字元，會處理特殊鍵 */
-char input(int&);  
+/* char input(int&); */
 
 /* 顯示游標 */
 void showCursor(void); 

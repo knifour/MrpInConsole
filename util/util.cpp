@@ -3,15 +3,68 @@
 #include <stdio.h>
 #include <typeinfo>
 #include <util.h>
+#include <unistd.h>
+#include <kbmap.h>
 
 static struct termios old, current;
 
+string KEYMAP[] = {
+	"",
+	"\x01\0",            /* Control-A */
+	"\x02\0",
+	"\x03\0",            /* Control-C : useless */
+	"\x04\0",
+	"\x05\0",
+	"\x06\0",
+	"\x07\0",
+	"\x08\0",
+	"\x09\0",            /* TAB */
+	"\x0A\0",            /* Control-J or ENTER */
+	
+	"\x0B\0",
+	"\x0C\0",
+	"\x0D\0",
+	"\x0E\0",
+	"\x0F\0",
+	"\x10\0",
+	"\x11\0",            /* Control-Q : useless */
+	"\x12\0",
+	"\x13\0",            /* Control-S : useless */
+	"\x14\0",
+	
+	"\x15\0",
+	"\x16\0",
+	"\x17\0",
+	"\x18\0",
+	"\x19\0",
+	"\x1A\0",            /* Control-Z : useless */
+	"\x1B\0",            /* ESC */
+	"\x1C\0",            /* Control-\ : useless */
+	"\x1D\0",
+	"\x1E\0",
+	
+	"\x1F\0",            /* Control-/ or Control-minus */
+	"\x7F\0",            /* Backspace */
+	"\x1B\x4F\x50\0",    /* F1 */
+	"\x1B\x4F\x51\0",
+	"\x1B\x4F\x52\0",
+	"\x1B\x4F\x53\0",
+	"\x1B\x4F\x54\0",
+	"\x1B\x4F\x55\0",
+	"\x1B\x4F\x56\0",
+	"\x1B\x4F\x57\0",
+	
+	"\x1B\x4F\x58\0",
+	"\x1B\x4F\x59\0",
+	"\x1B\x4F\x5A\0",
+	"\x1B\x4F\x5B\0"     /* F12 */
+};
+
 void initTermios(int echo){
-	unsigned int t1, t2;
 	tcgetattr(0, &old);
 	current = old;
-	current.c_lflag &= !ICANON;
-	if (echo){
+	current.c_lflag &= ~ICANON;
+	if (!echo){
 		current.c_lflag &= ~ECHO;
 	}
 	tcsetattr(0, TCSANOW, &current);
@@ -32,13 +85,35 @@ int _kbhit() {
     term.c_lflag &= ~ICANON;
     tcsetattr(STDIN, TCSANOW, &term);
     setbuf(stdin, NULL);
-	  initTermios(0);
     initialized = true;
   }
   int bytesWaiting;
   ioctl(STDIN, FIONREAD, &bytesWaiting);
   return bytesWaiting;
 }
+
+string getKeycode(int bytes){
+	char buf[7];
+
+  for (int i=0; i<bytes; i++)
+    buf[i] = getch();
+  buf[bytes] = 0;
+
+  return string(buf);	
+}
+
+/*bool inKey(string& keycode){
+	int cnt;
+	
+	initTermios(0);
+	while (!(cnt=_kbhit()))
+		usleep(1000);
+	resetTermios();
+  keycode = getKeycode(cnt);
+	if (keycode[0] >= 1 and keycode[0] <= 27)
+		return true;
+	else if (keycode[0]
+}*/
 
 char getch_(int echo){
 	char ch;
@@ -93,11 +168,13 @@ void getCursorPos(int& lin, int& col){  // 取得游標位置
 	col = tc;
 }
 
+
+
 /* 等待輸入，然後傳回輸入字元 */
 /* 如果輸入特殊按鍵，特殊鍵代碼將藉由key傳回 */
 /* 偵測到使用者案特殊鍵時，回傳的字元代碼為0，可由字元代碼是否為0判斷使用者是否按了特殊鍵 */
 /* 按鍵定義在keypad.h */
-char input(int &key){
+/*char input(int &key){
 	bool esc = false;
 	char ch;
 	int result;
@@ -149,7 +226,7 @@ char input(int &key){
 		key = 0;
 		return ch;
 	}
-}
+}*/
 
 /* 傳入西元年份，判斷該年是不是閏年 */
 bool isLeap(int year){
