@@ -1,11 +1,13 @@
 #include <iostream>
 #include <termios.h>
 #include <stdio.h>
+#include <typeinfo>
 #include <util.h>
 
 static struct termios old, current;
 
 void initTermios(int echo){
+	unsigned int t1, t2;
 	tcgetattr(0, &old);
 	current = old;
 	current.c_lflag &= !ICANON;
