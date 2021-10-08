@@ -29,9 +29,10 @@ int _kbhit(void);
 string getKeycode(int);
 
 /* 等待使用者輸入按鍵 */
-/* 若傳回true表示傳址參數string回傳值為特殊按鍵    */
-/* 若傳回false表示傳址參數string回傳值為該按鍵字元 */
-bool inKey(string&);
+/* 傳址參數傳回0表示使用者按下一般按鍵，回傳值為string型態的按鍵值 */
+/* 傳址參數傳回非0值時，則表示此值為該特殊按鍵之代碼，代碼表請參考keypad.h，回傳值string會被設定為空字串 */
+/* 當使用者按下一個未定義的特殊按鍵時(按鍵值以0x1B開頭)，傳回值為空字串且傳址參數的值為0 */
+string input(int&);
 
 /* 等待輸入，不顯示輸入字元 */
 char getch(void); 

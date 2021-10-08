@@ -11,38 +11,20 @@
 
 using namespace std;
 
-string getKeycode(int);
-
 int main(int argc, char** argv) {
-	int b;
-	string temp;
+	int funckey;
+	string temp="";
 	
   printf("Press any key\n");
-	fflush(stdout);
-	initTermios(0);
-  while (!(b=_kbhit())) {
-    /*printf(".");
-    fflush(stdout); */
-    usleep(1000);
-  }
-	resetTermios();
-		
-	string key = getKeycode(b);
-	
-	bool match = false;
-	for (int i=0; i<MAPLENGTH; i++){
-		if (key.compare(KEYMAP[i])==0){
-			cout << i << endl;
-			match = true;
-		}
+	temp = input(funckey);
+  if (funckey!=0){
+		cout << "特殊按鍵代碼：" << funckey << endl;
+	} else {
+		if (temp.length()!=0)
+			cout << "按鍵值：" << temp << endl;
+		else
+			cout << "按鍵未定義" << endl;
 	}
 	
-	if (!match){
-		cout << "按鍵代碼：";
-		for (int i=0; i<key.length(); i++)
-			printf("%x ",key[i]);
-	  cout << endl;
-	}
-		
   return 0;
 }
