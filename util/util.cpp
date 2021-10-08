@@ -10,16 +10,16 @@ static struct termios old, current;
 
 string KEYMAP[] = {
 	"",
-	"\x01\0",            /* Control-A */
+	"\x01\0",             /* Control-A */
 	"\x02\0",
-	"\x03\0",            /* Control-C : useless */
+	"\x03\0",             /* Control-C : useless */
 	"\x04\0",
 	"\x05\0",
 	"\x06\0",
 	"\x07\0",
 	"\x08\0",
-	"\x09\0",            /* TAB */
-	"\x0A\0",            /* Control-J or ENTER */
+	"\x09\0",             /* TAB */
+	"\x0A\0",             /* Control-J or ENTER */
 	
 	"\x0B\0",
 	"\x0C\0",
@@ -27,9 +27,9 @@ string KEYMAP[] = {
 	"\x0E\0",
 	"\x0F\0",
 	"\x10\0",
-	"\x11\0",            /* Control-Q : useless */
+	"\x11\0",             /* Control-Q : useless */
 	"\x12\0",
-	"\x13\0",            /* Control-S : useless */
+	"\x13\0",             /* Control-S : useless */
 	"\x14\0",
 	
 	"\x15\0",
@@ -37,15 +37,15 @@ string KEYMAP[] = {
 	"\x17\0",
 	"\x18\0",
 	"\x19\0",
-	"\x1A\0",            /* Control-Z : useless */
-	"\x1B\0",            /* ESC */
-	"\x1C\0",            /* Control-\ : useless */
+	"\x1A\0",             /* Control-Z : useless */
+	"\x1B\0",             /* ESC */
+	"\x1C\0",             /* Control-\ : useless */
 	"\x1D\0",
 	"\x1E\0",
 	
-	"\x1F\0",            /* Control-/ or Control-minus */
-	"\x7F\0",            /* Backspace */
-	"\x1B\x4F\x50\0",    /* F1 */
+	"\x1F\0",             /* Control-/ or Control-minus */
+	"\x7F\0",             /* Backspace */
+	"\x1B\x4F\x50\0",     /* F1 */
 	"\x1B\x4F\x51\0",
 	"\x1B\x4F\x52\0",
 	"\x1B\x4F\x53\0",
@@ -57,7 +57,19 @@ string KEYMAP[] = {
 	"\x1B\x4F\x58\0",
 	"\x1B\x4F\x59\0",
 	"\x1B\x4F\x5A\0",
-	"\x1B\x4F\x5B\0"     /* F12 */
+	"\x1B\x4F\x5B\0",     /* F12 */
+	"\x1B\x5B\x41\0",     /* Up */
+	"\x1B\x5B\x42\0",     /* Down */
+	"\x1B\x5B\x43\0",     /* Right */
+	"\x1B\x5B\x44\0",     /* Left */
+	"\x1B\x5B\x31\x7E\0", /* Home */
+	"\x1B\x5B\x32\x7E\0", /* Insert */
+	
+	"\x1B\x5B\x33\x7E\0", /* Delete */
+	"\x1B\x5B\x34\x7E\0", /* End */
+	"\x1B\x5B\x35\x7E\0", /* Page Up */
+	"\x1B\x5B\x36\x7E\0", /* Page Down */
+	"\x1B\x5B\x47\0"      /* Keypad 5 */
 };
 
 void initTermios(int echo){
