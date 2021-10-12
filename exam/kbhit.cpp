@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <kbmap.h>
+#include <keypad.h>
 
 using namespace std;
 
@@ -18,10 +19,20 @@ int main(int argc, char** argv) {
   printf("Press any key\n");
 	temp = input(funckey);
   if (funckey!=0){
-		cout << "特殊按鍵代碼：" << funckey << endl;
+		switch (funckey){
+		case ESC:
+		  cout << "你按了[ESC]" << endl;
+			break;
+		case F1:
+		  cout << "你按了[F1]" << endl;
+			break;
+		default:
+		  cout << "特殊按鍵代碼：" << funckey << endl;
+		};
 	} else {
-		if (temp.length()!=0)
+		if (temp.length()!=0){
 			cout << "按鍵值：" << temp << endl;
+		}
 		else
 			cout << "按鍵未定義" << endl;
 	}

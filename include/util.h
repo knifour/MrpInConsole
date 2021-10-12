@@ -25,7 +25,7 @@ void resetTermios(void);
 int _kbhit(void);
 
 /* 以_kbhit偵測到使用者按鍵後，以此函式讀取使用者按鍵值，並以string的形式回傳按鍵值 */
-/* 傳入值為以_kbhit偵測到的按鍵數量 */
+/* 傳入值為_kbhit偵測到的按鍵數量 */
 string getKeycode(int);
 
 /* 等待使用者輸入按鍵 */

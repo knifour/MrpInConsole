@@ -129,8 +129,8 @@ int _kbhit() {
 }
 
 string getKeycode(int bytes){
-	char buf[7];
-
+	char buf[300];
+  cout << bytes << endl;
   for (int i=0; i<bytes; i++)
     buf[i] = getch();
   buf[bytes] = 0;

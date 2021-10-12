@@ -31,6 +31,7 @@ int main(void){
 	
 	p1->printMember();
 	p2->printMember();
+	cout << p1->getSon() << endl;
 	p3->printMember();
 	p4->printMember();
 	
