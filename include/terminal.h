@@ -12,6 +12,7 @@
 
 using namespace std;
 
+template <class T>
 class TERMINAL{
 private:
 	// 取得Terminal列數及每列字數
@@ -19,7 +20,7 @@ private:
 
 protected:
 	// 終端機緩衝區
-	UTF8SCHAR  **TermBuf;
+	T  **TermBuf;
 	// 終端機緩衝區操作指標
 	SCHAR *sp;
 	// 終端機總列數、總行數

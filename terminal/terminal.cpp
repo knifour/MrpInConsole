@@ -1,19 +1,19 @@
 #include <terminal.h>
 
-TERMINAL::TERMINAL(){
+template<class T>TERMINAL<T>::TERMINAL(){
 	getConsoleSize();
 	createBuffer();
   init();
 }
 
-TERMINAL::TERMINAL(int FColor, int BColor){
+template<class T>TERMINAL<T>::TERMINAL(int FColor, int BColor){
 	getConsoleSize();
 	createBuffer();
   init(FColor, BColor);	
 }
 
 // 重設Terminal屬性
-void TERMINAL::resetAttr(void){
+template<class T> void TERMINAL<T>::resetAttr(void){
 	cout << "\x1B[0m";
 	mUnderLine = false;
 	mCurFColor = ATTR::WHITE;
@@ -23,7 +23,7 @@ void TERMINAL::resetAttr(void){
 /* 將所有字元設定成空白字元 */
 /* 依參數設定前景、背景 */
 /* 預設值前景：白色、背景：黑色、無底線 */
-void TERMINAL::init(int FColor, int BColor){
+template<class T> void TERMINAL<T>::init(int FColor, int BColor){
 	uint8_t blank[] = " ";
 	
 	setFColor(FColor);
@@ -37,7 +37,7 @@ void TERMINAL::init(int FColor, int BColor){
 }
 
 // 取得Terminal大小
-void TERMINAL::getConsoleSize(){
+template<class T> void TERMINAL<T>::getConsoleSize(){
 	struct winsize size;
 	
 	// ioctl()       需要include <sys/ioctl.h>
@@ -47,13 +47,13 @@ void TERMINAL::getConsoleSize(){
 	mCOLS = size.ws_col;
 }
 
-void TERMINAL::createBuffer(void){
+template<class T> void TERMINAL<T>::createBuffer(void){
 	/* 依據Terminal大小建立緩衝區 */
-	TermBuf = NEW2D(mLINS, mCOLS, UTF8SCHAR);
+	TermBuf = NEW2D(mLINS, mCOLS, T);
 }
 
 /* 設定sp指標值，如果超過螢幕範圍將回傳false */
-bool TERMINAL::setSP(int pLin, int pCol){
+template<class T> bool TERMINAL<T>::setSP(int pLin, int pCol){
 	int lin, col;
 	
 	if (pLin < 1 || pLin > mLINS)
@@ -69,43 +69,43 @@ bool TERMINAL::setSP(int pLin, int pCol){
 }
 
 // 以顏色代碼設定前景色，顏色代碼超出範圍無效
-void TERMINAL::setFColor(int p){
+template<class T> void TERMINAL<T>::setFColor(int p){
 	if (p >= 0 && p <= 255)
 	  mCurFColor = p;
 }
 
 // 以RGB值設定前景色，RGB值範圍為0~5
-void TERMINAL::setFColor(int r, int g, int b){
+template<class T> void TERMINAL<T>::setFColor(int r, int g, int b){
 	setFColor(16 + r*36 + g*6 + b);
 }
 
 // 以顏色代碼設定背景色，顏色代碼超出範圍無效
-void TERMINAL::setBColor(int p){
+template<class T> void TERMINAL<T>::setBColor(int p){
 	if (p >= 0 && p <= 255)
 	  mCurBColor = p;
 }
 
 // 以RGB值設定背景色，RGB值範圍為0~5
-void TERMINAL::setBColor(int r, int g, int b){
+template<class T> void TERMINAL<T>::setBColor(int r, int g, int b){
 	setBColor(16 + r*36 + g*6 + b);
 }
 
 // 設定是否畫底線
-void TERMINAL::setUnderLine(bool p){
+template<class T> void TERMINAL<T>::setUnderLine(bool p){
 	mUnderLine = p;
 }
 
 // 取得終端機列數
-int TERMINAL::getLINS(){
+template<class T> int TERMINAL<T>::getLINS(){
 	return mLINS;
 }
 
 // 取得終端機行數
-int TERMINAL::getCOLS(){
+template<class T> int TERMINAL<T>::getCOLS(){
 	return mCOLS;
 }
 
-void TERMINAL::cls(void){
+template<class T> void TERMINAL<T>::cls(void){
 	init(mCurFColor, mCurBColor);
 	locate(1, 1);
 }
@@ -114,7 +114,7 @@ void TERMINAL::cls(void){
 // Lin代表列, Col代表行
 // 螢幕左上角為 1, 1
 // 設定超過螢幕範圍會自動調整成適合螢幕大小的位置
-void TERMINAL::locate(int pLin, int pCol){
+template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 	char Buf[10];
 	
 	if (pLin < 1) mCurLin = 1;
@@ -125,8 +125,11 @@ void TERMINAL::locate(int pLin, int pCol){
 	cout << Buf;
 }
 
-TERMINAL::~TERMINAL(){
+template<class T> TERMINAL<T>::~TERMINAL(){
 	resetAttr();
+	
+	for (int i=0; i<mLINS; i++)
+		delete[] TermBuf[i];
 	
 	delete[] TermBuf;
 }
