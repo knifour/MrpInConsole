@@ -24,5 +24,6 @@ ncurses/win
 schar/test
 screen/test
 terminal/terminal
+terminal/test
 twindow/test
 util/test

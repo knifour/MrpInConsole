@@ -16,8 +16,8 @@ template<class T>TERMINAL<T>::TERMINAL(int FColor, int BColor){
 template<class T> void TERMINAL<T>::resetAttr(void){
 	cout << "\x1B[0m";
 	mUnderLine = false;
-	mCurFColor = ATTR::WHITE;
-	mCurBColor = ATTR::BLACK;
+	mFColor = ATTR::WHITE;
+	mBColor = ATTR::BLACK;
 }
 
 /* 將所有字元設定成空白字元 */
@@ -31,9 +31,11 @@ template<class T> void TERMINAL<T>::init(int FColor, int BColor){
 	setUnderLine(false);
 	
 	for (int i=1; i<=mLINS; i++)
-		for (int j=1; j<=mCOLS; j++)
-			if (setSP(i, j))
-			  sp->setChar(blank, mUnderLine, mCurFColor, mCurBColor);
+		for (int j=1; j<=mCOLS; j++){
+			if (setSP(i, j)){
+			  sp->setChar(blank, mUnderLine, mFColor, mBColor);
+			}
+		}
 }
 
 // 取得Terminal大小
@@ -71,7 +73,7 @@ template<class T> bool TERMINAL<T>::setSP(int pLin, int pCol){
 // 以顏色代碼設定前景色，顏色代碼超出範圍無效
 template<class T> void TERMINAL<T>::setFColor(int p){
 	if (p >= 0 && p <= 255)
-	  mCurFColor = p;
+	  mFColor = p;
 }
 
 // 以RGB值設定前景色，RGB值範圍為0~5
@@ -79,10 +81,15 @@ template<class T> void TERMINAL<T>::setFColor(int r, int g, int b){
 	setFColor(16 + r*36 + g*6 + b);
 }
 
+// 取得前景色
+template<class T> int TERMINAL<T>::getFColor(void){
+	return mFColor;
+}
+
 // 以顏色代碼設定背景色，顏色代碼超出範圍無效
 template<class T> void TERMINAL<T>::setBColor(int p){
 	if (p >= 0 && p <= 255)
-	  mCurBColor = p;
+	  mBColor = p;
 }
 
 // 以RGB值設定背景色，RGB值範圍為0~5
@@ -90,9 +97,19 @@ template<class T> void TERMINAL<T>::setBColor(int r, int g, int b){
 	setBColor(16 + r*36 + g*6 + b);
 }
 
+// 取得背景色
+template<class T> int TERMINAL<T>::getBColor(void){
+	return mBColor;
+}
+
 // 設定是否畫底線
 template<class T> void TERMINAL<T>::setUnderLine(bool p){
 	mUnderLine = p;
+}
+
+// 取得是否畫底線設定
+template<class T> bool TERMINAL<T>::getUnderLine(void){
+	return mUnderLine;
 }
 
 // 取得終端機列數
@@ -106,7 +123,7 @@ template<class T> int TERMINAL<T>::getCOLS(){
 }
 
 template<class T> void TERMINAL<T>::cls(void){
-	init(mCurFColor, mCurBColor);
+	init(mFColor, mBColor);
 	locate(1, 1);
 }
 
@@ -117,19 +134,52 @@ template<class T> void TERMINAL<T>::cls(void){
 template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 	char Buf[10];
 	
-	if (pLin < 1) mCurLin = 1;
-	if (pLin > mLINS) mCurLin = mLINS;
-	if (pCol < 1) mCurCol = 1;
-	if (pCol > mCOLS) mCurCol = mCOLS;
-	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
+	if (pLin < 1) mLin = 1;
+	if (pLin > mLINS) mLin = mLINS;
+	if (pCol < 1) mCol = 1;
+	if (pCol > mCOLS) mCol = mCOLS;
+	sprintf(Buf, "\x1B[%d;%dH", mLin, mCol);
 	cout << Buf;
+}
+
+template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int pCols){
+  int tmpLin, tmpCol;
+	
+	// 如果沒有傳入參數或是所有參數皆為0表示更新全終端機
+	if (pLin == 0) pLin = 1;
+	if (pCol == 0) pCol = 1;
+	if (pLins == 0) pLins = mLINS;
+	if (pCols == 0) pCols = mCOLS;
+	
+	// 如果傳入的左上角座標超過終端機範圍，自動調整到終端機範圍
+	if (pLin < 1) pLin = 1;
+	if (pLin > mLINS) pLin = mLINS;
+	if (pCol < 1) pCol = 1;
+	if (pCol > mCOLS) pCol = mCOLS;
+	
+	// 計算左下角座標，如果超過終端機範圍，自動調整到終端機範圍
+	tmpLin = pLin + pLins - 1;
+	if (tmpLin > mLINS) tmpLin = mLINS;
+	tmpCol = pCol + pCols - 1;
+	if (tmpCol > mCOLS) tmpCol = mCOLS;
+	
+	for (int i=pLin; i<=tmpLin; i++)
+		for (int j=pCol; j<tmpCol; j++){
+			setSP(i, j);
+			if (sp->isValid()){
+				locate(i, j);
+				sp->printChar();
+			}
+		}
 }
 
 template<class T> TERMINAL<T>::~TERMINAL(){
 	resetAttr();
 	
-	for (int i=0; i<mLINS; i++)
-		delete[] TermBuf[i];
+	/*for (int i=0; i<mLINS; i++)
+		delete[] TermBuf[i];*/
 	
 	delete[] TermBuf;
 }
+
+template class TERMINAL<UTF8SCHAR>;

@@ -519,8 +519,8 @@ bool SCREEN::isWideTail(){
 
 SCREEN::~SCREEN(){
 	resetAttr();
-	for (int i=0; i<LINS; i++)
-		delete[] ScreenBuf[i];
+	/*for (int i=0; i<LINS; i++)
+		delete[] ScreenBuf[i];*/
 	
 	delete[] ScreenBuf;
 }

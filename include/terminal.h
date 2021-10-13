@@ -7,8 +7,10 @@
 #include <unistd.h> 
 #include <string.h>
 #include <attr.h>
+#include <schar.h>
 #include <utf8schar.h>
 #include <util.h>
+#include <iostream>
 
 using namespace std;
 
@@ -26,9 +28,9 @@ protected:
 	// 終端機總列數、總行數
 	int mLINS, mCOLS;
 	// 目前所在列、行
-	int mCurLin, mCurCol;
+	int mLin, mCol;
 	// 儲存現有前景色、背景色	
-	int mCurFColor, mCurBColor;  
+	int mFColor, mBColor;  
 	// 是否畫底線	
 	bool mUnderLine;
 	
@@ -52,20 +54,28 @@ public:
 	void setFColor(int);
 	// 以RGB設定前景色，RGB值為0~5
 	void setFColor(int, int, int);
+	// 取得前景色
+	int getFColor(void);
 	// 以顏色代碼設定背景色，顏色代碼超出範圍無效
 	void setBColor(int);
 	// 以RGB設定背景色，RGB值為0~5
 	void setBColor(int, int, int);
+	// 取得背景色
+	int getBColor(void);
 	// 設定是否畫底線
 	void setUnderLine(bool);
+	// 取得是否底線設定
+	bool getUnderLine(void);
 	// 取得終端機列數
 	int getLINS();
 	// 取得終端機行數
 	int getCOLS();
 	// 清除終端機
 	void cls();
-	// 設定游標位置(超出終端機範圍無效，且傳回false)
+	// 設定游標位置(超出終端機範圍會自動調整回終端機範圍)，游標左上角位置為1, 1
 	void locate(int, int);
+	// 根據緩衝區內容顯示終端機內容
+	void reflash(int pLin=0, int pCol=0, int pLins=0, int pCols=0);
 };
 
 #endif
