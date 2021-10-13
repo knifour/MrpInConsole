@@ -63,7 +63,7 @@ UTF8SCHAR::UTF8SCHAR(const char* p, int pFColor, int pBColor){
 
 void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
 	int len;
-	cout << "setchar";
+	
 	for (int i=0; i<UTF8MAXLEN; i++)
 		mCode[i] = 0;
 	

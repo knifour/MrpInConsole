@@ -76,6 +76,8 @@ public:
 	void locate(int, int);
 	// 根據緩衝區內容顯示終端機內容
 	void reflash(int pLin=0, int pCol=0, int pLins=0, int pCols=0);
+	// 取得螢幕字元指標(需提供行、列)
+	SCHAR* getSP(int, int);
 };
 
 #endif

@@ -4,12 +4,14 @@ template<class T>TERMINAL<T>::TERMINAL(){
 	getConsoleSize();
 	createBuffer();
   init();
+	cls();
 }
 
 template<class T>TERMINAL<T>::TERMINAL(int FColor, int BColor){
 	getConsoleSize();
 	createBuffer();
-  init(FColor, BColor);	
+  init(FColor, BColor);
+	cls();
 }
 
 // 重設Terminal屬性
@@ -51,7 +53,12 @@ template<class T> void TERMINAL<T>::getConsoleSize(){
 
 template<class T> void TERMINAL<T>::createBuffer(void){
 	/* 依據Terminal大小建立緩衝區 */
-	TermBuf = NEW2D(mLINS, mCOLS, T);
+	/*TermBuf = NEW2D(mLINS, mCOLS, T);*/
+	TermBuf = new T*[mLINS];  
+	for (int i=0; i<mLINS; i++){
+		// 依據螢幕每列字數建立UTF8SCHAR物件陣列
+		TermBuf[i] = new T[mCOLS];  
+	}
 }
 
 /* 設定sp指標值，如果超過螢幕範圍將回傳false */
@@ -123,7 +130,8 @@ template<class T> int TERMINAL<T>::getCOLS(){
 }
 
 template<class T> void TERMINAL<T>::cls(void){
-	init(mFColor, mBColor);
+	/*init(mFColor, mBColor);*/
+	reflash();
 	locate(1, 1);
 }
 
@@ -134,6 +142,8 @@ template<class T> void TERMINAL<T>::cls(void){
 template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 	char Buf[10];
 	
+	mLin = pLin;
+	mCol = pCol;
 	if (pLin < 1) mLin = 1;
 	if (pLin > mLINS) mLin = mLINS;
 	if (pCol < 1) mCol = 1;
@@ -157,14 +167,14 @@ template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int p
 	if (pCol < 1) pCol = 1;
 	if (pCol > mCOLS) pCol = mCOLS;
 	
-	// 計算左下角座標，如果超過終端機範圍，自動調整到終端機範圍
+	// 計算右下角座標，如果超過終端機範圍，自動調整到終端機範圍
 	tmpLin = pLin + pLins - 1;
 	if (tmpLin > mLINS) tmpLin = mLINS;
 	tmpCol = pCol + pCols - 1;
 	if (tmpCol > mCOLS) tmpCol = mCOLS;
 	
 	for (int i=pLin; i<=tmpLin; i++)
-		for (int j=pCol; j<tmpCol; j++){
+		for (int j=pCol; j<=tmpCol; j++){
 			setSP(i, j);
 			if (sp->isValid()){
 				locate(i, j);
@@ -173,11 +183,21 @@ template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int p
 		}
 }
 
+template<class T> SCHAR* TERMINAL<T>::getSP(int pLin, int pCol){
+	if (pLin < 1 || pLin > mLINS)
+		return nullptr;
+	
+	if (pCol < 1 || pCol > mCOLS)
+		return nullptr;
+	
+	return (SCHAR*)&TermBuf[pLin-1][pCol-1];
+}
+
 template<class T> TERMINAL<T>::~TERMINAL(){
 	resetAttr();
 	
-	/*for (int i=0; i<mLINS; i++)
-		delete[] TermBuf[i];*/
+	for (int i=0; i<mLINS; i++)
+		delete[] TermBuf[i];
 	
 	delete[] TermBuf;
 }
