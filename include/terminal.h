@@ -33,7 +33,6 @@ protected:
 	int mFColor, mBColor;  
 	// 是否畫底線	
 	bool mUnderLine;
-	
 	// 建立顯示緩衝區	
   void createBuffer(void);  
 	// 終端機初始化，若未指定參數時預設為黑底、白字

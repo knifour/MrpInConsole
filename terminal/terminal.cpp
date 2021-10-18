@@ -131,6 +131,7 @@ template<class T> int TERMINAL<T>::getCOLS(){
 
 template<class T> void TERMINAL<T>::cls(void){
 	/*init(mFColor, mBColor);*/
+	cout << "\x1B[J";
 	reflash();
 	locate(1, 1);
 }
