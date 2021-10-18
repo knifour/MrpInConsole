@@ -7,6 +7,10 @@ FATHER::FATHER(){
 	mBase = 65;
 }
 
+FATHER::FATHER(int p){
+	mBase = p;
+}
+
 void FATHER::setBase(int value){
 	mBase = value;
 }

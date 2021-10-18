@@ -7,6 +7,10 @@ SON::SON(){
 	mSon = 40;
 }
 
+SON::SON(int f1, int s1){
+	mSon = s1;
+}
+
 void SON::setSon(int value){
 	mSon = value;
 }

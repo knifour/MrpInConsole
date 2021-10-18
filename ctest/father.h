@@ -9,6 +9,7 @@ protected:
 	
 public:
 	FATHER();
+	FATHER(int);
   
 	void setBase(int);
 	virtual bool operator==(const FATHER& rhs) = 0;

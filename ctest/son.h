@@ -9,6 +9,7 @@ protected:
 	
 public:
 	SON();
+	SON(int, int);
 	
 	void setSon(int) override;
 	void setGrandSon(int);
