@@ -358,7 +358,19 @@ int getFirstDLenU8(const uint8_t* utf8){
 }
 
 bool isWideChar(uint32_t unicode){
-	return (unicode >= SEC0_LOW && unicode <= SEC0_HIGH) ? true :
+	if (BOXDRAWSTYLE==1){
+		return (unicode >= SEC0_LOW && unicode <= SEC0_HIGH) ? true :
+	         (unicode >= SEC1_LOW && unicode <= SEC1_HIGH) ? true :
+				   (unicode >= SEC2_LOW && unicode <= SEC2_HIGH) ? true :
+				   (unicode >= SEC3_LOW && unicode <= SEC3_HIGH) ? true :
+				   (unicode >= SEC4_LOW && unicode <= SEC4_HIGH) ? true :
+				   (unicode >= SEC5_LOW && unicode <= SEC5_HIGH) ? true :
+				   (unicode >= SEC6_LOW && unicode <= SEC6_HIGH) ? true :
+				   (unicode >= SEC7_LOW && unicode <= SEC7_HIGH) ? true :
+				   (unicode >= SEC8_LOW && unicode <= SEC8_HIGH) ? true : false;
+	}
+	
+	return (unicode >= SEC0_LOW && unicode <= SEC0_HIGH) ? false :
 	       (unicode >= SEC1_LOW && unicode <= SEC1_HIGH) ? true :
 				 (unicode >= SEC2_LOW && unicode <= SEC2_HIGH) ? true :
 				 (unicode >= SEC3_LOW && unicode <= SEC3_HIGH) ? true :

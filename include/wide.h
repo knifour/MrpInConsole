@@ -1,6 +1,10 @@
 #ifndef __WIDE_H
 #define __WIDE_H
 
+/* 這個值設定成1時，框線字元寬度視為2 */
+/* 設定成其他值時 ，框線字元寬度視為1 */
+#define BOXDRAWSTYLE 1
+
 #define SEC0_LOW  ((uint32_t)0x2500)   /* 定義CJK寬字元區段開始 */
 #define SEC0_HIGH ((uint32_t)0x257F)  
 #define SEC1_LOW  ((uint32_t)0x2E80)  
