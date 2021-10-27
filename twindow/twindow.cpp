@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <twindow.h>
-#include <utf8schar.h>
 
 template<class T> TWINDOW<T>::TWINDOW(){
+	mTerminal = nullptr;
 	mParant = nullptr;
   mLin = mCol = 0;
   mLINS = 0;
@@ -15,6 +15,7 @@ template<class T> TWINDOW<T>::TWINDOW(){
 }
 
 template<class T> TWINDOW<T>::TWINDOW(TWINDOW* p1, const char* p2){
+	mTerminal = nullptr;
 	mParant = p1;
 }
 

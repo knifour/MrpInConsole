@@ -5,9 +5,8 @@
 #define __TWINDOW_H
 
 #include <string>
-#include <stdarg.h>
 #include <attr.h>
-#include <schar.h>
+#include <utf8schar.h>
 #include <terminal.h>
 
 using namespace std;
@@ -15,6 +14,8 @@ using namespace std;
 template <class T>
 class TWINDOW{
 protected:
+  /* TERMINAL指標，表示此視窗是建立在哪個TERMINAL上面 */
+	TERMINAL<T>* mTerminal;
   /* 父視窗指標, nullptr代表沒有父視窗 */
   TWINDOW* mParant;
 	/* 視窗左上角位置 */
