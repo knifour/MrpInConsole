@@ -30,7 +30,7 @@ template<class T> void TERMINAL<T>::init(int FColor, int BColor){
 	
 	setFColor(FColor);
 	setBColor(BColor);
-	setUnderLine(false);
+	setUnderline(false);
 	
 	for (int i=1; i<=mLINS; i++)
 		for (int j=1; j<=mCOLS; j++){
@@ -110,13 +110,25 @@ template<class T> int TERMINAL<T>::getBColor(void){
 }
 
 // 設定是否畫底線
-template<class T> void TERMINAL<T>::setUnderLine(bool p){
+template<class T> void TERMINAL<T>::setUnderline(bool p){
 	mUnderLine = p;
 }
 
 // 取得是否畫底線設定
-template<class T> bool TERMINAL<T>::getUnderLine(void){
+template<class T> bool TERMINAL<T>::getUnderline(void){
 	return mUnderLine;
+}
+
+// 將特定游標位置的字元設定成傳入的SCHAR字元(超出TERMINAL範圍無效)
+template<class T> void TERMINAL<T>::setSchar(int pLin, int pCol, SCHAR* pSchar){
+	if (pLin < 1 || pLin > mLINS)
+		return;
+	
+	if (pCol < 1 || pCol > mCOLS)
+		return;
+	
+	if (setSP(pLin, pCol))
+		*sp = *pSchar;
 }
 
 // 取得終端機列數
@@ -182,16 +194,6 @@ template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int p
 				sp->printChar();
 			}
 		}
-}
-
-template<class T> SCHAR* TERMINAL<T>::getSP(int pLin, int pCol){
-	if (pLin < 1 || pLin > mLINS)
-		return nullptr;
-	
-	if (pCol < 1 || pCol > mCOLS)
-		return nullptr;
-	
-	return (SCHAR*)&TermBuf[pLin-1][pCol-1];
 }
 
 template<class T> TERMINAL<T>::~TERMINAL(){

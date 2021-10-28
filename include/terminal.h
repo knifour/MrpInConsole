@@ -69,9 +69,11 @@ public:
 	// 取得背景色
 	int getBColor(void);
 	// 設定是否畫底線
-	void setUnderLine(bool);
+	void setUnderline(bool);
 	// 取得是否底線設定
-	bool getUnderLine(void);
+	bool getUnderline(void);
+	// 將特定游標位置的字元設定成傳入的SCHAR字元(超出TERMINAL範圍無效)
+	void setSchar(int, int, SCHAR*);
 	// 取得終端機列數
 	int getLINS();
 	// 取得終端機行數
@@ -82,8 +84,6 @@ public:
 	void locate(int, int);
 	// 根據緩衝區內容顯示終端機內容
 	void reflash(int pLin=0, int pCol=0, int pLins=0, int pCols=0);
-	// 取得螢幕字元指標(需提供行、列)
-	SCHAR* getSP(int, int);
 };
 
 #endif

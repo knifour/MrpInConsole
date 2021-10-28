@@ -5,18 +5,13 @@
 template<class T> TWINDOW<T>::TWINDOW(){
 	mTerminal = nullptr;
 	mParant = nullptr;
-  mLin = mCol = 0;
+  mLin = mCol = 1;
   mLINS = 0;
   mCOLS = 0;	
-	mFColor = WHITE;
-	mBColor = BLACK;
+	mFColor = ATTR::WHITE;
+	mBColor = ATTR::BLACK;
 	mUnderline = false;
 	mError = true;
-}
-
-template<class T> TWINDOW<T>::TWINDOW(TWINDOW* p1, const char* p2){
-	mTerminal = nullptr;
-	mParant = p1;
 }
 
 template<class T> void TWINDOW<T>::createBuffer(void){
@@ -27,6 +22,7 @@ template<class T> void TWINDOW<T>::createBuffer(void){
 		mError = true;
 		return;
 	}
+	
 	if (mCOLS<1){
 		mError = true;
 		return;

@@ -38,10 +38,6 @@ protected:
 	
 public:
 	TWINDOW();
-	/* 第二個參數為字串，字串格式為"llcccLLCCC"，字串內容皆為數字 */
-	/* ll：左上角行座標(不足位數須補0)，ccc：左上角列座標 */
-	/* LL：視窗總行數(可省略，須在程式後面自行設定)，CCC：視窗寬度(可省略) */
-  TWINDOW(TWINDOW*, const char *);
 	~TWINDOW();
 };
 
