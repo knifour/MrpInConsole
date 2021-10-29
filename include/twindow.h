@@ -35,6 +35,8 @@ protected:
 
   /* 建立視窗緩衝區 */
 	void createBuffer(void);	
+	void TWin2Term(WIN, int, int);
+	bool setSP(int, int);
 	
 public:
 	TWINDOW();
