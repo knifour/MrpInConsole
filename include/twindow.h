@@ -34,13 +34,43 @@ protected:
 	SCHAR* sp;
 
   /* 建立視窗緩衝區 */
-	void createBuffer(void);	
-	void TWin2Term(WIN, int, int);
+	void createBuffer(void);
+	// 視窗初始化，若未指定參數時預設為黑底、白字
+	void init(int FColor=ATTR::WHITE, int BColor=ATTR::BLACK); 
+	// 依照游標位置取得顯示緩衝區指標sp，左上角位置為1,1
 	bool setSP(int, int);
+	// 根據WIN struct設定的游標位置及列數、行數將視窗緩衝區的資料移動到TERMINAL緩衝區且即時顯示出來
+	void TWin2Term(WIN);
 	
 public:
 	TWINDOW();
 	~TWINDOW();
+	// 重設所有屬性(包括顏色)
+	void resetAttr(void);
+	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
+	void setFColor(int);
+	// 以RGB設定前景色，RGB值為0~5
+	void setFColor(int, int, int);
+	// 取得前景色
+	int getFColor(void);
+	// 以顏色代碼設定背景色，顏色代碼超出範圍無效
+	void setBColor(int);
+	// 以RGB設定背景色，RGB值為0~5
+	void setBColor(int, int, int);
+	// 取得背景色
+	int getBColor(void);
+	// 設定是否畫底線
+	void setUnderline(bool);
+	// 取得是否底線設定
+	bool getUnderline(void);
+	// 取得視窗列數
+	int getLINS();
+	// 取得視窗行數
+	int getCOLS();
+	// 清除視窗
+	void cls();
+	// 設定游標位置(超出視窗範圍無效)，視窗左上角位置為1, 1
+	void locate(int, int);
 };
 
 #endif

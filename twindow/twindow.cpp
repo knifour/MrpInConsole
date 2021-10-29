@@ -33,7 +33,7 @@ template<class T> void TWINDOW<T>::createBuffer(void){
 		TWindowBuf[i] = new T[mCOLS];
 }
 
-template<class T> void TWINDOW<T>::TWin2Term(WIN sWin, int tLin, int tCol){
+template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	if (mError)
 		return;
 	
@@ -57,14 +57,6 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin, int tLin, int tCol){
 		return;
 	int realCol = mCol + sWin.Col - 1;
 	if (realCol < 1 || realCol > COLS)
-		return;
-	
-	// 目的列座標超出TERMINAL位置無效
-	if (tLin < 1 || tLin > LINS)
-		return;
-	
-	// 目的行座標超出TERMINAL位置無效
-	if (tCol < 1 || tCol > COLS)
 		return;
 	
 	// 計算來源視窗右下角座標
@@ -94,8 +86,36 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin, int tLin, int tCol){
 	mTerminal->reflash(realLin, realCol, sWin.Lins, sWin.Cols);
 }
 
+template<class T> void TWINDOW<T>::init(int FColor, int BColor){
+	uint8_t blank[] = " ";
+	
+	if (mError)
+		return;
+	
+	setFColor(FColor);
+	setBColor(BColor);
+	setUnderline(false);
+	
+	for (int i=1; i<=mLINS; i++)
+		for (int j=1; j<=mCOLS; j++){
+			if (setSP(i, j)){
+			  sp->setChar(blank, mUnderline, mFColor, mBColor);
+			}
+		}
+	
+	WIN win;
+	
+	win.Lin = win.Col = 1;
+	win.Lins = mLINS;
+	win.Cols = mCOLS;
+	TWin2Term(win);
+}
+
 template<class T> bool TWINDOW<T>::setSP(int pLin, int pCol){
 	int lin, col;
+	
+	if (mError)
+		return false;
 	
 	if (pLin < 1 || pLin > mLINS)
 		return false;
@@ -107,6 +127,78 @@ template<class T> bool TWINDOW<T>::setSP(int pLin, int pCol){
 	col = pCol - 1;
 	sp = &TWindowBuf[lin][col];
 	return true;
+}
+
+template<class T> void TWINDOW<T>::resetAttr(void){
+	cout << "\x1B[0m";
+	mUnderline = false;
+	mFColor = ATTR::WHITE;
+	mBColor = ATTR::BLACK;
+}
+
+template<class T> void TWINDOW<T>::setFColor(int p){
+	if (p >= 0 && p <= 255)
+	  mFColor = p;
+}
+
+template<class T> void TWINDOW<T>::setFColor(int r, int g, int b){
+	setFColor(16 + r*36 + g*6 + b);
+}
+
+template<class T> int TWINDOW<T>::getFColor(void){
+	return mFColor;
+}
+
+template<class T> void TWINDOW<T>::setBColor(int p){
+	if (p >= 0 && p <= 255)
+	  mBColor = p;
+}
+
+template<class T> void TWINDOW<T>::setBColor(int r, int g, int b){
+	setBColor(16 + r*36 + g*6 + b);
+}
+
+template<class T> int TWINDOW<T>::getBColor(void){
+	return mBColor;
+}
+
+template<class T> void TWINDOW<T>::setUnderline(bool p){
+	mUnderline = p;
+}
+
+template<class T> bool TWINDOW<T>::getUnderline(void){
+	return mUnderline;
+}
+
+template<class T> int TWINDOW<T>::getLINS(){
+	return mLINS;
+}
+
+template<class T> int TWINDOW<T>::getCOLS(){
+	return mCOLS;
+}
+
+template<class T> void TWINDOW<T>::cls(void){
+	/*init(mFColor, mBColor);*/
+	init(mFColor, mBColor);
+	locate(1, 1);
+}
+
+template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
+	char Buf[10];
+	
+	if (pLin < 1 || pLin > mLINS) 
+		return;
+	if (pCol < 1 || pCol > mCOLS)
+		return;
+	int tLin = mLin + pLin - 1;
+	if (tLin > mTerminal->getLINS())
+		return;
+	int tCol = mCol + pCol - 1;
+	if (tCol > mTerminal->getCOLS())
+		return;
+	sprintf(Buf, "\x1B[%d;%dH", tLin, tCol);
+	cout << Buf;
 }
 
 template<class T> TWINDOW<T>::~TWINDOW(){
