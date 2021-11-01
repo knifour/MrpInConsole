@@ -6,6 +6,7 @@
 
 #include <string>
 #include <attr.h>
+#include <utf8.h>
 #include <utf8schar.h>
 #include <terminal.h>
 #include <list>
@@ -30,6 +31,8 @@ protected:
 	list<TWINDOW*> mChild;
 	/* 視窗左上角位置 */
   int mLin, mCol;
+	/* 現在游標位置 */
+	int mCurLin, mCurCol;
 	/* 視窗列數、行數 */
 	int mLINS, mCOLS;
   /* 視窗前景色、背景色 */	
@@ -62,21 +65,25 @@ public:
 	// 以RGB設定前景色，RGB值為0~5
 	void setFColor(int, int, int);
 	// 取得前景色
-	int getFColor(void);
+	int getFColor(void) const;
 	// 以顏色代碼設定背景色，顏色代碼超出範圍無效
 	void setBColor(int);
 	// 以RGB設定背景色，RGB值為0~5
 	void setBColor(int, int, int);
 	// 取得背景色
-	int getBColor(void);
+	int getBColor(void) const;
 	// 設定是否畫底線
 	void setUnderline(bool);
 	// 取得是否底線設定
-	bool getUnderline(void);
+	bool getUnderline(void) const;
 	// 取得視窗列數
-	int getLINS();
+	int getLINS() const;
 	// 取得視窗行數
-	int getCOLS();
+	int getCOLS() const;
+	// 取得游標所在列
+	int getCurLin() const;
+	// 取得游標所在行
+	int getCurCol() const;
 	// 清除視窗
 	void cls();
 	// 設定游標位置(超出視窗範圍無效)，視窗左上角位置為1, 1

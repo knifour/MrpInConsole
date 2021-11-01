@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <twmain.h>
 
+template <class T> TWMAIN<T>::TWMAIN(){
+	this->mError = true;
+}
+
 template <class T> TWMAIN<T>::TWMAIN(TERMINAL<T>* t){
 	if (t == nullptr){
 		this->mError = true;

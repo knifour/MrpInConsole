@@ -89,7 +89,7 @@ template<class T> void TERMINAL<T>::setFColor(int r, int g, int b){
 }
 
 // 取得前景色
-template<class T> int TERMINAL<T>::getFColor(void){
+template<class T> int TERMINAL<T>::getFColor(void) const{
 	return mFColor;
 }
 
@@ -105,7 +105,7 @@ template<class T> void TERMINAL<T>::setBColor(int r, int g, int b){
 }
 
 // 取得背景色
-template<class T> int TERMINAL<T>::getBColor(void){
+template<class T> int TERMINAL<T>::getBColor(void) const{
 	return mBColor;
 }
 
@@ -115,7 +115,7 @@ template<class T> void TERMINAL<T>::setUnderline(bool p){
 }
 
 // 取得是否畫底線設定
-template<class T> bool TERMINAL<T>::getUnderline(void){
+template<class T> bool TERMINAL<T>::getUnderline(void) const{
 	return mUnderLine;
 }
 
@@ -132,12 +132,12 @@ template<class T> void TERMINAL<T>::setSchar(int pLin, int pCol, SCHAR* pSchar){
 }
 
 // 取得終端機列數
-template<class T> int TERMINAL<T>::getLINS(){
+template<class T> int TERMINAL<T>::getLINS() const{
 	return mLINS;
 }
 
 // 取得終端機行數
-template<class T> int TERMINAL<T>::getCOLS(){
+template<class T> int TERMINAL<T>::getCOLS() const{
 	return mCOLS;
 }
 
@@ -155,13 +155,16 @@ template<class T> void TERMINAL<T>::cls(void){
 template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 	char Buf[10];
 	
-	mLin = pLin;
-	mCol = pCol;
-	if (pLin < 1) mLin = 1;
-	if (pLin > mLINS) mLin = mLINS;
-	if (pCol < 1) mCol = 1;
-	if (pCol > mCOLS) mCol = mCOLS;
-	sprintf(Buf, "\x1B[%d;%dH", mLin, mCol);
+	if (pLin < 1 || pLin > mLINS)
+		return;
+	else
+		mCurLin = pLin;
+	
+	if (pCol < 1 || pCol > mCOLS)
+		return;
+	else
+		mCurCol = pCol;
+	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
 	cout << Buf;
 }
 

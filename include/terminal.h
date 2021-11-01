@@ -28,7 +28,7 @@ protected:
 	// 終端機總列數、總行數
 	int mLINS, mCOLS;
 	// 目前所在列、行
-	int mLin, mCol;
+	int mCurLin, mCurCol;
 	// 儲存現有前景色、背景色	
 	int mFColor, mBColor;  
 	// 是否畫底線	
@@ -54,23 +54,23 @@ public:
 	// 以RGB設定前景色，RGB值為0~5
 	void setFColor(int, int, int);
 	// 取得前景色
-	int getFColor(void);
+	int getFColor(void) const;
 	// 以顏色代碼設定背景色，顏色代碼超出範圍無效
 	void setBColor(int);
 	// 以RGB設定背景色，RGB值為0~5
 	void setBColor(int, int, int);
 	// 取得背景色
-	int getBColor(void);
+	int getBColor(void) const;
 	// 設定是否畫底線
 	void setUnderline(bool);
 	// 取得是否底線設定
-	bool getUnderline(void);
+	bool getUnderline(void) const;
 	// 將特定游標位置的字元設定成傳入的SCHAR字元(超出TERMINAL範圍無效)
 	void setSchar(int, int, SCHAR*);
 	// 取得終端機列數
-	int getLINS();
+	int getLINS() const;
 	// 取得終端機行數
-	int getCOLS();
+	int getCOLS() const;
 	// 清除終端機
 	void cls();
 	// 設定游標位置(超出終端機範圍會自動調整回終端機範圍)，游標左上角位置為1, 1

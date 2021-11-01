@@ -6,6 +6,7 @@ template<class T> TWINDOW<T>::TWINDOW(){
 	mTerminal = nullptr;
 	mParant = nullptr;
   mLin = mCol = 1;
+	mCurLin = mCurCol = 1;
   mLINS = 0;
   mCOLS = 0;	
 	mFColor = ATTR::WHITE;
@@ -145,7 +146,7 @@ template<class T> void TWINDOW<T>::setFColor(int r, int g, int b){
 	setFColor(16 + r*36 + g*6 + b);
 }
 
-template<class T> int TWINDOW<T>::getFColor(void){
+template<class T> int TWINDOW<T>::getFColor(void) const{
 	return mFColor;
 }
 
@@ -158,7 +159,7 @@ template<class T> void TWINDOW<T>::setBColor(int r, int g, int b){
 	setBColor(16 + r*36 + g*6 + b);
 }
 
-template<class T> int TWINDOW<T>::getBColor(void){
+template<class T> int TWINDOW<T>::getBColor(void) const{
 	return mBColor;
 }
 
@@ -166,16 +167,24 @@ template<class T> void TWINDOW<T>::setUnderline(bool p){
 	mUnderline = p;
 }
 
-template<class T> bool TWINDOW<T>::getUnderline(void){
+template<class T> bool TWINDOW<T>::getUnderline(void) const{
 	return mUnderline;
 }
 
-template<class T> int TWINDOW<T>::getLINS(){
+template<class T> int TWINDOW<T>::getLINS() const{
 	return mLINS;
 }
 
-template<class T> int TWINDOW<T>::getCOLS(){
+template<class T> int TWINDOW<T>::getCOLS() const{
 	return mCOLS;
+}
+
+template<class T> int TWINDOW<T>::getCurLin() const{
+	return mCurLin;
+}
+
+template<class T> int TWINDOW<T>::getCurCol() const{
+	return mCurCol;
 }
 
 template<class T> void TWINDOW<T>::cls(void){
@@ -197,7 +206,9 @@ template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
 	int tCol = mCol + pCol - 1;
 	if (tCol > mTerminal->getCOLS())
 		return;
-	sprintf(Buf, "\x1B[%d;%dH", tLin, tCol);
+	mCurLin = tLin;
+	mCurCol = tCol;
+	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
 	cout << Buf;
 }
 

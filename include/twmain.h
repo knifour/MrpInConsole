@@ -10,6 +10,7 @@ private:
 protected:
 
 public:
+  TWMAIN();
   TWMAIN(TERMINAL<T>*);
 	~TWMAIN();
 };
