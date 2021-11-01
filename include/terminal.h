@@ -14,13 +14,6 @@
 
 using namespace std;
 
-typedef struct tagWIN {
-	int Lin;
-	int Col;
-	int Lins;
-	int Cols;
-} WIN;
-
 template <class T>
 class TERMINAL{
 private:

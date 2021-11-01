@@ -8,8 +8,16 @@
 #include <attr.h>
 #include <utf8schar.h>
 #include <terminal.h>
+#include <list>
 
 using namespace std;
+
+typedef struct tagWIN {
+	int Lin;
+	int Col;
+	int Lins;
+	int Cols;
+} WIN;
 
 template <class T>
 class TWINDOW{
@@ -18,6 +26,8 @@ protected:
 	TERMINAL<T>* mTerminal;
   /* 父視窗指標, nullptr代表沒有父視窗 */
   TWINDOW* mParant;
+	/* 子視窗 */
+	list<TWINDOW*> mChild;
 	/* 視窗左上角位置 */
   int mLin, mCol;
 	/* 視窗列數、行數 */

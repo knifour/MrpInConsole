@@ -1,7 +1,7 @@
 cc=g++
 dir0:=$(shell pwd)
 CFLAGS=-c -std=c++11 -fPIC -D_GNU_SOURCE -I$(dir0)/include
-OBJS=util.o schar.o utf8schar.o screen.o twindow.o twinmsg.o terminal.o \
+OBJS=util.o schar.o utf8schar.o screen.o twindow.o twmain.o twinmsg.o terminal.o \
 mysqlutil.o datetime.o date.o ltime.o utf8.o
 
 libknifour.a: $(OBJS)
@@ -35,6 +35,9 @@ screen.o: $(dir0)/screen/screen.cpp $(dir0)/include/screen.h
 	$(cc) $(CFLAGS) $<
         
 twindow.o: $(dir0)/twindow/twindow.cpp $(dir0)/include/twindow.h
+	$(cc) $(CFLAGS) $<
+	
+twmain.o: $(dir0)/twindow/twmain.cpp $(dir0)/include/twmain.h
 	$(cc) $(CFLAGS) $<
         
 twinmsg.o: $(dir0)/twindow/twinmsg.cpp $(dir0)/include/twinmsg.h
