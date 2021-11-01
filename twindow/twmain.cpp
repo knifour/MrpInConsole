@@ -11,13 +11,13 @@ template <class T> TWMAIN<T>::TWMAIN(TERMINAL<T>* t){
 	this->mTerminal = t;
 	this->mParant = nullptr;
 	this->mLin = this->mCol = 1;
-	this->mLINS = t->mLINS;
-	this->mCOLS = t->mCOLS;
-	this->mFColor = t->mFColor;
-	this->mBColor = t->mBColor;
-	this->mUnderline = t->mUnderline;
-	this->createBuffer();
+	this->mLINS = t->getLINS();
+	this->mCOLS = t->getCOLS();
+	this->mFColor = t->getFColor();
+	this->mBColor = t->getBColor();
+	this->mUnderline = t->getUnderline();
 	this->mError = false;
+	this->createBuffer();
 	this->init();
 }
 
@@ -25,4 +25,4 @@ template <class T> TWMAIN<T>::~TWMAIN(){
 	
 }
 
-template class TWINDOW<UTF8SCHAR>;
+template class TWMAIN<UTF8SCHAR>;
