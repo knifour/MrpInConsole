@@ -194,7 +194,7 @@ template<class T> void TWINDOW<T>::cls(void){
 }
 
 template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
-	char Buf[10];
+	char Buf[40];
 	
 	if (pLin < 1 || pLin > mLINS) 
 		return;
