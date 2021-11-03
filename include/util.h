@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wide.h>
+#include <keypad.h>
 
 using namespace std;
 
