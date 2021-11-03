@@ -8,9 +8,10 @@ using namespace std;
 
 int main(void){
 	TERMINAL<UTF8SCHAR> t;
-	TWMAIN<UTF8SCHAR> tmain(&t);
+	//TWMAIN<UTF8SCHAR> tmain(&t);
 	
-	tmain.locate(1, 1);
+	//tmain.locate(1, 1);
+	//char c=getch();
 	
 	string buf;
 	int code = 0;

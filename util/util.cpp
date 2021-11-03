@@ -142,6 +142,8 @@ string input(int& funckey){
 	int cnt, result;
 	string keycode;
 	
+	initTermios(1);
+	resetTermios();
 	initTermios(0);
 	while (!(cnt=_kbhit()))
 		usleep(1000);
