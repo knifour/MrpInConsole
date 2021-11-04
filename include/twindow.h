@@ -53,9 +53,10 @@ protected:
 	// 依照游標位置取得顯示緩衝區指標sp，左上角位置為1,1
 	bool setSP(int, int);
 	// 根據WIN struct設定的游標位置及列數、行數將視窗緩衝區的資料移動到TERMINAL緩衝區且即時顯示出來
-	void TWin2Term(WIN);
+	//void TWin2Term(WIN);
 	
 public:
+  void TWin2Term(WIN);
 	TWINDOW();
 	~TWINDOW();
 	// 重設所有屬性(包括顏色)
