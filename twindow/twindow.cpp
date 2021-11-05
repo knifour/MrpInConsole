@@ -171,6 +171,17 @@ template<class T> bool TWINDOW<T>::getUnderline(void) const{
 	return mUnderline;
 }
 
+template<class T> void TWINDOW<T>::setSchar(int pLin, int pCol, SCHAR* pSchar){
+	if (pLin < 1 || pLin > mLINS)
+		return;
+	
+	if (pCol < 1 || pCol > mCOLS)
+		return;
+	
+	if (setSP(pLin, pCol))
+		*sp = *pSchar;
+}
+
 template<class T> int TWINDOW<T>::getLINS() const{
 	return mLINS;
 }
@@ -216,6 +227,24 @@ template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
 	tgetent(buf, getenv("TERM"));
 	gotostr = tgetstr("cm", &ap);
 	fputs(tgoto(gotostr, mCurCol-1, mCurLin-1), stdout);
+}
+
+template<class T> void TWINDOW<T>::print(const string p){
+	print((uint8_t*)p.c_str());
+}
+
+template<class T> void TWINDOW<T>::print(const char* p){
+	print((uint8_t*)p);
+}
+
+template<class T> void TWINDOW<T>::print(const uint8_t* p){
+	int chars, dlen;
+	
+	// 字串含有不合法UTF8字元，則不列印結束
+	if ((chars=countChars(p))<0)
+		return;
+	
+	dlen = getDisplayLength(p);
 }
 
 template<class T> TWINDOW<T>::~TWINDOW(){

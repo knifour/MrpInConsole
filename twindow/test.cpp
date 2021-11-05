@@ -10,13 +10,17 @@ int main(void){
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 
-	int code=0;
+	int code=0, cnt = 11;
 	string buf;
-	showCursor();
-	tmain.locate(1, 5);
-	buf = input(code);
-	if (code==0)
-		cout << buf << endl;
 	
+	while (code!=ESC){
+		tmain.locate(cnt, 11);
+	  buf = input(code);
+	  if (code==0){
+		  cout << buf;
+			cnt++;
+		}
+	}
+	cout << endl;
 	return 0;
 }

@@ -139,7 +139,7 @@ string getKeycode(int bytes){
 }
 
 string input(int& funckey){
-	int cnt=1, result;
+	int cnt, result;
 	string keycode;
 	
 	//initTermios(0);

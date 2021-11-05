@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <terminal.h>
 #include <list>
+#include <stdint.h>
 
 using namespace std;
 
@@ -55,10 +56,9 @@ protected:
 	// 依照游標位置取得顯示緩衝區指標sp，左上角位置為1,1
 	bool setSP(int, int);
 	// 根據WIN struct設定的游標位置及列數、行數將視窗緩衝區的資料移動到TERMINAL緩衝區且即時顯示出來
-	//void TWin2Term(WIN);
+	void TWin2Term(WIN);
 	
 public:
-  void TWin2Term(WIN);
 	TWINDOW();
 	~TWINDOW();
 	// 重設所有屬性(包括顏色)
@@ -79,6 +79,8 @@ public:
 	void setUnderline(bool);
 	// 取得是否底線設定
 	bool getUnderline(void) const;
+	// 將特定游標位置的字元設定成傳入的SCHAR字元(超出TWINDOW範圍無效)
+	void setSchar(int, int, SCHAR*);
 	// 取得視窗列數
 	int getLINS() const;
 	// 取得視窗行數
@@ -91,6 +93,11 @@ public:
 	void cls();
 	// 設定游標位置(超出視窗範圍無效)，視窗左上角位置為1, 1
 	void locate(int, int);
+	
+	// 將字串印在視窗上面，可接受三種參數 char*、string、uint8_t*
+	void print(const char *p);                                     
+	void print(const string p);
+	void print(const uint8_t *p);
 };
 
 #endif
