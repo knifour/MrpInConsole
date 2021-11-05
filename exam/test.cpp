@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <termcap.h>
+#include <iostream>
+
+using namespace std;
 
 int main(){
 	char buf[1024];
@@ -17,7 +20,8 @@ int main(){
 	
 	fputs(clearstr, stdout);
 	fputs(tgoto(gotostr, 20, 10), stdout);
-	printf("您好, ");
+	//printf("\x1B[31m您好, \x1B[0m");
+	cout << "\x1B[31m您好， \x1B[0m";
 	fputs(standstr, stdout);
 	printf("世界");
 	fputs(stendstr, stdout);

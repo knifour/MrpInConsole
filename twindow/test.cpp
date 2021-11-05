@@ -9,12 +9,18 @@ using namespace std;
 int main(void){
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
-	
-	WIN win;
-	
-	win.Lin = win.Col = 1;
-	win.Lins = win.Cols = 1;
-	tmain.TWin2Term(win);
+
+	int code=0;
+	string buf;
+	showCursor();
+	tmain.locate(1, 5);
 	char c=getch();
+	while (code!=27){
+		buf = input(code);
+		if (code==0){
+			cout << buf << endl;
+		}
+	}
+	
 	return 0;
 }

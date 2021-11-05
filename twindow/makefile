@@ -1,6 +1,6 @@
 cc=g++
 CFLAGS=-c -std=c++11 -fPIC -D_GNU_SOURCE -I../include
-LFLAGS=-L.. -lknifour
+LFLAGS=-L.. -lknifour -ltermcap
 
 test: test.o ../libknifour.a
 	$(cc) -o $@ $< $(LFLAGS)

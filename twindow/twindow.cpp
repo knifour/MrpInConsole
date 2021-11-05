@@ -194,7 +194,10 @@ template<class T> void TWINDOW<T>::cls(void){
 }
 
 template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
-	char Buf[40];
+	char buf[1024];
+	char buf2[30];
+	char *ap=buf2;
+	char *gotostr;
 	
 	if (pLin < 1 || pLin > mLINS) 
 		return;
@@ -208,8 +211,11 @@ template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
 		return;
 	mCurLin = tLin;
 	mCurCol = tCol;
-	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
-	cout << Buf;
+	/*sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
+	cout << Buf;*/
+	tgetent(buf, getenv("TERM"));
+	gotostr = tgetstr("cm", &ap);
+	fputs(tgoto(gotostr, mCurCol-1, mCurLin-1), stdout);
 }
 
 template<class T> TWINDOW<T>::~TWINDOW(){

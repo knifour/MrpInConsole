@@ -153,7 +153,10 @@ template<class T> void TERMINAL<T>::cls(void){
 // 螢幕左上角為 1, 1
 // 設定超過螢幕範圍會自動調整成適合螢幕大小的位置
 template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
-	char Buf[10];
+	char buf[1024];
+	char buf2[30];
+	char *ap=buf2;
+	char *gotostr;
 	
 	if (pLin < 1 || pLin > mLINS)
 		return;
@@ -164,8 +167,11 @@ template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 		return;
 	else
 		mCurCol = pCol;
-	sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
-	cout << Buf;
+	/*sprintf(Buf, "\x1B[%d;%dH", mCurLin, mCurCol);
+	cout << Buf;*/
+	tgetent(buf, getenv("TERM"));
+	gotostr = tgetstr("cm", &ap);
+	fputs(tgoto(gotostr, mCurCol-1, mCurLin-1), stdout);
 }
 
 template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int pCols){
