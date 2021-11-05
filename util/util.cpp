@@ -132,21 +132,27 @@ string getKeycode(int bytes){
 	char buf[300];
 	
   for (int i=0; i<bytes; i++)
-    buf[i] = getch();
+		buf[i] = getchar();
   buf[bytes] = 0;
 
   return string(buf);	
 }
 
 string input(int& funckey){
-	int cnt, result;
+	int cnt=1, result;
 	string keycode;
 	
+	//initTermios(0);
+	//while (!(cnt=_kbhit()))
+	//	usleep(1000);
+	//resetTermios();
 	initTermios(0);
-	while (!(cnt=_kbhit()))
-		usleep(1000);
-	resetTermios();
+	setbuf(stdin, NULL);
+	char c = getchar();
+  ioctl(0, FIONREAD, &cnt);
   keycode = getKeycode(cnt);
+	resetTermios();
+	keycode = c + keycode;
 	bool match = false;
 	for (int i=0; i<MAPLENGTH; i++){
 		if (keycode.compare(KEYMAP[i])==0){

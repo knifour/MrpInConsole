@@ -14,13 +14,9 @@ int main(void){
 	string buf;
 	showCursor();
 	tmain.locate(1, 5);
-	char c=getch();
-	while (code!=27){
-		buf = input(code);
-		if (code==0){
-			cout << buf << endl;
-		}
-	}
+	buf = input(code);
+	if (code==0)
+		cout << buf << endl;
 	
 	return 0;
 }
