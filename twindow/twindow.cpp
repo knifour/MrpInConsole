@@ -335,6 +335,65 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	delete[] buf;
 }
 
+template<class T> bool TWINDOW<T>::printFromFile(const char* filename){
+	fstream scr;
+	string buf, tmp;
+	int cnt;
+	int lin, col;
+	int fcolor, bcolor;
+	
+	scr.open(filename, ios::in);
+	if (!scr)  // 如果開檔失敗則結束並回傳錯誤
+		return false;
+	
+	if (getline(scr, buf)){ // 讀取第一行
+	  cnt = 0;
+		for (int i=0; i<buf.length(); i++){
+			if (buf.substr(i, 1) == ",")
+				cnt++;
+		}
+		if (cnt != 3){ // 逗點數不是三個，表示參數數量錯誤
+			scr.close();  
+			return false;  // 結束
+		}
+		
+		cnt = 0;
+		tmp = "";
+		for (int i=0; i<buf.length(); i++){
+			if (buf.substr(i, 1) == ","){
+				switch (cnt){
+					case 0:
+					  lin = stoi(tmp, nullptr);
+						tmp = "";
+						break;
+					case 1:
+					  col = stoi(tmp, nullptr);
+						tmp = "";
+						break;
+					case 2:
+					  fcolor = stoi(tmp, nullptr);
+						tmp = "";
+						break;
+				}
+				cnt++;
+				continue;
+			}
+			tmp = tmp + buf.substr(i, 1);
+		}
+		bcolor = stoi(tmp, nullptr);
+	}
+	
+	setFColor(fcolor);
+	setBColor(bcolor);
+	while (getline(scr, buf)){
+		locate(lin, col);
+		print(buf);
+		lin++;
+	}
+	scr.close();
+	return true;
+}
+
 template<class T> TWINDOW<T>::~TWINDOW(){
 	for (int i=0; i<mLINS; i++)
 		delete[] TWindowBuf[i];

@@ -12,13 +12,18 @@ int main(void){
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 
-  tmain.locate(10, 11);
-	tmain.setFColor(ATTR::HRED);
-	tmain.print("測試");
-	input(code);
-	tmain.locate(10, 61);
+  tmain.printFromFile("menu.scr");
+	tmain.locate(5, 16);
 	tmain.setBColor(ATTR::BLUE);
-	tmain.print("繽紛景觀資材有限公司");
+	tmain.setFColor(ATTR::RED);
+	tmain.print("零件資料管理");
+	tmain.locate(7, 16);
+	tmain.print("客戶資料管理");
+	tmain.locate(8, 16);
+	tmain.print("廠商資料管理");
+	tmain.locate(6, 16);
+	tmain.setFColor(ATTR::HRED);
+	tmain.print("產品資料管理");
 	input(code);
 	
 	return 0;

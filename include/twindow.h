@@ -13,6 +13,7 @@
 #include <terminal.h>
 #include <list>
 #include <stdint.h>
+#include <fstream>
 
 using namespace std;
 
@@ -101,6 +102,7 @@ public:
 	void print(const string p);
 	void print(const uint8_t *p);
 	// 從檔案讀取資料列印在視窗上面
+	bool printFromFile(const char *filename);
 };
 
 #endif
