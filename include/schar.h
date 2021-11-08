@@ -64,6 +64,7 @@ public:
 	virtual void printMember() const = 0;
 	virtual void printChar() const = 0;
 	virtual bool isWide() const = 0;
+	virtual bool isWideTail() const = 0;
 };
 
 #endif

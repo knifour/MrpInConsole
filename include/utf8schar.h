@@ -44,6 +44,7 @@ public:
 	void printMember() const override;
 	void printChar() const override;
 	bool isWide() const override;
+	bool isWideTail() const override;
 };
 
 #endif

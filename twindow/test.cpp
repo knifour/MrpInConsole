@@ -19,8 +19,11 @@ int main(void){
 	  if (code==0){
 		  cout << buf;
 			cnt++;
+			if (cnt>tmain.getLINS())
+				break;
 		}
 	}
 	cout << endl;
+	
 	return 0;
 }

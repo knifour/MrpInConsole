@@ -8,8 +8,8 @@
 #include <attr.h>
 #include <utf8.h>
 #include <utf8schar.h>
-#include <termcap.h>
-#include <stdlib.h>
+//#include <termcap.h>
+//#include <stdlib.h>
 #include <terminal.h>
 #include <list>
 #include <stdint.h>

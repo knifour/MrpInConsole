@@ -159,6 +159,10 @@ bool UTF8SCHAR::isWide() const{
 		return false;
 }
 
+bool UTF8SCHAR::isWideTail() const {
+	return !mValid;
+}
+
 std::ostream& operator<<(std::ostream &s, UTF8SCHAR p){
 	char Buf[20];
 	

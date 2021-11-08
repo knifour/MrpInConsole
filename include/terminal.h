@@ -6,8 +6,8 @@
 // 有定義STDOUT_FILENO, 使用ioctl時會用到
 #include <unistd.h> 
 #include <string.h>
-#include <termcap.h>
-#include <stdlib.h>
+//#include <termcap.h>
+//#include <stdlib.h>
 #include <attr.h>
 #include <schar.h>
 #include <utf8schar.h>
