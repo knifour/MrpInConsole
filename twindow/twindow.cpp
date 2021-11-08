@@ -242,7 +242,10 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	int maxlen;
 	uint8_t blank[]=" ";
 	
-	// 字串含有不合法UTF8字元，則不列印結束
+	if (mError)
+		return;
+	
+	// 計算要列印的字數(中、英文皆算1字)，若字串含有不合法UTF8字元，則不列印結束
 	if ((cnt=countChars(p))<0)
 		return;
 	
@@ -259,7 +262,8 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	int endPos = 0;  // 要填入視窗顯示緩衝區的陣列結束位置
 	int curPos = 1;  // 將要列印的字串一個一個取出放入陣列，這個指標儲存著現在要填入的陣列位置
 	int tmpLen = dlen;  // tmpLen儲存剩餘顯示寬度
-	int strCol = mCurCol, tmpCol = mCurCol - 1; // tmpCol儲存列印後游標位置(最後一個字元所在位置)
+	int strCol = mCurCol;
+	int tmpCol = mCurCol - 1; // tmpCol儲存列印後游標位置(最後一個字元所在位置)
 	uint8_t tmp[3];
 	
   if (setSP(mCurLin, mCurCol)){
@@ -310,13 +314,12 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	}
 	
 	SCHAR* tmpSP;
+	int realLen = tmpCol - strCol + 1;
 	tmpCol = strCol;
 	for (int i=strPos; i<=endPos; i++){
 		tmpSP = &buf[i];
-		if (setSP(mCurLin, tmpCol)){
-			*sp = *tmpSP;
-			tmpCol++;
-		}
+		setSchar(mCurLin, tmpCol, tmpSP);
+		tmpCol++;
 	}
 	
 	WIN win;
@@ -324,9 +327,10 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	win.Lin = mCurLin;
 	win.Lins = 1;
 	win.Col = strCol;
-	win.Cols = dlen;
+	win.Cols = realLen;
 	
-	TWin2Term(win);
+	if (realLen > 0)
+	  TWin2Term(win);
 	
 	delete[] buf;
 }
