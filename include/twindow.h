@@ -17,13 +17,6 @@
 
 using namespace std;
 
-typedef struct tagWIN {
-	int Lin;
-	int Col;
-	int Lins;
-	int Cols;
-} WIN;
-
 template <class T>
 class TWINDOW{
 protected:
@@ -104,5 +97,7 @@ public:
 	// 從檔案讀取資料列印在視窗上面
 	bool printFromFile(const char *filename);
 };
+
+template class TWINDOW<UTF8SCHAR>;
 
 #endif

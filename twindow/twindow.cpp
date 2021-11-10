@@ -52,12 +52,13 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	int LINS = mTerminal->getLINS();
 	int COLS = mTerminal->getCOLS();
 	
-	// 視窗座標對應到TERMINAL座標
-	int realLin = mLin + sWin.Lin - 1;
-	if (realLin < 1 || realLin > LINS)
+	// 將視窗座標對應到TERMINAL座標
+	WIN win;
+	win.Lin = mLin + sWin.Lin - 1;
+	if (win.Lin < 1 || win.Lin > LINS)
 		return;
-	int realCol = mCol + sWin.Col - 1;
-	if (realCol < 1 || realCol > COLS)
+	win.Col = mCol + sWin.Col - 1;
+	if (win.Col < 1 || win.Col > COLS)
 		return;
 	
 	// 計算來源視窗右下角座標
@@ -68,13 +69,13 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	if (sRight > mCOLS)
 		sRight = mCOLS;
 	
-	int tmpLin = realLin - 1;
+	int tmpLin = win.Lin - 1;
 	int tmpCol;
 	for (int i=sWin.Lin; i<=sBottom; i++){
 		tmpLin++;
 		if (tmpLin > LINS)
 			break;
-		tmpCol = realCol - 1;
+		tmpCol = win.Col - 1;
 		for (int j=sWin.Col; j<=sRight; j++){
 		 tmpCol++;
 		 if (tmpCol > COLS)
@@ -84,7 +85,10 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 		}
 	}
 	
-	mTerminal->reflash(realLin, realCol, sWin.Lins, sWin.Cols);
+	win.Lins = sWin.Lins;
+	win.Cols = sWin.Cols;
+	
+	mTerminal->reflash(win);
 }
 
 template<class T> void TWINDOW<T>::init(int FColor, int BColor){
@@ -400,5 +404,3 @@ template<class T> TWINDOW<T>::~TWINDOW(){
 	
 	delete[] TWindowBuf;
 }
-
-template class TWINDOW<UTF8SCHAR>;

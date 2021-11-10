@@ -144,7 +144,8 @@ template<class T> int TERMINAL<T>::getCOLS() const{
 template<class T> void TERMINAL<T>::cls(void){
 	/*init(mFColor, mBColor);*/
 	cout << "\x1B[J";
-	reflash();
+	WIN win;
+	reflash(win);
 	locate(1, 1);
 }
 
@@ -174,34 +175,35 @@ template<class T> void TERMINAL<T>::locate(int pLin, int pCol){
 	fputs(tgoto(gotostr, mCurCol-1, mCurLin-1), stdout);*/
 }
 
-template<class T> void TERMINAL<T>::reflash(int pLin, int pCol, int pLins, int pCols){
+template<class T> void TERMINAL<T>::reflash(WIN win){
   int tmpLin, tmpCol;
 	
 	// 如果沒有傳入參數或是所有參數皆為0表示更新全終端機
-	if (pLin == 0) pLin = 1;
-	if (pCol == 0) pCol = 1;
-	if (pLins == 0) pLins = mLINS;
-	if (pCols == 0) pCols = mCOLS;
-	
-	// 如果傳入的左上角座標超過終端機範圍，自動調整到終端機範圍
-	if (pLin < 1) pLin = 1;
-	if (pLin > mLINS) pLin = mLINS;
-	if (pCol < 1) pCol = 1;
-	if (pCol > mCOLS) pCol = mCOLS;
+	if (win.Lin == 0 && win.Col == 0 && win.Lins == 0 && win.Cols == 0){
+		win.Lin = win.Col = 1;
+		win.Lins = mLINS;
+		win.Cols = mCOLS;
+	} else {
+		// 傳入參數錯誤時不處理返回
+	  if (win.Lin < 0 || win.Lin > mLINS) return;
+	  if (win.Col < 0 || win.Col > mCOLS) return;
+    if (win.Lins < 1 || win.Lins > (mLINS-win.Lin+1)) return;
+		if (win.Cols < 1 || win.Cols > (mCOLS-win.Col+1)) return;
+	}
 	
 	// 計算右下角座標，如果超過終端機範圍，自動調整到終端機範圍
-	tmpLin = pLin + pLins - 1;
+	tmpLin = win.Lin + win.Lins - 1;
 	if (tmpLin > mLINS) tmpLin = mLINS;
-	tmpCol = pCol + pCols - 1;
+	tmpCol = win.Col + win.Cols - 1;
 	if (tmpCol > mCOLS) tmpCol = mCOLS;
 	
-	for (int i=pLin; i<=tmpLin; i++)
-		for (int j=pCol; j<=tmpCol; j++){
-			setSP(i, j);
-			if (sp->isValid()){
-				locate(i, j);
-				sp->printChar();
-			}
+	for (int i=win.Lin; i<=tmpLin; i++)
+		for (int j=win.Col; j<=tmpCol; j++){
+			if (setSP(i, j))
+			  if (sp->isValid()){
+				  locate(i, j);
+				  sp->printChar();
+			  }
 		}
 }
 
@@ -213,5 +215,3 @@ template<class T> TERMINAL<T>::~TERMINAL(){
 	
 	delete[] TermBuf;
 }
-
-template class TERMINAL<UTF8SCHAR>;

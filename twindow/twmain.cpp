@@ -28,5 +28,3 @@ template <class T> TWMAIN<T>::TWMAIN(TERMINAL<T>* t){
 template <class T> TWMAIN<T>::~TWMAIN(){
 	
 }
-
-template class TWMAIN<UTF8SCHAR>;

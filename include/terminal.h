@@ -16,6 +16,14 @@
 
 using namespace std;
 
+typedef struct tagWIN {
+	tagWIN(): Lin(0), Col(0), Lins(0), Cols(0) {}
+	int Lin;
+	int Col;
+	int Lins;
+	int Cols;
+} WIN;
+
 template <class T>
 class TERMINAL{
 private:
@@ -78,7 +86,9 @@ public:
 	// 設定游標位置(超出終端機範圍會自動調整回終端機範圍)，游標左上角位置為1, 1
 	void locate(int, int);
 	// 根據緩衝區內容顯示終端機內容
-	void reflash(int pLin=0, int pCol=0, int pLins=0, int pCols=0);
+	void reflash(WIN);
 };
+
+template class TERMINAL<UTF8SCHAR>;
 
 #endif

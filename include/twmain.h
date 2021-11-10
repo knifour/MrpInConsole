@@ -15,4 +15,6 @@ public:
 	~TWMAIN();
 };
 
+template class TWMAIN<UTF8SCHAR>;
+
 #endif
