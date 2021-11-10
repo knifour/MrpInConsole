@@ -41,6 +41,12 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	if (mTerminal==nullptr)
 		return;
 	
+	if (sWin.Lin == 0 && sWin.Col == 0 && sWin.Lins == 0 && sWin.Cols == 0){
+		sWin.Lin = sWin.Col = 1;
+		sWin.Lins = mLINS;
+		sWin.Cols = mCOLS;
+	}
+	
 	// 來源列座標超出視窗位置無效
 	if (sWin.Lin < 1 || sWin.Lin > mLINS)
 		return;
@@ -110,9 +116,9 @@ template<class T> void TWINDOW<T>::init(int FColor, int BColor){
 	
 	WIN win;
 	
-	win.Lin = win.Col = 1;
+	/*win.Lin = win.Col = 1;
 	win.Lins = mLINS;
-	win.Cols = mCOLS;
+	win.Cols = mCOLS;*/
 	TWin2Term(win);
 }
 

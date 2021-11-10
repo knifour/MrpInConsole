@@ -11,7 +11,7 @@
 //#include <termcap.h>
 //#include <stdlib.h>
 #include <terminal.h>
-#include <list>
+#include <vector>
 #include <stdint.h>
 #include <fstream>
 
@@ -25,7 +25,7 @@ protected:
   /* 父視窗指標, nullptr代表沒有父視窗 */
   TWINDOW* mParant;
 	/* 子視窗 */
-	list<TWINDOW*> mChild;
+	vector<TWINDOW*> mChild;
 	/* 視窗左上角位置 */
   int mLin, mCol;
 	/* 現在游標位置 */
