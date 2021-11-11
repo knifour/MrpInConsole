@@ -8,7 +8,6 @@
 #include <attr.h>
 #include <utf8.h>
 #include <utf8schar.h>
-#include <tableset.h>
 //#include <termcap.h>
 //#include <stdlib.h>
 #include <terminal.h>

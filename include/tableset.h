@@ -3,7 +3,11 @@
 
 #include <stdint.h>
 
-uint8_t SHZ[] = "\xe2\x94\x80\x0";
+extern uint8_t SHZ[], SVT[], SUL[], SUM[], SUR[], SML[], SMM[], SMR[], SDL[], SDM[], SDR[];
+extern uint8_t DHZ[], DVT[], DUL[], DUM[], DUR[], DML[], DMM[], DMR[], DDL[], DDM[], DDR[];
+extern uint8_t HZ[],  VT[],  UL[],  UM[],  UR[],  ML[],  MM[],  MR[],  DL[],  DM[],  DR[];
+
+/*uint8_t SHZ[] = "\xe2\x94\x80\x0";
 uint8_t SVT[] = "\xe2\x94\x82\x0";
 uint8_t SUL[] = "\xe2\x94\x8c\x0";
 uint8_t SUM[] = "\xe2\x94\xac\x0";
@@ -55,6 +59,5 @@ uint8_t DL[] = "\xe2\x94\x94\x0";
 uint8_t DM[] = "\xe2\x94\xb4\x0";
 uint8_t DR[] = "\xe2\x94\x98\x0";
 #endif
-
-
+*/
 #endif

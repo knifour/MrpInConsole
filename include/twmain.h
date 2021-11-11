@@ -2,6 +2,7 @@
 #define __TWMAIN_H
 
 #include <twindow.h>
+#include <tableset.h>
 
 template <class T>
 class TWMAIN : public TWINDOW<T> {
