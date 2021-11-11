@@ -35,6 +35,8 @@ template<class T> void TWINDOW<T>::createBuffer(void){
 }
 
 template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
+	WIN win;
+	
 	if (mError)
 		return;
 	
@@ -59,12 +61,11 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	int COLS = mTerminal->getCOLS();
 	
 	// 將視窗座標對應到TERMINAL座標
-	WIN win;
 	win.Lin = mLin + sWin.Lin - 1;
 	if (win.Lin < 1 || win.Lin > LINS)
 		return;
 	win.Col = mCol + sWin.Col - 1;
-	if (win.Col < 1 || win.Col > COLS)
+  if (win.Col < 1 || win.Col > COLS)
 		return;
 	
 	// 計算來源視窗右下角座標
@@ -116,9 +117,9 @@ template<class T> void TWINDOW<T>::init(int FColor, int BColor){
 	
 	WIN win;
 	
-	/*win.Lin = win.Col = 1;
+	win.Lin = win.Col = 1;
 	win.Lins = mLINS;
-	win.Cols = mCOLS;*/
+	win.Cols = mCOLS;
 	TWin2Term(win);
 }
 
@@ -198,6 +199,14 @@ template<class T> int TWINDOW<T>::getLINS() const{
 
 template<class T> int TWINDOW<T>::getCOLS() const{
 	return mCOLS;
+}
+
+template<class T> int TWINDOW<T>::getLin() const{
+	return mLin;
+}
+
+template<class T> int TWINDOW<T>::getCol() const{
+	return mCol;
 }
 
 template<class T> int TWINDOW<T>::getCurLin() const{

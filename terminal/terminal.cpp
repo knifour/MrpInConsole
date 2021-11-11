@@ -185,8 +185,8 @@ template<class T> void TERMINAL<T>::reflash(WIN win){
 		win.Cols = mCOLS;
 	} else {
 		// 傳入參數錯誤時不處理返回
-	  if (win.Lin < 0 || win.Lin > mLINS) return;
-	  if (win.Col < 0 || win.Col > mCOLS) return;
+	  if (win.Lin < 1 || win.Lin > mLINS) return;
+	  if (win.Col < 1 || win.Col > mCOLS) return;
     if (win.Lins < 1 || win.Lins > (mLINS-win.Lin+1)) return;
 		if (win.Cols < 1 || win.Cols > (mCOLS-win.Col+1)) return;
 	}

@@ -8,6 +8,7 @@
 #include <attr.h>
 #include <utf8.h>
 #include <utf8schar.h>
+#include <tableset.h>
 //#include <termcap.h>
 //#include <stdlib.h>
 #include <terminal.h>
@@ -80,6 +81,10 @@ public:
 	int getLINS() const;
 	// 取得視窗行數
 	int getCOLS() const;
+	// 取得視窗左上角列座標
+	int getLin() const;
+	// 取得視窗左上角行座標
+	int getCol() const;
 	// 取得游標所在列
 	int getCurLin() const;
 	// 取得游標所在行
@@ -95,7 +100,7 @@ public:
 	void print(const string p);
 	void print(const uint8_t *p);
 	// 從檔案讀取資料列印在視窗上面
-	bool printFromFile(const char *filename);
+	bool printFromFile(const char*);
 };
 
 template class TWINDOW<UTF8SCHAR>;
