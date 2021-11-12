@@ -187,8 +187,8 @@ template<class T> void TERMINAL<T>::reflash(WIN win){
 		// 傳入參數錯誤時不處理返回
 	  if (win.Lin < 1 || win.Lin > mLINS) return;
 	  if (win.Col < 1 || win.Col > mCOLS) return;
-    if (win.Lins < 1 || win.Lins > (mLINS-win.Lin+1)) return;
-		if (win.Cols < 1 || win.Cols > (mCOLS-win.Col+1)) return;
+    //if (win.Lins < 1 || win.Lins > (mLINS-win.Lin+1)) return;
+		//if (win.Cols < 1 || win.Cols > (mCOLS-win.Col+1)) return;
 	}
 	
 	// 計算右下角座標，如果超過終端機範圍，自動調整到終端機範圍
@@ -203,7 +203,14 @@ template<class T> void TERMINAL<T>::reflash(WIN win){
 			  if (sp->isValid()){
 				  locate(i, j);
 				  sp->printChar();
-			  }
+			  } else {
+					// 如果要列印的第一個字是無效字元，表示它是寬字元的尾部，所以要從前一個字元開始印
+					if (j==win.Col) 
+						if (setSP(i, j-1)){
+							locate(i, j-1);
+							sp->printChar();
+						}
+				}
 		}
 }
 

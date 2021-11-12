@@ -148,7 +148,7 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	win.Lins = sWin.Lins;
 	win.Cols = sWin.Cols;
 	
-	mTerminal->reflash(win);
+	//mTerminal->reflash(win);
 }
 
 template<class T> void TWINDOW<T>::init(int FColor, int BColor){
@@ -174,6 +174,7 @@ template<class T> void TWINDOW<T>::init(int FColor, int BColor){
 	win.Lins = mLINS;
 	win.Cols = mCOLS;
 	TWin2Term(win);
+	reflash(win);
 }
 
 template<class T> bool TWINDOW<T>::setSP(int pLin, int pCol){
@@ -286,19 +287,33 @@ template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
 		return;
 	if (pCol < 1 || pCol > mCOLS)
 		return;
-	int tLin = mLin + pLin - 1;
+	int tLin = getRealLin(mParant) + pLin - 1;
 	if (tLin > mTerminal->getLINS())
 		return;
-	int tCol = mCol + pCol - 1;
+	int tCol = getRealCol(mParant) + pCol - 1;
 	if (tCol > mTerminal->getCOLS())
 		return;
-	mCurLin = tLin;
-	mCurCol = tCol;
+	mCurLin = pLin;
+	mCurCol = pCol;
 	sprintf(buf, "\x1B[%d;%dH", mCurLin, mCurCol);
 	cout << buf;
 	/*tgetent(buf, getenv("TERM"));
 	gotostr = tgetstr("cm", &ap);
 	fputs(tgoto(gotostr, mCurCol-1, mCurLin-1), stdout);*/
+}
+
+template<class T> int TWINDOW<T>::getRealLin(TWINDOW<T>* p) const{
+	if (p==nullptr)
+		return 1;
+	else
+		return p->mLin+getRealLin(p->mParant)-1;
+}
+
+template<class T> int TWINDOW<T>::getRealCol(TWINDOW<T>* p) const{
+	if (p==nullptr)
+		return 1;
+	else
+		return p->mCol+getRealCol(p->mParant)-1;
 }
 
 template<class T> void TWINDOW<T>::print(const string p){
@@ -401,10 +416,18 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	win.Col = strCol;
 	win.Cols = realLen;
 	
-	if (realLen > 0)
+	if (realLen > 0){
 	  TWin2Term(win);
+		reflash(win);
+	}
 	
 	delete[] buf;
+}
+
+template<class T> void TWINDOW<T>::reflash(WIN win){
+	win.Lin = win.Lin + getRealLin(mParant) - 1;
+	win.Col = win.Col + getRealCol(mParant) - 1;
+	mTerminal->reflash(win);
 }
 
 template<class T> bool TWINDOW<T>::printFromFile(const char* filename){

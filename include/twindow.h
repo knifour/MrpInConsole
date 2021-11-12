@@ -92,6 +92,10 @@ public:
 	void cls();
 	// 設定游標位置(超出視窗範圍無效)，視窗左上角位置為1, 1
 	void locate(int, int);
+	// 取得真實行座標(對應到TERMINAL)
+	int getRealLin(TWINDOW<T>*) const;
+	// 取得真實列座標(對應到TERMINAL)
+	int getRealCol(TWINDOW<T>*) const;
 	
 	// 將字串印在視窗上面，可接受三種參數 char*、string、uint8_t*
 	// print實際上只把要列印的內容填入視窗緩衝區，實際顯示工作是由TERMINAL物件完成
@@ -100,6 +104,8 @@ public:
 	void print(const uint8_t *p);
 	// 從檔案讀取資料列印在視窗上面
 	bool printFromFile(const char*);
+	// 重繪
+	void reflash(WIN);
 };
 
 template class TWINDOW<UTF8SCHAR>;
