@@ -108,6 +108,4 @@ public:
 	void reflash(WIN);
 };
 
-template class TWINDOW<UTF8SCHAR>;
-
 #endif

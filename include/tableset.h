@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-extern uint8_t SHZ[], SVT[], SUL[], SUM[], SUR[], SML[], SMM[], SMR[], SDL[], SDM[], SDR[];
-extern uint8_t DHZ[], DVT[], DUL[], DUM[], DUR[], DML[], DMM[], DMR[], DDL[], DDM[], DDR[];
-extern uint8_t HZ[],  VT[],  UL[],  UM[],  UR[],  ML[],  MM[],  MR[],  DL[],  DM[],  DR[];
+extern char SHZ[], SVT[], SUL[], SUM[], SUR[], SML[], SMM[], SMR[], SDL[], SDM[], SDR[];
+extern char DHZ[], DVT[], DUL[], DUM[], DUR[], DML[], DMM[], DMR[], DDL[], DDM[], DDR[];
+extern char HZ[],  VT[],  UL[],  UM[],  UR[],  ML[],  MM[],  MR[],  DL[],  DM[],  DR[];
 
 /*uint8_t SHZ[] = "\xe2\x94\x80\x0";
 uint8_t SVT[] = "\xe2\x94\x82\x0";

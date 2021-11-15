@@ -26,7 +26,8 @@ template<class T> void TERMINAL<T>::resetAttr(void){
 /* 依參數設定前景、背景 */
 /* 預設值前景：白色、背景：黑色、無底線 */
 template<class T> void TERMINAL<T>::init(int FColor, int BColor){
-	uint8_t blank[] = " ";
+	//uint8_t blank[] = " ";
+	char blank[] = "";
 	
 	setFColor(FColor);
 	setBColor(BColor);
@@ -222,3 +223,5 @@ template<class T> TERMINAL<T>::~TERMINAL(){
 	
 	delete[] TermBuf;
 }
+
+template class TERMINAL<UTF8SCHAR>;

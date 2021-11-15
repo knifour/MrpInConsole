@@ -5,7 +5,7 @@
 #include <tableset.h>
 
 template <class T>
-class TWMAIN : public TWINDOW<T> {
+class TWMAIN : public TWINDOW<T>{
 private:
 
 protected:
@@ -15,7 +15,5 @@ public:
   TWMAIN(TERMINAL<T>*);
 	~TWMAIN();
 };
-
-template class TWMAIN<UTF8SCHAR>;
 
 #endif

@@ -1,6 +1,10 @@
 #include "utf8.h"
 
 namespace utf8{
+
+int getUtfLength(char code){
+	return ((uint8_t)code);
+}	
 	
 int getUtfLength(uint8_t code){
   return (code >> 7)   == 0    ? 1 :
@@ -20,6 +24,10 @@ int getUtfLength(uint32_t code){
 				 (code <= 0x7FFFFFF) ? 6 : 0;
 }
 
+uint32_t fromUtf2Unicode(const char* utf){
+	return fromUtf2Unicode((uint8_t*)utf);
+}
+
 uint32_t fromUtf2Unicode(const uint8_t* utf){
 	uint32_t unicode = 0;
 	uint32_t mask = 0xFF;
@@ -36,6 +44,10 @@ uint32_t fromUtf2Unicode(const uint8_t* utf){
 	}
 	
 	return unicode;
+}
+
+bool isUtf8(const char* str){
+	return isUtf8((uint8_t*)str);
 }
 
 bool isUtf8(const std::string& str){
@@ -62,6 +74,10 @@ bool isUtf8(const uint8_t* str){
 	return true;
 }
 	
+int countChars(const char* str){
+	return countChars((uint8_t*)str);
+}	
+	
 int countChars(const std::string& str){
 	return countChars((uint8_t*)str.c_str());
 }
@@ -84,6 +100,10 @@ int countChars(uint8_t const* str){
   }
 	
   return len;
+}
+
+int countChars(const char* str, int& codelen){
+	return countChars((uint8_t*)str, codelen);
 }
 
 int countChars(const std::string& str, int& codelen){
@@ -114,6 +134,10 @@ int countChars(const uint8_t* str, int& codelen){
   return len;
 }
 
+int getFirstDisplayLength(const char* str){
+	return getFirstDisplayLength((uint8_t*)str);
+}
+
 int getFirstDisplayLength(const std::string& str){
 	return getFirstDisplayLength((uint8_t*)str.c_str());
 }
@@ -130,6 +154,10 @@ int getFirstDisplayLength(const uint8_t* str){
 		return -1;
 	else
 		return isWideChar(unicode) ? 2 : 1;
+}
+
+int getDisplayLength(const char* str){
+	return getDisplayLength((uint8_t*)str);
 }
 
 int getDisplayLength(const std::string& str){
@@ -152,6 +180,10 @@ int getDisplayLength(const uint8_t* str){
 	}
 	
 	return result;
+}
+
+int getMidBytes(const char* src, int start, int length){
+	return getMidBytes((uint8_t*)src, start, length);
 }
 
 int getMidBytes(const std::string& src, int start, int length){
@@ -198,8 +230,13 @@ int getMidBytes(const uint8_t* src, int start, int length){
 	return rbytes;
 }
 
+int getMidStr(const char* src, uint8_t* dst, int start, int length){
+	return getMidStr((uint8_t*)src, dst, start, length);
+}
+
 int getMidStr(const std::string& src, uint8_t* dst, int start, int length){
-	return getMidStr((uint8_t*)&src[0], dst, start, length);
+	//return getMidStr((uint8_t*)&src[0], dst, start, length);
+	return getMidStr((uint8_t*)src.c_str(), dst, start, length);
 }
 
 int getMidStr(const uint8_t* src, uint8_t* dst, int start, int length){
@@ -243,8 +280,13 @@ int getMidStr(const uint8_t* src, uint8_t* dst, int start, int length){
 	return rlen;
 }
 
+std::string getMidStr(const char* src, int start, int length){
+	return getMidStr((uint8_t*)src, start, length);
+}
+
 std::string getMidStr(const std::string& src, int start, int length){
-	return getMidStr((uint8_t*)&src[0], start, length);
+	//return getMidStr((uint8_t*)&src[0], start, length);
+	return getMidStr((uint8_t*)src.c_str(), start, length);
 }
 
 std::string getMidStr(const uint8_t* src, int start, int length){
@@ -271,24 +313,43 @@ std::string getMidStr(const uint8_t* src, int start, int length){
 	}
 }
 
+int getLeftStr(const char* src, char* dst, int length){
+	return getLeftStr((uint8_t*)src, (uint8_t*)dst, length);
+}
+
+int getLeftStr(const std::string& src, char* dst, int length){
+	return getLeftStr((uint8_t*)src.c_str(), (uint8_t*)dst, length);
+}
+
 int getLeftStr(const std::string& src, uint8_t* dst, int length){
-	return getLeftStr((uint8_t*)&src[0], dst, length);
+	//return getLeftStr((uint8_t*)&src[0], dst, length);
+	return getLeftStr((uint8_t*)src.c_str(), dst, length);
 }
 
 int getLeftStr(const uint8_t* src, uint8_t* dst, int length){
 	return getMidStr(src, dst, 1, length);
 }
 
+std::string getLeftStr(const char* src, int length){
+	return getLeftStr((uint8_t*)src, length);
+}
+
 std::string getLeftStr(const std::string& src, int length){
-	return getLeftStr((uint8_t*)&src[0], length);
+	//return getLeftStr((uint8_t*)&src[0], length);
+	return getLeftStr((uint8_t*)src.c_str(), length);
 }
 
 std::string getLeftStr(const uint8_t* src, int length){
 	return getMidStr(src, 1, length);
 }
 
+int getRightStr(const std::string& src, char* dst, int length){
+	return getRightStr((uint8_t*)src.c_str(), (uint8_t*)dst, length);
+}
+
 int getRightStr(const std::string& src, uint8_t* dst, int length){
-	return getRightStr((uint8_t*)&src[0], dst, length);
+	//return getRightStr((uint8_t*)&src[0], dst, length);
+	return getRightStr((uint8_t*)src.c_str(), dst, length);
 }
 
 int getRightStr(const uint8_t* src, uint8_t* dst, int length){
@@ -300,8 +361,12 @@ int getRightStr(const uint8_t* src, uint8_t* dst, int length){
 	return getMidStr(src, dst, rellen-length+1, length);
 }
 
+std::string getRightStr(const char* src, int length){
+	return getRightStr((uint8_t*)src, length);
+}
+
 std::string getRightStr(const std::string& src, int length){
-	return getRightStr((uint8_t*)&src[0], length);
+	return getRightStr((uint8_t*)src.c_str(), length);
 }
 
 std::string getRightStr(const uint8_t* src, int length){
@@ -311,6 +376,10 @@ std::string getRightStr(const uint8_t* src, int length){
 		length = rellen;
 	
 	return getMidStr(src, rellen-length+1, length);
+}
+
+int inStr(const char* src, const char* dst, int start){
+	return inStr((uint8_t*)src, (uint8_t*)dst, start);
 }
 
 int inStr(const std::string& src, const std::string& dst, int start){
@@ -352,6 +421,10 @@ int inStr(const uint8_t* src, const uint8_t* target, int start){
 	free(buf);
 
 	return pos;
+}
+
+std::string replaceStr(const char* src, const char* target, const char* replace, bool mode){
+  return replaceStr((uint8_t*)src, (uint8_t*)target, (uint8_t*)replace, mode);	
 }
 
 std::string replaceStr(const std::string& src, const std::string& target, const std::string& replace, bool mode){

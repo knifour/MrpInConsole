@@ -17,11 +17,13 @@
 using namespace std;
 
 typedef struct tagWIN {
-	tagWIN(): Lin(0), Col(0), Lins(0), Cols(0) {}
+	tagWIN(): Lin(0), Col(0), Lins(0), Cols(0), FColor(0), BColor(0) {}
 	int Lin;
 	int Col;
 	int Lins;
 	int Cols;
+	int FColor;
+	int BColor;
 } WIN;
 
 template <class T>
@@ -88,7 +90,5 @@ public:
 	// 根據緩衝區內容顯示終端機內容
 	void reflash(WIN);
 };
-
-template class TERMINAL<UTF8SCHAR>;
 
 #endif

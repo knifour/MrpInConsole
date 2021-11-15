@@ -61,14 +61,15 @@ UTF8SCHAR::UTF8SCHAR(const char* p, int pFColor, int pBColor){
 	}
 }
 
-void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
+//void UTF8SCHAR::setChar(const uint8_t* p, bool p1, int p2, int p3){
+void UTF8SCHAR::setChar(const char* p, bool p1, int p2, int p3){
 	int len;
 	
 	for (int i=0; i<UTF8MAXLEN; i++)
 		mCode[i] = 0;
 	
 	// len = getFirstCharBytesU8(p);
-	len = getUtfLength(p[0]);
+	len = getUtfLength((uint8_t)p[0]);
 	if (len > UTF8MAXLEN){
 		mCode[0] = 32;
 	} else if (len==0){
@@ -98,7 +99,8 @@ SCHAR& UTF8SCHAR::operator=(const SCHAR& rhs){
 	mFColor = rhs.getFColor();
 	mBColor = rhs.getBColor();
 	const string buf = rhs.getChar();
-	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = (uint8_t)buf[i];
+	//for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = (uint8_t)buf[i];
+	for (int i=0; i<UTF8MAXLEN; i++) mCode[i] = buf[i];
 	return *this;
 }
 
@@ -109,7 +111,8 @@ bool UTF8SCHAR::operator==(const SCHAR& rhs) const{
 	for (int k=0; k<UTF8MAXLEN; k++){
 		if (mCode[k]==0 || buf[k]==0)
 			break;
-		if (mCode[k] != (uint8_t)buf[k]){
+		//if (mCode[k] != (uint8_t)buf[k]){
+		if (mCode[k] != buf[k]){
 		  result = false;
 			break;
 		}

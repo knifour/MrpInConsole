@@ -2,57 +2,57 @@
 #include <stdio.h>
 #include <twindow.h>
 
-uint8_t SHZ[] = "\xe2\x94\x80\x0";
-uint8_t SVT[] = "\xe2\x94\x82\x0";
-uint8_t SUL[] = "\xe2\x94\x8c\x0";
-uint8_t SUM[] = "\xe2\x94\xac\x0";
-uint8_t SUR[] = "\xe2\x94\x90\x0";
-uint8_t SML[] = "\xe2\x94\x9c\x0";
-uint8_t SMM[] = "\xe2\x94\xbc\x0";
-uint8_t SMR[] = "\xe2\x94\xa4\x0";
-uint8_t SDL[] = "\xe2\x94\x94\x0";
-uint8_t SDM[] = "\xe2\x94\xb4\x0";
-uint8_t SDR[] = "\xe2\x94\x98\x0";
+char SHZ[] = "\xe2\x94\x80\x0";
+char SVT[] = "\xe2\x94\x82\x0";
+char SUL[] = "\xe2\x94\x8c\x0";
+char SUM[] = "\xe2\x94\xac\x0";
+char SUR[] = "\xe2\x94\x90\x0";
+char SML[] = "\xe2\x94\x9c\x0";
+char SMM[] = "\xe2\x94\xbc\x0";
+char SMR[] = "\xe2\x94\xa4\x0";
+char SDL[] = "\xe2\x94\x94\x0";
+char SDM[] = "\xe2\x94\xb4\x0";
+char SDR[] = "\xe2\x94\x98\x0";
 
-uint8_t DHZ[] = "\xe2\x95\x90\x0";
-uint8_t DVT[] = "\xe2\x95\x91\x0";
-uint8_t DUL[] = "\xe2\x95\x94\x0";
-uint8_t DUM[] = "\xe2\x95\xa6\x0";
-uint8_t DUR[] = "\xe2\x95\x97\x0";
-uint8_t DML[] = "\xe2\x95\xa0\x0";
-uint8_t DMM[] = "\xe2\x95\xac\x0";
-uint8_t DMR[] = "\xe2\x95\xa3\x0";
-uint8_t DDL[] = "\xe2\x95\x9a\x0";
-uint8_t DDM[] = "\xe2\x95\xa9\x0";
-uint8_t DDR[] = "\xe2\x95\x9d\x0";
+char DHZ[] = "\xe2\x95\x90\x0";
+char DVT[] = "\xe2\x95\x91\x0";
+char DUL[] = "\xe2\x95\x94\x0";
+char DUM[] = "\xe2\x95\xa6\x0";
+char DUR[] = "\xe2\x95\x97\x0";
+char DML[] = "\xe2\x95\xa0\x0";
+char DMM[] = "\xe2\x95\xac\x0";
+char DMR[] = "\xe2\x95\xa3\x0";
+char DDL[] = "\xe2\x95\x9a\x0";
+char DDM[] = "\xe2\x95\xa9\x0";
+char DDR[] = "\xe2\x95\x9d\x0";
 
 // 編譯時可以透過-D定義DOUBLELINE使所有的表格代號定義成雙線
 // 如果沒有特別定義時，所有的表格代號都是單線
 // 定義方法如下：g++ -DDOUBLELINE
 #ifdef DOUBLELINE
-uint8_t HZ[] = "\xe2\x95\x90\x0";
-uint8_t VT[] = "\xe2\x95\x91\x0";
-uint8_t UL[] = "\xe2\x95\x94\x0";
-uint8_t UM[] = "\xe2\x95\xa6\x0";
-uint8_t UR[] = "\xe2\x95\x97\x0";
-uint8_t ML[] = "\xe2\x95\xa0\x0";
-uint8_t MM[] = "\xe2\x95\xac\x0";
-uint8_t MR[] = "\xe2\x95\xa3\x0";
-uint8_t DL[] = "\xe2\x95\x9a\x0";
-uint8_t DM[] = "\xe2\x95\xa9\x0";
-uint8_t DR[] = "\xe2\x95\x9d\x0";
+char HZ[] = "\xe2\x95\x90\x0";
+char VT[] = "\xe2\x95\x91\x0";
+char UL[] = "\xe2\x95\x94\x0";
+char UM[] = "\xe2\x95\xa6\x0";
+char UR[] = "\xe2\x95\x97\x0";
+char ML[] = "\xe2\x95\xa0\x0";
+char MM[] = "\xe2\x95\xac\x0";
+char MR[] = "\xe2\x95\xa3\x0";
+char DL[] = "\xe2\x95\x9a\x0";
+char DM[] = "\xe2\x95\xa9\x0";
+char DR[] = "\xe2\x95\x9d\x0";
 #else
-uint8_t HZ[] = "\xe2\x94\x80\x0";
-uint8_t VT[] = "\xe2\x94\x82\x0";
-uint8_t UL[] = "\xe2\x94\x8c\x0";
-uint8_t UM[] = "\xe2\x94\xac\x0";
-uint8_t UR[] = "\xe2\x94\x90\x0";
-uint8_t ML[] = "\xe2\x94\x9c\x0";
-uint8_t MM[] = "\xe2\x94\xbc\x0";
-uint8_t MR[] = "\xe2\x94\xa4\x0";
-uint8_t DL[] = "\xe2\x94\x94\x0";
-uint8_t DM[] = "\xe2\x94\xb4\x0";
-uint8_t DR[] = "\xe2\x94\x98\x0";
+char HZ[] = "\xe2\x94\x80\x0";
+char VT[] = "\xe2\x94\x82\x0";
+char UL[] = "\xe2\x94\x8c\x0";
+char UM[] = "\xe2\x94\xac\x0";
+char UR[] = "\xe2\x94\x90\x0";
+char ML[] = "\xe2\x94\x9c\x0";
+char MM[] = "\xe2\x94\xbc\x0";
+char MR[] = "\xe2\x94\xa4\x0";
+char DL[] = "\xe2\x94\x94\x0";
+char DM[] = "\xe2\x94\xb4\x0";
+char DR[] = "\xe2\x94\x98\x0";
 #endif
 
 template<class T> TWINDOW<T>::TWINDOW(){
@@ -152,7 +152,8 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 }
 
 template<class T> void TWINDOW<T>::init(int FColor, int BColor){
-	uint8_t blank[] = " ";
+	//uint8_t blank[] = " ";
+	char blank[] = " ";
 	
 	if (mError)
 		return;
@@ -327,7 +328,8 @@ template<class T> void TWINDOW<T>::print(const char* p){
 template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	int cnt, len, dlen;
 	int maxlen;
-	uint8_t blank[]=" ";
+	//uint8_t blank[]=" ";
+	char blank[] = " ";
 	
 	if (mError)
 		return;
@@ -351,7 +353,8 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	int tmpLen = dlen;  // tmpLen儲存剩餘顯示寬度
 	int strCol = mCurCol;
 	int tmpCol = mCurCol - 1; // tmpCol儲存列印後游標位置(最後一個字元所在位置)
-	uint8_t tmp[3];
+	//uint8_t tmp[UTF8MAXLEN];
+	char tmp[UTF8MAXLEN];
 	
   if (setSP(mCurLin, mCurCol)){
 		if (sp->isWideTail()){
@@ -361,7 +364,7 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	}
 	
 	for (int i=1; i<=cnt; i++){
-		getMidStr(p, tmp, i, 1);  // 一次取出一個要顯示的字元放在tmp(寬字元、單字元皆算一個字元)
+		getMidStr(p, (uint8_t*)tmp, i, 1);  // 一次取出一個要顯示的字元放在tmp(寬字元、單字元皆算一個字元)
 		len = getFirstDisplayLength(tmp); // 計算顯示寬度
 		switch(len){
 		case 2:
@@ -495,3 +498,5 @@ template<class T> TWINDOW<T>::~TWINDOW(){
 	
 	delete[] TWindowBuf;
 }
+
+template class TWINDOW<UTF8SCHAR>;

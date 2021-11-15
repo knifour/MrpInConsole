@@ -58,7 +58,8 @@ public:
 	virtual SCHAR& operator=(const SCHAR& rhs) = 0;
 	virtual bool operator==(const SCHAR& rhs) const = 0;
 	
-	virtual void setChar(const uint8_t*, bool, int, int) = 0;
+	//virtual void setChar(const uint8_t*, bool, int, int) = 0;
+	virtual void setChar(const char*, bool, int, int) = 0;
 	virtual std::string getChar() const = 0;
 	virtual int getDisplayLength() const = 0;
 	virtual void printMember() const = 0;

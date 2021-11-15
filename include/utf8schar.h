@@ -23,7 +23,8 @@ using namespace utf8;
 class UTF8SCHAR : public SCHAR {
 protected:
   // 字元編碼
-	uint8_t mCode[UTF8MAXLEN];
+	//uint8_t mCode[UTF8MAXLEN];
+	char mCode[UTF8MAXLEN];
 	
 public:
   UTF8SCHAR();
@@ -38,7 +39,8 @@ public:
 	bool operator==(const SCHAR& rhs) const override;
 	
 	// 重載父類別虛擬函數
-	void setChar(const uint8_t*, bool, int, int) override;
+	// void setChar(const uint8_t*, bool, int, int) override;
+	void setChar(const char*, bool, int, int) override;
 	std::string getChar() const override;
 	int getDisplayLength() const override;
 	void printMember() const override;
