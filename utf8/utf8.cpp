@@ -423,6 +423,30 @@ int inStr(const uint8_t* src, const uint8_t* target, int start){
 	return pos;
 }
 
+int countStr(const char* src, const char* target){
+	int ps = 1, start = 1;
+	int cnt = 0;
+	
+	int len = countChars(target);
+
+  ps = inStr(src, target, start);
+	while (ps > 0){
+		cnt++;
+		start = ps + len;
+		ps = inStr(src, target, start);
+	}
+	
+	return cnt;
+}
+
+int countStr(const std::string& src, const std::string& target){
+	return countStr((char*)src.c_str(), (char*)target.c_str());
+}
+
+int countStr(const uint8_t* src, const uint8_t* target){
+	return countStr((char*)src, (char*)target);
+}
+
 std::string replaceStr(const char* src, const char* target, const char* replace, bool mode){
   return replaceStr((uint8_t*)src, (uint8_t*)target, (uint8_t*)replace, mode);	
 }

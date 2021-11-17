@@ -415,6 +415,33 @@ int inStr(const std::string&, const std::string&, int start=1);
 //        < 0 ：記憶體配置失敗
 int inStr(const uint8_t*, const uint8_t*, int start=1);
 
+// 用途：搜尋UTF字串內是否有特定字串
+// 參數1：原始字串(char*)
+// 參數2：目標字串(char*)
+// 回傳值：目標字串在原始字串中出現的次數
+//         
+//        
+//        
+int countStr(const char*, const char*);
+
+// 用途：搜尋UTF字串內是否有特定字串
+// 參數1：原始字串(char*)
+// 參數2：目標字串(char*)
+// 回傳值：目標字串在原始字串中出現的次數
+//         
+//        
+//        
+int countStr(const std::string&, const std::string&);
+
+// 用途：搜尋UTF字串內是否有特定字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：目標字串(uint8_t*)
+// 回傳值：目標字串在原始字串中出現的次數
+//         
+//        
+//        
+int countStr(const uint8_t*, const uint8_t*);
+
 // 用途：將原始字串中的特定字串取代成目標字串
 // 參數1：原始字串(char*)
 // 參數2：指定字串(char*)
