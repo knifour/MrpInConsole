@@ -59,27 +59,27 @@ uint32_t fromUtf2Unicode(const uint8_t*);
 
 // 用途：判斷字串內容是不是合法的UTF8編碼
 // 參數1：待判斷字串指標(char*)
-// 回傳值 > 0：UTF8編碼長度
-//        = 0：空字串
-//        =-1：指標位置沒有合法的UTF8編碼
+// 回傳值：true 字串內沒有不合法的utf8編碼
+//         false字串內含有不合法的utf8編碼
+//        
 //
 //
 bool isUtf8(const char*);
 
 // 用途：判斷字串內容是不是合法的UTF8編碼
 // 參數1：待判斷字串指標(string&)
-// 回傳值 > 0：UTF8編碼長度
-//        = 0：空字串
-//        =-1：指標位置沒有合法的UTF8編碼
+// 回傳值：true 字串內沒有不合法的utf8編碼
+//         false字串內含有不合法的utf8編碼
+//        
 //
 //
 bool isUtf8(const string&);
 
 // 用途：判斷字串內容是不是合法的UTF8編碼
 // 參數1：待判斷字串指標(uint8_t*)
-// 回傳值 > 0：UTF8編碼長度
-//        = 0：空字串
-//        =-1：指標位置沒有合法的UTF8編碼
+// 回傳值：true 字串內沒有不合法的utf8編碼
+//         false字串內含有不合法的utf8編碼
+//        
 //
 //
 bool isUtf8(const uint8_t*);
@@ -480,7 +480,25 @@ string replaceStr(const uint8_t*, const uint8_t*, const uint8_t*, bool mode=true
 // 回傳值 >= 0：分解後字串總數
 //        < 0 ：原始字串含有不合法的UTF8字元
 //        
-int splitStr(char*, const char*, vector<string>&);
+int splitStr(const char*, const char*, vector<string>&);
+
+// 用途：將原始字串分解成數個字串，使用需自備vector<string>用來儲存分解後的字串
+// 參數1：原始字串(string&)
+// 參數2：分隔字串(string&)
+// 參數3：儲存分解後之字串(vector<string>&)
+// 回傳值 >= 0：分解後字串總數
+//        < 0 ：原始字串含有不合法的UTF8字元
+//        
+int splitStr(const string&, const string&, vector<string>&);
+
+// 用途：將原始字串分解成數個字串，使用需自備vector<string>用來儲存分解後的字串
+// 參數1：原始字串(uint8_t*)
+// 參數2：分隔字串(uint8_t*)
+// 參數3：儲存分解後之字串(vector<string>&)
+// 回傳值 >= 0：分解後字串總數
+//        < 0 ：原始字串含有不合法的UTF8字元
+//        
+int splitStr(const uint8_t*, const uint8_t*, vector<string>&);
 
 }
 

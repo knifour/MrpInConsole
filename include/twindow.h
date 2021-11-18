@@ -56,6 +56,8 @@ public:
   void TWin2Term(WIN);
 	TWINDOW();
 	~TWINDOW();
+	// 取得TERMINAL指標
+	TERMINAL<T>* getTerminal();
 	// 重設所有屬性(包括顏色)
 	void resetAttr(void);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效

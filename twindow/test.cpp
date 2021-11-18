@@ -1,4 +1,5 @@
 #include <twmain.h>
+#include <twmsgbox.h>
 #include <util.h>
 #include <kbmap.h>
 #include <string>
@@ -8,9 +9,11 @@ using namespace std;
 
 int main(void){
 	int code;
-	
+	WIN win;
+	char msg[] = "訊息視窗測試！";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
+	TWMSGBOX<UTF8SCHAR> mbox(&tmain, msg, win);
 
   tmain.printFromFile("menu.scr");
 	tmain.locate(5, 16);

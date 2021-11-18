@@ -1,35 +1,61 @@
 #include <iostream>
 #include <stdio.h>
+#include <vector>
 #include <twmsgbox.h>
 
 template <class T> TWMSGBOX<T>::TWMSGBOX(){
 	this->mError = true;
 }
 
-template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg){
+template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win){
 	if (p == nullptr){
 		this->mError = true;
 		return;
 	}
 	
-	this->mTerminal = p->mTerminal;
+	this->mTerminal = p->getTerminal();
 	this->mParant = p;
-	
-	int len = getDisplayLength(msg);
-	if (len < 1){
-		mError = true;
-		return;
-	}
 	
 	int LINS = p->getLINS();
 	int COLS = p->getCOLS();
 	
-	this->mLin = this->mCol = 1;
-	this->mLINS = t->getLINS();
-	this->mCOLS = t->getCOLS();
-	this->mFColor = t->getFColor();
-	this->mBColor = t->getBColor();
-	this->mUnderline = t->getUnderline();
+	char delim[] = "\n";
+	vector<string> buf;
+	
+	int lins = splitStr(msg, delim, buf) + 2;
+	
+	if (lins > LINS){
+		this->mError = true;
+		return;
+	}
+	
+	int cols = -1;
+	int temp;
+	for (auto it=buf.begin(); it!=buf.end(); it++){
+		temp = getDisplayLength(*it);
+		if (temp > cols)
+			cols = temp;
+	}
+	if (cols%2==1)
+		cols++;
+	cols = cols + 4;
+	
+	this->mLin = (LINS - lins) / 2 + 1;
+	this->mCol = (COLS - cols) / 2 + 1;
+	this->mLINS = lins;
+	this->mCOLS = cols;
+	
+	if (win.FColor == 0)
+	  this->mFColor = this->getFColor();
+	else
+		this->mFColor = win.FColor;
+	
+	if (win.BColor == 0)
+		this->mBColor = this->getBColor();
+	else
+		this->mBColor = win.BColor;
+	
+	this->mUnderline = false;
 	this->mError = false;
 	this->createBuffer();
 	this->init();

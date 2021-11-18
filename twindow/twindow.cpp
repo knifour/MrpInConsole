@@ -196,6 +196,10 @@ template<class T> bool TWINDOW<T>::setSP(int pLin, int pCol){
 	return true;
 }
 
+template<class T> TERMINAL<T>* TWINDOW<T>::getTerminal(void){
+	return mTerminal;
+}
+
 template<class T> void TWINDOW<T>::resetAttr(void){
 	cout << "\x1B[0m";
 	mUnderline = false;

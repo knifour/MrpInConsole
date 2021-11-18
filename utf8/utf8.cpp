@@ -485,26 +485,59 @@ string replaceStr(const uint8_t* src, const uint8_t* target, const uint8_t* repl
 	return result;
 }
 
-int splitStr(char* src, const char* target, vector<string>& buf){
-	char* temp;
-  char*	token;
-	bool first = true;
-	int cnt = 0;
+int splitStr(const char* src, const char* target, vector<string>& buf){
+  if (!isUtf8(src))
+		return -1;
 	
-	while (1){
-		if (first){
-			first = false;
-		  temp = src;
-		}	else {
-			temp = NULL;
+	if (!isUtf8(target))
+		return -1;
+	
+	int len = countChars(target);
+	int ps, cnt = 0;
+	int start = 1, end;
+	string temp;
+	while (ps=inStr(src, target, start)){
+		end = ps - 1;
+		if (start > end){
+			temp = "";
+			start = ps + len;
+		} else {
+			temp = getMidStr(src, start, end-start+1);
+			start = ps + len;
 		}
-		token = strtok(temp, target);
-		if (token==NULL)
-			break;
+		buf.push_back(temp);
 		cnt++;
-		buf.push_back(string(token));
 	}
-	return cnt;
+	start = end + len + 1;
+	end = countChars(src);
+	if (start > end)
+		temp = "";
+	else
+		temp = getMidStr(src, start, end-start+1);
+	buf.push_back(temp);
+	cnt++;
+
+  return cnt;  
+}
+
+int splitStr(const string& src, const string& target, vector<string>& buf){
+  if (!isUtf8(src))
+		return -1;
+	
+	if (!isUtf8(target))
+		return -1;
+	
+  return splitStr(src.c_str(), target.c_str(), buf);  
+}
+
+int splitStr(const uint8_t* src, const uint8_t* target, vector<string>& buf){
+  if (!isUtf8(src))
+		return -1;
+	
+	if (!isUtf8(target))
+		return -1;
+	
+  return splitStr((char*)src, (char*)target, buf);  
 }
 
 }

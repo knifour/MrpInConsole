@@ -12,7 +12,7 @@ protected:
 
 public:
   TWMSGBOX();
-  TWMSGBOX(TWINDOW<T>*, const char *);
+  TWMSGBOX(TWINDOW<T>*, const char *, WIN);
 	~TWMSGBOX();
 };
 
