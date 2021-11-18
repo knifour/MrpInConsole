@@ -50,7 +50,7 @@ bool isUtf8(const char* str){
 	return isUtf8((uint8_t*)str);
 }
 
-bool isUtf8(const std::string& str){
+bool isUtf8(const string& str){
 	return isUtf8((uint8_t*)str.c_str());
 }
 	
@@ -78,7 +78,7 @@ int countChars(const char* str){
 	return countChars((uint8_t*)str);
 }	
 	
-int countChars(const std::string& str){
+int countChars(const string& str){
 	return countChars((uint8_t*)str.c_str());
 }
 	
@@ -106,7 +106,7 @@ int countChars(const char* str, int& codelen){
 	return countChars((uint8_t*)str, codelen);
 }
 
-int countChars(const std::string& str, int& codelen){
+int countChars(const string& str, int& codelen){
 	return countChars((uint8_t*)str.c_str(), codelen);
 }
 
@@ -138,7 +138,7 @@ int getFirstDisplayLength(const char* str){
 	return getFirstDisplayLength((uint8_t*)str);
 }
 
-int getFirstDisplayLength(const std::string& str){
+int getFirstDisplayLength(const string& str){
 	return getFirstDisplayLength((uint8_t*)str.c_str());
 }
 
@@ -160,7 +160,7 @@ int getDisplayLength(const char* str){
 	return getDisplayLength((uint8_t*)str);
 }
 
-int getDisplayLength(const std::string& str){
+int getDisplayLength(const string& str){
 	return getDisplayLength((uint8_t*)str.c_str());
 }
 
@@ -186,7 +186,7 @@ int getMidBytes(const char* src, int start, int length){
 	return getMidBytes((uint8_t*)src, start, length);
 }
 
-int getMidBytes(const std::string& src, int start, int length){
+int getMidBytes(const string& src, int start, int length){
 	return getMidBytes((uint8_t*)src.c_str(), start, length);
 }
 
@@ -234,7 +234,7 @@ int getMidStr(const char* src, uint8_t* dst, int start, int length){
 	return getMidStr((uint8_t*)src, dst, start, length);
 }
 
-int getMidStr(const std::string& src, uint8_t* dst, int start, int length){
+int getMidStr(const string& src, uint8_t* dst, int start, int length){
 	//return getMidStr((uint8_t*)&src[0], dst, start, length);
 	return getMidStr((uint8_t*)src.c_str(), dst, start, length);
 }
@@ -280,34 +280,34 @@ int getMidStr(const uint8_t* src, uint8_t* dst, int start, int length){
 	return rlen;
 }
 
-std::string getMidStr(const char* src, int start, int length){
+string getMidStr(const char* src, int start, int length){
 	return getMidStr((uint8_t*)src, start, length);
 }
 
-std::string getMidStr(const std::string& src, int start, int length){
+string getMidStr(const string& src, int start, int length){
 	//return getMidStr((uint8_t*)&src[0], start, length);
 	return getMidStr((uint8_t*)src.c_str(), start, length);
 }
 
-std::string getMidStr(const uint8_t* src, int start, int length){
+string getMidStr(const uint8_t* src, int start, int length){
 	int rbytes = getMidBytes(src, start, length);
 	int rlen;
 	
 	if (rbytes <= 0)
-		return std::string("");
+		return string("");
 	
 	uint8_t* buf = (uint8_t*)malloc(rbytes+1);
 	if (buf == NULL)
-		return std::string("");
+		return string("");
 	
 	rlen = getMidStr(src, buf, start, length);
 	
 	if (rlen <= 0){
 		free(buf);
-		return std::string("");
+		return string("");
 	}
 	else{
-		std::string result = std::string((char*)buf);
+		string result = string((char*)buf);
 		free(buf);
 		return result;
 	}
@@ -317,11 +317,11 @@ int getLeftStr(const char* src, char* dst, int length){
 	return getLeftStr((uint8_t*)src, (uint8_t*)dst, length);
 }
 
-int getLeftStr(const std::string& src, char* dst, int length){
+int getLeftStr(const string& src, char* dst, int length){
 	return getLeftStr((uint8_t*)src.c_str(), (uint8_t*)dst, length);
 }
 
-int getLeftStr(const std::string& src, uint8_t* dst, int length){
+int getLeftStr(const string& src, uint8_t* dst, int length){
 	//return getLeftStr((uint8_t*)&src[0], dst, length);
 	return getLeftStr((uint8_t*)src.c_str(), dst, length);
 }
@@ -330,24 +330,24 @@ int getLeftStr(const uint8_t* src, uint8_t* dst, int length){
 	return getMidStr(src, dst, 1, length);
 }
 
-std::string getLeftStr(const char* src, int length){
+string getLeftStr(const char* src, int length){
 	return getLeftStr((uint8_t*)src, length);
 }
 
-std::string getLeftStr(const std::string& src, int length){
+string getLeftStr(const string& src, int length){
 	//return getLeftStr((uint8_t*)&src[0], length);
 	return getLeftStr((uint8_t*)src.c_str(), length);
 }
 
-std::string getLeftStr(const uint8_t* src, int length){
+string getLeftStr(const uint8_t* src, int length){
 	return getMidStr(src, 1, length);
 }
 
-int getRightStr(const std::string& src, char* dst, int length){
+int getRightStr(const string& src, char* dst, int length){
 	return getRightStr((uint8_t*)src.c_str(), (uint8_t*)dst, length);
 }
 
-int getRightStr(const std::string& src, uint8_t* dst, int length){
+int getRightStr(const string& src, uint8_t* dst, int length){
 	//return getRightStr((uint8_t*)&src[0], dst, length);
 	return getRightStr((uint8_t*)src.c_str(), dst, length);
 }
@@ -361,15 +361,15 @@ int getRightStr(const uint8_t* src, uint8_t* dst, int length){
 	return getMidStr(src, dst, rellen-length+1, length);
 }
 
-std::string getRightStr(const char* src, int length){
+string getRightStr(const char* src, int length){
 	return getRightStr((uint8_t*)src, length);
 }
 
-std::string getRightStr(const std::string& src, int length){
+string getRightStr(const string& src, int length){
 	return getRightStr((uint8_t*)src.c_str(), length);
 }
 
-std::string getRightStr(const uint8_t* src, int length){
+string getRightStr(const uint8_t* src, int length){
 	int rellen = countChars(src);
 	
 	if (length > rellen)
@@ -382,7 +382,7 @@ int inStr(const char* src, const char* dst, int start){
 	return inStr((uint8_t*)src, (uint8_t*)dst, start);
 }
 
-int inStr(const std::string& src, const std::string& dst, int start){
+int inStr(const string& src, const string& dst, int start){
 	return inStr((uint8_t*)src.c_str(), (uint8_t*)dst.c_str(), start);
 }
 
@@ -439,7 +439,7 @@ int countStr(const char* src, const char* target){
 	return cnt;
 }
 
-int countStr(const std::string& src, const std::string& target){
+int countStr(const string& src, const string& target){
 	return countStr((char*)src.c_str(), (char*)target.c_str());
 }
 
@@ -447,31 +447,31 @@ int countStr(const uint8_t* src, const uint8_t* target){
 	return countStr((char*)src, (char*)target);
 }
 
-std::string replaceStr(const char* src, const char* target, const char* replace, bool mode){
+string replaceStr(const char* src, const char* target, const char* replace, bool mode){
   return replaceStr((uint8_t*)src, (uint8_t*)target, (uint8_t*)replace, mode);	
 }
 
-std::string replaceStr(const std::string& src, const std::string& target, const std::string& replace, bool mode){
+string replaceStr(const string& src, const string& target, const string& replace, bool mode){
   return replaceStr((uint8_t*)src.c_str(), (uint8_t*)target.c_str(), (uint8_t*)replace.c_str(), mode);	
 }
 
-std::string replaceStr(const uint8_t* src, const uint8_t* target, const uint8_t* replace, bool mode){
+string replaceStr(const uint8_t* src, const uint8_t* target, const uint8_t* replace, bool mode){
 	bool first = true;
 	int len, ps, i, targetlen;
 	
-	std::string result((char*)src);
+	string result((char*)src);
 	len = countChars(result);
 	targetlen = countChars(target);
 	
 	if (len == -1 || targetlen == -1)
-		return std::string("");
+		return string("");
 	
 	i = 1;
 	ps = 1;
 	while (i <= len && ps != 0){
 		ps = inStr((uint8_t*)result.c_str(), target, i);
 		if (ps != 0){
-			result = getLeftStr(result, ps-1) + std::string((char*)replace) + getRightStr(result, len-(ps+targetlen)+1);
+			result = getLeftStr(result, ps-1) + string((char*)replace) + getRightStr(result, len-(ps+targetlen)+1);
       len = countChars(result);			
 			if (first){
 				first = false;
@@ -483,6 +483,28 @@ std::string replaceStr(const uint8_t* src, const uint8_t* target, const uint8_t*
 	}
 	
 	return result;
+}
+
+int splitStr(char* src, const char* target, vector<string>& buf){
+	char* temp;
+  char*	token;
+	bool first = true;
+	int cnt = 0;
+	
+	while (1){
+		if (first){
+			first = false;
+		  temp = src;
+		}	else {
+			temp = NULL;
+		}
+		token = strtok(temp, target);
+		if (token==NULL)
+			break;
+		cnt++;
+		buf.push_back(string(token));
+	}
+	return cnt;
 }
 
 }

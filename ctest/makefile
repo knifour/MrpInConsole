@@ -17,6 +17,12 @@ grandson.o: grandson.cpp
 	
 test.o: test.cpp
 	$(cc) $(CFLAGS) $<
+	
+vector: vector.o
+	$(cc) -o $@ $<
+	
+vector.o: vector.cpp
+	$(cc) $(CFLAGS) $<
 
 clean:
 	rm *.o

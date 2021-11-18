@@ -3,8 +3,12 @@
 
 #include <stdint.h>
 #include <string>
+#include <string.h>
 #include <stdio.h>
+#include <vector>
 #include "util.h"
+
+using namespace std;
 
 namespace utf8{
 
@@ -69,7 +73,7 @@ bool isUtf8(const char*);
 //        =-1：指標位置沒有合法的UTF8編碼
 //
 //
-bool isUtf8(const std::string&);
+bool isUtf8(const string&);
 
 // 用途：判斷字串內容是不是合法的UTF8編碼
 // 參數1：待判斷字串指標(uint8_t*)
@@ -87,7 +91,7 @@ bool isUtf8(const uint8_t*);
 //         =-1：字串內有不合法的UTF8編碼
 //
 //
-int countChars(const std::string&);
+int countChars(const string&);
 
 // 用途：計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(char*)
@@ -123,7 +127,7 @@ int countChars(const char*, int&);
 //         = 0：空字串
 //          -1：字串內有不合法的UTF8編碼
 //
-int countChars(const std::string&, int&);
+int countChars(const string&, int&);
 
 // 用途：計算字串的字元數(中文、英文都算1個字)
 // 參數1：待計算字串(uint8_t*)
@@ -150,7 +154,7 @@ int getFirstDisplayLength(const char*);
 //        = 0：空字串
 //        =-1：不合法的UTF8編碼
 //
-int getFirstDisplayLength(const std::string&);
+int getFirstDisplayLength(const string&);
 
 // 用途：取得字串第一個字的顯示寬度
 // 參數：字串(uint8_t*)
@@ -177,7 +181,7 @@ int getDisplayLength(const char*);
 //        =-1：字串含有不合法的UTF8編碼
 //
 //
-int getDisplayLength(const std::string&);
+int getDisplayLength(const string&);
 
 // 用途：取得字串的顯示寬度
 // 參數：字串(uint8_t*)
@@ -206,7 +210,7 @@ int getMidBytes(const char*, int, int);
 // 回傳值 > 0 ：攫取字串所需BYTES數
 //        = 0 ：空字串
 //        < 0 ：字串含有不合法的UTF8字元          
-int getMidBytes(const std::string&, int, int);
+int getMidBytes(const string&, int, int);
 
 // 用途：計算攫取UTF8中間字串所需BYTES數(不會執行攫取動作)
 // 參數1：原始字串(uint8_t*)
@@ -233,7 +237,7 @@ int getMidStr(const char*, uint8_t*, int, int);
 // 參數4：攫取長度
 // 回傳值：實際攫取的字元數
 //
-int getMidStr(const std::string&, uint8_t*, int, int);
+int getMidStr(const string&, uint8_t*, int, int);
 
 // 用途：攫取UTF8中間字串
 // 參數1：原始字串(uint8_t*)
@@ -251,7 +255,7 @@ int getMidStr(const uint8_t*, uint8_t*, int, int);
 // 回傳值：攫取的字串
 //
 //
-std::string getMidStr(const char*, int, int);
+string getMidStr(const char*, int, int);
 
 // 用途：攫取UTF8中間字串，以string型式回傳攫取到的字串
 // 參數1：原始字串(string&)
@@ -260,7 +264,7 @@ std::string getMidStr(const char*, int, int);
 // 回傳值：攫取的字串
 //
 //
-std::string getMidStr(const std::string&, int, int);
+string getMidStr(const string&, int, int);
 
 // 用途：攫取UTF8中間字串，以string型式回傳攫取到的字串
 // 函式會自動配置所需緩衝區，如果配置失敗將回傳空字串
@@ -269,7 +273,7 @@ std::string getMidStr(const std::string&, int, int);
 // 參數3：攫取長度
 // 回傳值：攫取的字串
 //
-std::string getMidStr(const uint8_t*, int, int);
+string getMidStr(const uint8_t*, int, int);
 
 // 用途：攫取UTF8左字串
 // 參數1：原始字串(char*)
@@ -287,7 +291,7 @@ int getLeftStr(const char*, char*, int);
 // 回傳值：實際攫取的字元數
 //
 //
-int getLeftStr(const std::string&, char*, int);
+int getLeftStr(const string&, char*, int);
 
 // 用途：攫取UTF8左字串
 // 參數1：原始字串(string&)
@@ -296,7 +300,7 @@ int getLeftStr(const std::string&, char*, int);
 // 回傳值：實際攫取的字元數
 //
 //
-int getLeftStr(const std::string&, uint8_t*, int);
+int getLeftStr(const string&, uint8_t*, int);
 
 // 用途：攫取UTF8左字串
 // 參數1：原始字串(uint8_t*)
@@ -314,7 +318,7 @@ int getLeftStr(const uint8_t*, uint8_t*, int);
 //
 //
 //
-std::string getLeftStr(const char*, int);
+string getLeftStr(const char*, int);
 
 // 用途：攫取UTF8左字串
 // 參數1：原始字串(string&)
@@ -323,7 +327,7 @@ std::string getLeftStr(const char*, int);
 //
 //
 //
-std::string getLeftStr(const std::string&, int);
+string getLeftStr(const string&, int);
 
 // 用途：攫取UTF8左字串
 // 參數1：原始字串(uint8_t*)
@@ -332,7 +336,7 @@ std::string getLeftStr(const std::string&, int);
 //
 //
 //
-std::string getLeftStr(const uint8_t*, int);
+string getLeftStr(const uint8_t*, int);
 
 // 用途：攫取UTF8右字串
 // 參數1：原始字串(char*)
@@ -341,7 +345,7 @@ std::string getLeftStr(const uint8_t*, int);
 // 回傳值：實際攫取的字元數
 //
 //
-int getRightStr(const std::string&, char*, int);
+int getRightStr(const string&, char*, int);
 
 // 用途：攫取UTF8右字串
 // 參數1：原始字串(string&)
@@ -350,7 +354,7 @@ int getRightStr(const std::string&, char*, int);
 // 回傳值：實際攫取的字元數
 //
 //
-int getRightStr(const std::string&, uint8_t*, int);
+int getRightStr(const string&, uint8_t*, int);
 
 // 用途：攫取UTF8右字串
 // 參數1：原始字串(uint8_t*)
@@ -368,7 +372,7 @@ int getRightStr(const uint8_t*, uint8_t*, int);
 //
 //
 //
-std::string getRightStr(const char*, int);
+string getRightStr(const char*, int);
 
 // 用途：攫取UTF8右字串
 // 參數1：原始字串(string&)
@@ -377,7 +381,7 @@ std::string getRightStr(const char*, int);
 //
 //
 //
-std::string getRightStr(const std::string&, int);
+string getRightStr(const string&, int);
 
 // 用途：攫取UTF8右字串
 // 參數1：原始字串(uint8_t*)
@@ -386,7 +390,7 @@ std::string getRightStr(const std::string&, int);
 //
 //
 //
-std::string getRightStr(const uint8_t*, int);
+string getRightStr(const uint8_t*, int);
 
 // 用途：搜尋UTF字串內是否有特定字串
 // 參數1：原始字串(char*)
@@ -404,7 +408,7 @@ int inStr(const char*, const char*, int start=1);
 // 回傳值 > 0 ：要尋找字串在原始字串的位置(任何合法的UTF8字元都算1個字)
 //        = 0 ：找不到
 //        < 0 ：記憶體配置失敗
-int inStr(const std::string&, const std::string&, int start=1);
+int inStr(const string&, const string&, int start=1);
 
 // 用途：搜尋UTF字串內是否有特定字串
 // 參數1：原始字串(uint8_t*)
@@ -431,7 +435,7 @@ int countStr(const char*, const char*);
 //         
 //        
 //        
-int countStr(const std::string&, const std::string&);
+int countStr(const string&, const string&);
 
 // 用途：搜尋UTF字串內是否有特定字串
 // 參數1：原始字串(uint8_t*)
@@ -449,7 +453,7 @@ int countStr(const uint8_t*, const uint8_t*);
 // 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
 // 回傳值：取代後的字串(string)
 //        
-std::string replaceStr(const char*, const char*, const char*, bool mode=true);
+string replaceStr(const char*, const char*, const char*, bool mode=true);
 
 // 用途：將原始字串中的特定字串取代成目標字串
 // 參數1：原始字串(string&)
@@ -458,7 +462,7 @@ std::string replaceStr(const char*, const char*, const char*, bool mode=true);
 // 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
 // 回傳值：取代後的字串(string)
 //        
-std::string replaceStr(const std::string&, const std::string&, const std::string&, bool mode=true);
+string replaceStr(const string&, const string&, const string&, bool mode=true);
 
 // 用途：將原始字串中的特定字串取代成目標字串
 // 參數1：原始字串(uint8_t*)
@@ -467,7 +471,16 @@ std::string replaceStr(const std::string&, const std::string&, const std::string
 // 參數4：true -> 全部取代，false -> 只取代第一個(可省略，表示全部取代)
 // 回傳值：取代後的字串(string)
 //        
-std::string replaceStr(const uint8_t*, const uint8_t*, const uint8_t*, bool mode=true);
+string replaceStr(const uint8_t*, const uint8_t*, const uint8_t*, bool mode=true);
+
+// 用途：將原始字串分解成數個字串，使用需自備vector<string>用來儲存分解後的字串
+// 參數1：原始字串(char*)
+// 參數2：分隔字串(char*)
+// 參數3：儲存分解後之字串(vector<string>&)
+// 回傳值 >= 0：分解後字串總數
+//        < 0 ：原始字串含有不合法的UTF8字元
+//        
+int splitStr(char*, const char*, vector<string>&);
 
 }
 
