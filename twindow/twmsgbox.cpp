@@ -23,6 +23,7 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	vector<string> buf;
 	
 	int lins = splitStr(msg, delim, buf) + 2;
+	int code;
 	
 	if (lins > LINS){
 		this->mError = true;
@@ -39,6 +40,7 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	if (cols%2==1)
 		cols++;
 	cols = cols + 4;
+	
 	
 	this->mLin = (LINS - lins) / 2 + 1;
 	this->mCol = (COLS - cols) / 2 + 1;

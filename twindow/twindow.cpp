@@ -200,6 +200,10 @@ template<class T> TERMINAL<T>* TWINDOW<T>::getTerminal(void){
 	return mTerminal;
 }
 
+template<class T> TWINDOW<T>* TWINDOW<T>::getParant(void){
+	return mParant;
+}
+
 template<class T> void TWINDOW<T>::resetAttr(void){
 	cout << "\x1B[0m";
 	mUnderline = false;

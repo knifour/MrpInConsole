@@ -494,7 +494,7 @@ int splitStr(const char* src, const char* target, vector<string>& buf){
 	
 	int len = countChars(target);
 	int ps, cnt = 0;
-	int start = 1, end;
+	int start = 1, end=0 - len;
 	string temp;
 	while (ps=inStr(src, target, start)){
 		end = ps - 1;
