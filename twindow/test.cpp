@@ -15,8 +15,6 @@ int main(void){
 	TWMAIN<UTF8SCHAR> tmain(&t);
 	TWMSGBOX<UTF8SCHAR> mbox(&tmain, msg, win);
 	
-	input(code);
-
   tmain.printFromFile("menu.scr");
 	tmain.locate(5, 16);
 	tmain.setBColor(ATTR::BLUE);
