@@ -114,10 +114,12 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 	int COLS = mTerminal->getCOLS();
 	
 	// 將視窗座標對應到TERMINAL座標
-	win.Lin = mLin + sWin.Lin - 1;
+	// win.Lin = mLin + sWin.Lin - 1;
+	win.Lin = getRealLin(mParant) + sWin.Lin - 1;
 	if (win.Lin < 1 || win.Lin > LINS)
 		return;
-	win.Col = mCol + sWin.Col - 1;
+	// win.Col = mCol + sWin.Col - 1;
+	win.Col = getRealCol(mParant) + sWin.Col - 1;
   if (win.Col < 1 || win.Col > COLS)
 		return;
 	

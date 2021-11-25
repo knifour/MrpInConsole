@@ -41,7 +41,6 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 		cols++;
 	cols = cols + 4;
 	
-	
 	this->mLin = (LINS - lins) / 2 + 1;
 	this->mCol = (COLS - cols) / 2 + 1;
 	this->mLINS = lins;
