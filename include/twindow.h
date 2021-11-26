@@ -26,6 +26,8 @@ protected:
   TWINDOW* mParant;
 	/* 子視窗 */
 	vector<TWINDOW*> mChild;
+	/* 視窗是否可見 */
+	bool mVisible;
 	/* 視窗左上角位置 */
   int mLin, mCol;
 	/* 現在游標位置 */
@@ -59,6 +61,8 @@ public:
 	// 取得TERMINAL指標
 	TERMINAL<T>* getTerminal();
 	TWINDOW<T>* getParant();
+	// 取得視窗是否可見
+	bool getVisible();
 	// 重設所有屬性(包括顏色)
 	void resetAttr(void);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
@@ -107,6 +111,8 @@ public:
 	void print(const uint8_t *p);
 	// 從檔案讀取資料列印在視窗上面
 	bool printFromFile(const char*);
+	// 顯示視窗
+	void show();
 	// 重繪
 	void reflash(WIN);
 };

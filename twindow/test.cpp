@@ -10,9 +10,10 @@ using namespace std;
 int main(void){
 	int code;
 	WIN win;
-	char msg[] = "訊息視窗測試！";
+	char msg[] = "message";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
+	tmain.show();
 	TWMSGBOX<UTF8SCHAR> mbox(&tmain, msg, win);
 	
   tmain.printFromFile("menu.scr");
@@ -27,6 +28,8 @@ int main(void){
 	tmain.locate(6, 16);
 	tmain.setFColor(ATTR::HRED);
 	tmain.print("產品資料管理");
+	input(code);
+	mbox.show();
 	input(code);
 	
 	return 0;

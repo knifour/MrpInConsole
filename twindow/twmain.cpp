@@ -14,6 +14,7 @@ template <class T> TWMAIN<T>::TWMAIN(TERMINAL<T>* t){
 	
 	this->mTerminal = t;
 	this->mParant = nullptr;
+	this->mVisible = false;
 	this->mLin = this->mCol = 1;
 	this->mLINS = t->getLINS();
 	this->mCOLS = t->getCOLS();

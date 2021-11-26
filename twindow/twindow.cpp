@@ -58,6 +58,7 @@ char DR[] = "\xe2\x94\x98\x0";
 template<class T> TWINDOW<T>::TWINDOW(){
 	mTerminal = nullptr;
 	mParant = nullptr;
+	mVisible = false;
   mLin = mCol = 1;
 	mCurLin = mCurCol = 1;
   mLINS = 0;
@@ -147,8 +148,8 @@ template<class T> void TWINDOW<T>::TWin2Term(WIN sWin){
 		}
 	}
 	
-	win.Lins = sWin.Lins;
-	win.Cols = sWin.Cols;
+	//win.Lins = sWin.Lins;
+	//win.Cols = sWin.Cols;
 	
 	//mTerminal->reflash(win);
 }
@@ -171,13 +172,13 @@ template<class T> void TWINDOW<T>::init(int FColor, int BColor){
 			}
 		}
 	
-	WIN win;
+	//WIN win;
 	
-	win.Lin = win.Col = 1;
-	win.Lins = mLINS;
-	win.Cols = mCOLS;
-	TWin2Term(win);
-	reflash(win);
+	//win.Lin = win.Col = 1;
+	//win.Lins = mLINS;
+	//win.Cols = mCOLS;
+	//TWin2Term(win);
+	//reflash(win);
 }
 
 template<class T> bool TWINDOW<T>::setSP(int pLin, int pCol){
@@ -204,6 +205,10 @@ template<class T> TERMINAL<T>* TWINDOW<T>::getTerminal(void){
 
 template<class T> TWINDOW<T>* TWINDOW<T>::getParant(void){
 	return mParant;
+}
+
+template<class T> bool TWINDOW<T>::getVisible(void){
+	return mVisible;
 }
 
 template<class T> void TWINDOW<T>::resetAttr(void){
@@ -429,12 +434,25 @@ template<class T> void TWINDOW<T>::print(const uint8_t* p){
 	win.Col = strCol;
 	win.Cols = realLen;
 	
-	if (realLen > 0){
-	  TWin2Term(win);
-		reflash(win);
+	if (mVisible){
+	  if (realLen > 0){
+	    TWin2Term(win);
+		  reflash(win);
+	  }
 	}
 	
 	delete[] buf;
+}
+
+template<class T> void TWINDOW<T>::show(void){
+	WIN win;
+	
+	win.Lin = win.Col = 1;
+	win.Lins = mLINS;
+	win.Cols = mCOLS;
+	mVisible = true;
+	TWin2Term(win);
+	reflash(win);
 }
 
 template<class T> void TWINDOW<T>::reflash(WIN win){
