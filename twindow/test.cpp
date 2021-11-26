@@ -10,10 +10,12 @@ using namespace std;
 int main(void){
 	int code;
 	WIN win;
-	char msg[] = "message";
+	char msg[] = "存檔完成!\n按任意鍵繼續...\n或按[F1]請求幫助";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 	tmain.show();
+	win.FColor = ATTR::HWHITE;
+	win.BColor = ATTR::RED;
 	TWMSGBOX<UTF8SCHAR> mbox(&tmain, msg, win);
 	
   tmain.printFromFile("menu.scr");

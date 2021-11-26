@@ -48,12 +48,12 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	this->mCOLS = cols;
 	
 	if (win.FColor == 0)
-	  this->mFColor = this->getFColor();
+	  this->mFColor = this->mTerminal->getFColor();
 	else
 		this->mFColor = win.FColor;
 	
 	if (win.BColor == 0)
-		this->mBColor = this->getBColor();
+		this->mBColor = this->mTerminal->getBColor();
 	else
 		this->mBColor = win.BColor;
 	
@@ -76,16 +76,18 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	this->print(SUR);
 	
 	tmpLin++;
-	tmpCol = 1;
-	this->locate(tmpLin, tmpCol);
-	this->print(SVT);
-	tmpCol = tmpCol + 2;
-	this->locate(tmpLin, tmpCol);
-	this->print(msg);
-	this->locate(tmpLin, cols-1);
-	this->print(SVT);
+	for (auto it=buf.begin(); it!=buf.end(); it++){
+		tmpCol = 1;
+	  this->locate(tmpLin, tmpCol);
+	  this->print(SVT);
+	  tmpCol = tmpCol + 2;
+	  this->locate(tmpLin, tmpCol);
+	  this->print(*it);
+	  this->locate(tmpLin, cols-1);
+	  this->print(SVT);
+		tmpLin++;
+	}
 	
-	tmpLin++;
 	tmpCol = 1;
 	this->locate(tmpLin, tmpCol);
 	this->print(SDL);
