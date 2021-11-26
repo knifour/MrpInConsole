@@ -10,7 +10,7 @@ using namespace std;
 int main(void){
 	int code;
 	WIN win;
-	char msg[] = "存檔完成!\n按任意鍵繼續...\n或按[F1]請求幫助";
+	char msg[] = "訊息視窗測試！";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 	tmain.show();
@@ -32,7 +32,6 @@ int main(void){
 	tmain.print("產品資料管理");
 	input(code);
 	mbox.show();
-	input(code);
 	
 	return 0;
 }

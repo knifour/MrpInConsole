@@ -14,6 +14,7 @@ public:
   TWMSGBOX();
   TWMSGBOX(TWINDOW<T>*, const char *, WIN);
 	~TWMSGBOX();
+	void show();
 };
 
 #endif

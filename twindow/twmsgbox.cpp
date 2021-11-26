@@ -15,6 +15,7 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	
 	this->mTerminal = p->getTerminal();
 	this->mParant = p;
+	p->addChild(this);
 	
 	int LINS = p->getLINS();
 	int COLS = p->getCOLS();
@@ -48,19 +49,15 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	this->mCOLS = cols;
 	
 	if (win.FColor == 0)
-	  this->mFColor = this->mTerminal->getFColor();
-	else
-		this->mFColor = win.FColor;
+	  win.FColor = this->mTerminal->getFColor();
 	
 	if (win.BColor == 0)
-		this->mBColor = this->mTerminal->getBColor();
-	else
-		this->mBColor = win.BColor;
+		win.BColor = this->mTerminal->getBColor();
 	
 	this->mUnderline = false;
 	this->mError = false;
 	this->createBuffer();
-	this->init();
+	this->init(win.FColor, win.BColor);
 	
 	int tmpLin = 1;
 	int tmpCol = 1;
@@ -101,8 +98,24 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 	this->print(SDR);
 }
 
-template <class T> TWMSGBOX<T>::~TWMSGBOX(){
+template<class T> void TWMSGBOX<T>::show(void){
+	/*WIN win;
 	
+	win.Lin = win.Col = 1;
+	win.Lins = this->getLINS();
+	win.Cols = this->getCOLS();
+	this->mVisible = true;
+	this->TWin2Term(win);
+	this->reflash(win);*/
+	TWINDOW<T>::show();
+	cout << "\x7";
+	hideCursor();
+	getch();
+	showCursor();
+}
+
+template <class T> TWMSGBOX<T>::~TWMSGBOX(){
+	this->mParant->removeChild(this);
 }
 
 template class TWMSGBOX<UTF8SCHAR>;

@@ -320,14 +320,14 @@ template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
 
 template<class T> int TWINDOW<T>::getRealLin(TWINDOW<T>* p) const{
 	if (p==nullptr)
-		return 1;
+		return mLin;
 	else
 		return p->mLin+getRealLin(p->mParant)-1;
 }
 
 template<class T> int TWINDOW<T>::getRealCol(TWINDOW<T>* p) const{
 	if (p==nullptr)
-		return 1;
+		return mCol;
 	else
 		return p->mCol+getRealCol(p->mParant)-1;
 }
@@ -459,6 +459,19 @@ template<class T> void TWINDOW<T>::reflash(WIN win){
 	win.Lin = win.Lin + getRealLin(mParant) - 1;
 	win.Col = win.Col + getRealCol(mParant) - 1;
 	mTerminal->reflash(win);
+}
+
+template<class T> void TWINDOW<T>::addChild(TWINDOW<T>* p){
+	mChild.push_back(p);
+}
+
+template<class T> void TWINDOW<T>::removeChild(TWINDOW<T>* p){
+	for (auto it=mChild.begin(); it!=mChild.end(); it++){
+		if (*it == p){
+			mChild.erase(it);
+			break;
+		}
+	}
 }
 
 template<class T> bool TWINDOW<T>::printFromFile(const char* filename){
