@@ -10,7 +10,7 @@ using namespace std;
 int main(void){
 	int code;
 	WIN win;
-	char msg[] = "訊息視窗測試！";
+	char msg[] = "訊息第一行\n第二行";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 	tmain.show();
@@ -31,6 +31,8 @@ int main(void){
 	tmain.setFColor(ATTR::HRED);
 	tmain.print("產品資料管理");
 	input(code);
+	mbox.show();
+	getch();
 	mbox.show();
 	
 	return 0;

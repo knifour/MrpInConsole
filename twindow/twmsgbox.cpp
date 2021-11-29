@@ -111,6 +111,8 @@ template<class T> void TWMSGBOX<T>::show(void){
 	cout << "\x7";
 	hideCursor();
 	getch();
+	this->close();
+	this->setVisible(false);
 	showCursor();
 }
 

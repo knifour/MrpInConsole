@@ -207,8 +207,16 @@ template<class T> TWINDOW<T>* TWINDOW<T>::getParant(void){
 	return mParant;
 }
 
-template<class T> bool TWINDOW<T>::getVisible(void){
+template<class T> vector<TWINDOW<T>*>& TWINDOW<T>::getChildWindow(void){
+	return mChild;
+}
+
+template<class T> bool TWINDOW<T>::getVisible(void) const {
 	return mVisible;
+}
+
+template<class T> void TWINDOW<T>::setVisible(bool p){
+	mVisible = p;
 }
 
 template<class T> void TWINDOW<T>::resetAttr(void){
@@ -455,6 +463,23 @@ template<class T> void TWINDOW<T>::show(void){
 	reflash(win);
 }
 
+template<class T> void TWINDOW<T>::close(void){
+	WIN win;
+
+  if (mParant == nullptr)
+    return;
+	
+	removeChild(this);
+
+  win.Lin = mParant->getLin();
+  win.Col = mParant->getCol();
+  win.Lins = mParant->getLINS();
+  win.Cols = mParant->getCOLS();
+	mParant->TWin2Term(win);
+  rePaint(mParant->getChildWindow());
+  mParant->getTerminal()->reflash(win);	
+}
+
 template<class T> void TWINDOW<T>::reflash(WIN win){
 	win.Lin = win.Lin + getRealLin(mParant) - 1;
 	win.Col = win.Col + getRealCol(mParant) - 1;
@@ -471,6 +496,22 @@ template<class T> void TWINDOW<T>::removeChild(TWINDOW<T>* p){
 			mChild.erase(it);
 			break;
 		}
+	}
+}
+
+template<class T> void TWINDOW<T>::rePaint(vector<TWINDOW*>& pChild){
+	WIN win;
+	
+	if (pChild.size() == 0)
+		return;
+	
+	for (auto it=pChild.begin(); it!=pChild.end(); it++){
+		win.Lin = (*it)->getLin();
+		win.Col = (*it)->getCol();
+		win.Lins = (*it)->getLINS();
+		win.Cols = (*it)->getCOLS();
+		(*it)->TWin2Term(win);
+		rePaint(this->getChildWindow());
 	}
 }
 

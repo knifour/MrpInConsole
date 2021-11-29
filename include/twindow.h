@@ -25,7 +25,7 @@ protected:
   /* 父視窗指標, nullptr代表沒有父視窗 */
   TWINDOW* mParant;
 	/* 子視窗 */
-	vector<TWINDOW*> mChild;
+	vector<TWINDOW<T>*> mChild;
 	/* 視窗是否可見 */
 	bool mVisible;
 	/* 視窗左上角位置 */
@@ -60,9 +60,14 @@ public:
 	void TWin2Term(WIN);
 	// 取得TERMINAL指標
 	TERMINAL<T>* getTerminal();
+	// 取得父視窗指標
 	TWINDOW<T>* getParant();
+	// 取得子視窗vector指標
+	vector<TWINDOW<T>*>& getChildWindow();
 	// 取得視窗是否可見
-	bool getVisible();
+	bool getVisible() const;
+	// 設定視窗是否可見
+	void setVisible(bool);
 	// 重設所有屬性(包括顏色)
 	void resetAttr(void);
 	// 以顏色代碼設定前景色，顏色代碼超出範圍無效
@@ -113,12 +118,16 @@ public:
 	bool printFromFile(const char*);
 	// 顯示視窗
 	void show();
-	// 重繪
+	// 關閉視窗
+	void close();
+	// 顯示視窗更新結果
 	void reflash(WIN);
 	// 加入子視窗
 	void addChild(TWINDOW<T>* p);
 	// 移除子視窗
 	void removeChild(TWINDOW<T>* p);
+	// 重繪包括父視窗在內的所有子視窗(包含子視窗的子視窗)
+	void rePaint(vector<TWINDOW*>& pChild);
 };
 
 #endif
