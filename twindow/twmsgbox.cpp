@@ -117,7 +117,6 @@ template<class T> void TWMSGBOX<T>::show(void){
 }
 
 template <class T> TWMSGBOX<T>::~TWMSGBOX(){
-	this->mParant->removeChild(this);
 }
 
 template class TWMSGBOX<UTF8SCHAR>;

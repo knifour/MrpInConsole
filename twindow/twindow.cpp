@@ -511,7 +511,7 @@ template<class T> void TWINDOW<T>::rePaint(vector<TWINDOW*>& pChild){
 		win.Lins = (*it)->getLINS();
 		win.Cols = (*it)->getCOLS();
 		(*it)->TWin2Term(win);
-		rePaint(this->getChildWindow());
+		rePaint((*it)->getChildWindow());
 	}
 }
 
