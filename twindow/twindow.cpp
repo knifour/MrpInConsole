@@ -298,7 +298,15 @@ template<class T> int TWINDOW<T>::getCurCol() const{
 template<class T> void TWINDOW<T>::cls(void){
 	/*init(mFColor, mBColor);*/
 	init(mFColor, mBColor);
+	WIN win;
+	
+	win.Lin = win.Col = 1;
+	win.Lins = getLINS();
+	win.Cols = getCOLS();
+	TWin2Term(win);
+	reflash(win);
 	locate(1, 1);
+	mCurLin = mCurCol = 1;
 }
 
 template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
@@ -477,7 +485,7 @@ template<class T> void TWINDOW<T>::close(void){
   win.Cols = mParant->getCOLS();
 	mParant->TWin2Term(win);
   rePaint(mParant->getChildWindow());
-  mParant->getTerminal()->reflash(win);	
+  getTerminal()->reflash(win);	
 }
 
 template<class T> void TWINDOW<T>::reflash(WIN win){

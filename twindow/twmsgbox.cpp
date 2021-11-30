@@ -99,14 +99,6 @@ template <class T> TWMSGBOX<T>::TWMSGBOX(TWINDOW<T>* p, const char* msg, WIN win
 }
 
 template<class T> void TWMSGBOX<T>::show(void){
-	/*WIN win;
-	
-	win.Lin = win.Col = 1;
-	win.Lins = this->getLINS();
-	win.Cols = this->getCOLS();
-	this->mVisible = true;
-	this->TWin2Term(win);
-	this->reflash(win);*/
 	TWINDOW<T>::show();
 	cout << "\x7";
 	hideCursor();

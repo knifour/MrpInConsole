@@ -33,7 +33,8 @@ int main(void){
 	input(code);
 	mbox.show();
 	getch();
-	mbox.show();
+	tmain.resetAttr();
+	tmain.cls();
 	
 	return 0;
 }
