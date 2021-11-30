@@ -182,7 +182,10 @@ char getch_(int echo){
 
 /* 模擬Windows的getch()函數，按鍵不會顯示在終端機上面 */
 char getch(void){
-	return getch_(0);
+	hideCursor();
+	char c = getch_(0);
+	showCursor();
+	return c;
 }
 
 /* 模擬Windows的getch()函數，按鍵會顯示在終端機上面 */

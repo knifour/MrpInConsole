@@ -8,7 +8,6 @@
 using namespace std;
 
 int main(void){
-	int code;
 	WIN win;
 	char msg[] = "訊息第一行\n第二行";
 	TERMINAL<UTF8SCHAR> t;
@@ -30,7 +29,7 @@ int main(void){
 	tmain.locate(6, 16);
 	tmain.setFColor(ATTR::HRED);
 	tmain.print("產品資料管理");
-	input(code);
+	getch();
 	mbox.show();
 	getch();
 	tmain.resetAttr();
