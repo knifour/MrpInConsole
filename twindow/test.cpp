@@ -9,7 +9,7 @@ using namespace std;
 
 int main(void){
 	WIN win;
-	char msg[] = "訊息第一行\n第二行";
+	char msg[] = "<<存檔完成！>>";
 	TERMINAL<UTF8SCHAR> t;
 	TWMAIN<UTF8SCHAR> tmain(&t);
 	tmain.show();

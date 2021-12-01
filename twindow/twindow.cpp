@@ -306,7 +306,6 @@ template<class T> void TWINDOW<T>::cls(void){
 	TWin2Term(win);
 	reflash(win);
 	locate(1, 1);
-	mCurLin = mCurCol = 1;
 }
 
 template<class T> void TWINDOW<T>::locate(int pLin, int pCol){
