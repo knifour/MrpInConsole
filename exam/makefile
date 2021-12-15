@@ -41,7 +41,7 @@ inkey.o: inkey.cpp
 kbhit: kbhit.o
 	$(cc) -o kbhit kbhit.o $(LFLAGS)
 	
-kbhit.o: kbhit.cpp ../include/kbmap.h
+kbhit.o: kbhit.cpp ../include/keymap.h
 	$(cc) $(CFLAGS) kbhit.cpp
 	
 search: search.o

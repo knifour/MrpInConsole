@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <util.h>
 #include <unistd.h>
-#include <kbmap.h>
+#include <keymap.h>
 
 static struct termios old, current;
 
@@ -142,6 +142,39 @@ string KEYNAME[] = {
 	"F10",
 	"F11",
 	"F12",
+	"Up",
+	"Down",
+	"Right",
+	"Left",
+	"Home",
+	"Insert",
+	"Delete",
+	"End",
+	"Page Up",
+	"Page Down",
+	"Keypad 5",
+	"Alt+F1",
+	"Alt+F2",
+	"Alt+F3",
+	"Alt+F4",
+	"Alt+F5",
+	"Alt+F6",
+	"Alt+F7",
+	"Alt+F8",
+	"Alt+F9",
+	"Alt+F10",
+	"Alt+F11",
+	"Alt+F12",
+	"Alt+Up",
+	"Alt+Down",
+	"Alt+Right",
+	"Alt+Left",
+	"Alt+Home",
+	"Alt+Insert",
+	"Alt+Delete",
+	"Alt+End",
+	"Alt+Page Up",
+	"Alt+Page Down"
 };
 
 void initTermios(int echo){

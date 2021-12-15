@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
-#include <kbmap.h>
+#include <keymap.h>
 #include <keypad.h>
 
 using namespace std;
@@ -21,9 +21,10 @@ int main(int argc, char** argv) {
 	  temp = input(funckey);
 		if (funckey==ESC)
 			break;
-		if (funckey!=0)
+		if (funckey!=0){
 			cout << "按鍵代碼：" << funckey << endl;
-		else {
+		  cout << "按鍵名稱：" << KEYNAME[funckey] << endl;
+		} else {
 			if (temp.length()!=0)
 				cout << "按鍵值：" << temp << endl;
 			else
