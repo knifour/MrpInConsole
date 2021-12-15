@@ -10,90 +10,138 @@ static struct termios old, current;
 
 string KEYMAP[] = {
 	"",
-	"\x01\0",                 /* Control-A */
-	"\x02\0",
-	"\x03\0",                 /* Control-C : useless */
-	"\x04\0",
-	"\x05\0",
-	"\x06\0",
-	"\x07\0",
-	"\x08\0",
-	"\x09\0",                 /* TAB */
-	"\x0A\0",                 /* Control-J or ENTER */
+	"\x01",                 /* Control-A */
+	"\x02",
+	"\x03",                 /* Control-C : useless */
+	"\x04",
+	"\x05",
+	"\x06",
+	"\x07",
+	"\x08",
+	"\x09",                 /* TAB */
+	"\x0A",                 /* Control-J or ENTER */
 	
-	"\x0B\0",
-	"\x0C\0",
-	"\x0D\0",
-	"\x0E\0",
-	"\x0F\0",
-	"\x10\0",
-	"\x11\0",                 /* Control-Q : useless */
-	"\x12\0",
-	"\x13\0",                 /* Control-S : useless */
-	"\x14\0",
+	"\x0B",
+	"\x0C",
+	"\x0D",
+	"\x0E",
+	"\x0F",
+	"\x10",
+	"\x11",                 /* Control-Q : useless */
+	"\x12",
+	"\x13",                 /* Control-S : useless */
+	"\x14",
 	
-	"\x15\0",
-	"\x16\0",
-	"\x17\0",
-	"\x18\0",
-	"\x19\0",
-	"\x1A\0",                 /* Control-Z : useless */
-	"\x1B\0",                 /* ESC */
-	"\x1C\0",                 /* Control-\ : useless */
-	"\x1D\0",                 /* Control-5 */
-	"\x1E\0",                 /* Control-6 */
+	"\x15",
+	"\x16",
+	"\x17",
+	"\x18",
+	"\x19",
+	"\x1A",                 /* Control-Z : useless */
+	"\x1B",                 /* ESC */
+	"\x1C",                 /* Control-\ : useless */
+	"\x1D",                 /* Control-5 */
+	"\x1E",                 /* Control-6 */
 	
-	"\x1F\0",                 /* Control-/ or Control-minus or Control-7 */
-	"\x7F\0",                 /* Backspace or Control-8 */
-	"\x1B\x4F\x50\0",         /* F1 */
-	"\x1B\x4F\x51\0",
-	"\x1B\x4F\x52\0",
-	"\x1B\x4F\x53\0",
-	"\x1B\x4F\x54\0",
-	"\x1B\x4F\x55\0",
-	"\x1B\x4F\x56\0",
-	"\x1B\x4F\x57\0",
+	"\x1F",                 /* Control-/ or Control-minus or Control-7 */
+	"\x7F",                 /* Backspace or Control-8 */
+	"\x1B\x4F\x50",         /* F1 */
+	"\x1B\x4F\x51",
+	"\x1B\x4F\x52",
+	"\x1B\x4F\x53",
+	"\x1B\x4F\x54",
+	"\x1B\x4F\x55",
+	"\x1B\x4F\x56",
+	"\x1B\x4F\x57",
 	
-	"\x1B\x4F\x58\0",
-	"\x1B\x4F\x59\0",
-	"\x1B\x4F\x5A\0",
-	"\x1B\x4F\x5B\0",         /* F12 */
-	"\x1B\x5B\x41\0",         /* Up */
-	"\x1B\x5B\x42\0",         /* Down */
-	"\x1B\x5B\x43\0",         /* Right */
-	"\x1B\x5B\x44\0",         /* Left */
-	"\x1B\x5B\x31\x7E\0",     /* Home */
-	"\x1B\x5B\x32\x7E\0",     /* Insert */
+	"\x1B\x4F\x58",
+	"\x1B\x4F\x59",
+	"\x1B\x4F\x5A",
+	"\x1B\x4F\x5B",         /* F12 */
+	"\x1B\x5B\x41",         /* Up */
+	"\x1B\x5B\x42",         /* Down */
+	"\x1B\x5B\x43",         /* Right */
+	"\x1B\x5B\x44",         /* Left */
+	"\x1B\x5B\x31\x7E",     /* Home */
+	"\x1B\x5B\x32\x7E",     /* Insert */
 	
-	"\x1B\x5B\x33\x7E\0",     /* Delete */
-	"\x1B\x5B\x34\x7E\0",     /* End */
-	"\x1B\x5B\x35\x7E\0",     /* Page Up */
-	"\x1B\x5B\x36\x7E\0",     /* Page Down */
-	"\x1B\x5B\x47\0",         /* Keypad 5 */
-	"\x1B\x1B\x4F\x50\0",     /* Alt-F1 */
-	"\x1B\x1B\x4F\x51\0",
-	"\x1B\x1B\x4F\x52\0",
-	"\x1B\x1B\x4F\x53\0",
-	"\x1B\x1B\x4F\x54\0",
+	"\x1B\x5B\x33\x7E",     /* Delete */
+	"\x1B\x5B\x34\x7E",     /* End */
+	"\x1B\x5B\x35\x7E",     /* Page Up */
+	"\x1B\x5B\x36\x7E",     /* Page Down */
+	"\x1B\x5B\x47",         /* Keypad 5 */
+	"\x1B\x1B\x4F\x50",     /* Alt-F1 */
+	"\x1B\x1B\x4F\x51",
+	"\x1B\x1B\x4F\x52",
+	"\x1B\x1B\x4F\x53",
+	"\x1B\x1B\x4F\x54",
 	
-	"\x1B\x1B\x4F\x55\0",
-	"\x1B\x1B\x4F\x56\0",
-	"\x1B\x1B\x4F\x57\0",
-	"\x1B\x1B\x4F\x58\0",
-	"\x1B\x1B\x4F\x59\0",
-	"\x1B\x1B\x4F\x5A\0",
-	"\x1B\x1B\x4F\x5B\0",     /* Alt-F12 */
-	"\x1B\x1B\x5B\x41\0",     /* Alt-Up */
-	"\x1B\x1B\x5B\x42\0",     /* Alt-Down */
-	"\x1B\x1B\x5B\x43\0",     /* Alt-Right */
+	"\x1B\x1B\x4F\x55",
+	"\x1B\x1B\x4F\x56",
+	"\x1B\x1B\x4F\x57",
+	"\x1B\x1B\x4F\x58",
+	"\x1B\x1B\x4F\x59",
+	"\x1B\x1B\x4F\x5A",
+	"\x1B\x1B\x4F\x5B",     /* Alt-F12 */
+	"\x1B\x1B\x5B\x41",     /* Alt-Up */
+	"\x1B\x1B\x5B\x42",     /* Alt-Down */
+	"\x1B\x1B\x5B\x43",     /* Alt-Right */
 	
-	"\x1B\x1B\x5B\x44\0",     /* Alt-Left */
-	"\x1B\x1B\x5B\x31\x7E\0", /* Alt-Home */
-	"\x1B\x1B\x5B\x32\x7E\0", /* Alt-Insert */
-	"\x1B\x1B\x5B\x33\x7E\0", /* Alt-Delete */
-	"\x1B\x1B\x5B\x34\x7E\0", /* Alt-End */
-	"\x1B\x1B\x5B\x35\x7E\0", /* Alt-Page Up */
-	"\x1B\x1B\x5B\x36\x7E\0"  /* Alt-Page Down */
+	"\x1B\x1B\x5B\x44",     /* Alt-Left */
+	"\x1B\x1B\x5B\x31\x7E", /* Alt-Home */
+	"\x1B\x1B\x5B\x32\x7E", /* Alt-Insert */
+	"\x1B\x1B\x5B\x33\x7E", /* Alt-Delete */
+	"\x1B\x1B\x5B\x34\x7E", /* Alt-End */
+	"\x1B\x1B\x5B\x35\x7E", /* Alt-Page Up */
+	"\x1B\x1B\x5B\x36\x7E"  /* Alt-Page Down */
+};
+
+string KEYNAME[] = {
+	"",
+	"Control+A",
+	"Control+B",
+	"Control+C",            /* System Remain, useless */
+	"Control+D",
+	"Control+E",
+	"Control+F",
+	"Control+G",
+	"Control+H",
+	"Control+I or TAB",
+	"Control+J or ENTER",
+	"Control+K",
+	"Control+L",
+	"Control+M",
+	"Control+N",
+	"Control+O",
+	"Control+P",
+	"Control+Q",            /* System Remain, useless */
+	"Control+R",
+	"Control+S",            /* System Remain, useless */
+	"Control+T",
+	"Control+U",
+	"Control+V",
+	"Control+W",
+	"Control+X",
+	"Control+Y",
+	"Control+Z",            /* System Remain, useless */
+	"ESC",
+	"Control+\\",           /* System Remain, useless */
+  "Control+5",
+	"Control+6",
+	"Control+7 or Control+/ or Control+-",
+	"Control+8 or Backspace",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
 };
 
 void initTermios(int echo){

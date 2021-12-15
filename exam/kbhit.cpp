@@ -13,28 +13,22 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-	int funckey;
+	int funckey=0;
 	string temp="";
 	
   printf("Press any key\n");
-	temp = input(funckey);
-  if (funckey!=0){
-		switch (funckey){
-		case ESC:
-		  cout << "你按了[ESC]" << endl;
+	while (1) {
+	  temp = input(funckey);
+		if (funckey==ESC)
 			break;
-		case F1:
-		  cout << "你按了[F1]" << endl;
-			break;
-		default:
-		  cout << "特殊按鍵代碼：" << funckey << endl;
-		};
-	} else {
-		if (temp.length()!=0){
-			cout << "按鍵值：" << temp << endl;
+		if (funckey!=0)
+			cout << "按鍵代碼：" << funckey << endl;
+		else {
+			if (temp.length()!=0)
+				cout << "按鍵值：" << temp << endl;
+			else
+				cout << "按鍵未定義" << endl;
 		}
-		else
-			cout << "按鍵未定義" << endl;
 	}
 	
   return 0;
