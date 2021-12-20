@@ -1,7 +1,7 @@
 #include <twmain.h>
 #include <twmsgbox.h>
 #include <util.h>
-#include <kbmap.h>
+#include <keymap.h>
 #include <string>
 #include <iostream>
 
