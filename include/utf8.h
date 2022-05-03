@@ -500,6 +500,9 @@ int splitStr(const string&, const string&, vector<string>&);
 //        
 int splitStr(const uint8_t*, const uint8_t*, vector<string>&);
 
+std::string convertBig5toUtf8(char *src, int *status);
+std::string convertBig5toUtf8(std::string src, int *status);
+
 }
 
 #endif

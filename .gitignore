@@ -17,6 +17,7 @@ exam/TempFile
 exam/modify
 exam/nnpra
 exam/kbhit
+menu/menu
 mysql/myhello
 ncurses/hello
 ncurses/test

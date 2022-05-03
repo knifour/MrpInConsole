@@ -93,7 +93,7 @@ int Utf8Mid(uint8_t const *utf8, uint8_t *buf, int start, int length);
 std::string Utf8Mids(uint8_t const *utf8, int start, int length);
 
 /* 將Big5編碼的Byte Stream轉換成Utf8編碼的Byte Stream */
-std::string convertBig5toUtf8(char *src, int *status);
-std::string convertBig5toUtf8(std::string src, int *status);
+//std::string convertBig5toUtf8(char *src, int *status);
+//std::string convertBig5toUtf8(std::string src, int *status);
 
 #endif
