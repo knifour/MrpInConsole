@@ -9,6 +9,7 @@
 using namespace utf8;
 
 bool readMenuData();
+void getItem(char*, char*, int, int);
 
 fstream json;
 string menuitem[10][20][3];
@@ -82,6 +83,23 @@ int main(int argc, char* argv[]){
 		json << "    " << '"' << "menuitem" << '"' << " : [" << endl;
 		json << "      {" << endl;
 		
+		for (int j=0; j<20; j++){
+			if (menuitem[i][j][0].empty())
+				break;
+			else{
+				if (j>0){
+		      json << "      }," << endl;
+					json << "      {" << endl;
+			  }
+		  }
+			json << "        " << '"' << "itemname" << '"' << " : ";
+			json << '"' << menuitem[i][j][0] << '"' << "," << endl;
+			json << "        " << '"' << "itemproc" << '"' << " : ";
+			json << '"' << menuitem[i][j][1] << '"' << "," << endl;
+			json << "        " << '"' << "itemdesc" << '"' << " : ";
+			json << '"' << menuitem[i][j][2] << '"' << endl;
+		}
+		
 		json << "      }" << endl;
 		json << "    ]" << endl;
 		sp = sp + spc - width;
@@ -97,45 +115,53 @@ int main(int argc, char* argv[]){
 
 bool readMenuData(){
 	fstream fi;
-	bool first;
+	int status;
+	
+	for (int i=0; i<10; i++)
+		for (int j=0; j<20; j++)
+			for (int k=0; k<3; k++)
+				menuitem[i][j][k] = "";
 	
 	fi.open("menu.dat", ios::in);
 	if (!fi)
 		return false;
 	
-	int m=0, d=0, s=0;
-	int sp, dp;
+	int m=0, d=0;
 	char buf[121];
 	char item[121];
 	
 	do {
 		fi.getline(buf, sizeof(buf));
-		first = true;
     do {
-			if (!first)
-		    json << "      }," << endl;
-			
-      fi.getline(buf, sizeof(buf));			
-			if (strlen(buf) == 0)
+      fi.getline(buf, sizeof(buf));	
+			if (strlen(buf) == 1)
 				break;
-      
-      sp = 0;
-			dp = 0;
-			for (int i=0; i<22; i++){
-				if (buf[i] = ' ')
-					item[dp] = 0;
-				else
-					item[dp] = buf[sp];
-				sp++;
-				dp++;
-			}
-			menuitem[m][d][s] = string(item);
-			s++;
-			first = false;
+			getItem(buf, item, 1, 22);
+			menuitem[m][d][0] = convertBig5toUtf8(item, &status);
+			getItem(buf, item, 25, 8);
+			menuitem[m][d][1] = convertBig5toUtf8(item, &status);
+			getItem(buf, item, 37, 84);
+			menuitem[m][d][2] = convertBig5toUtf8(item, &status);
 			d++;
 		} while (!fi.eof());
 		m++;
+		d = 0;
 	} while (!fi.eof());
 	
 	return true;
+}
+
+void getItem(char* src, char* dst, int strPos, int len){
+	int dp = 0;
+	for (int i=strPos-1; i<(strPos+len-1); i++){
+		if (src[i] == ' ' || (unsigned int)src[i] == 13){
+			dst[dp] = 0;
+			break;
+		} else {
+			dst[dp] = src[i];
+		}
+		dp++;
+	}
+	
+	return;
 }
