@@ -1,0 +1,44 @@
+[
+  {
+    "mainmenu" : "基本資料",
+    "menuitem" : [
+      {
+      }
+    ]
+  },
+  {
+    "mainmenu" : "規格表",
+    "menuitem" : [
+      {
+      }
+    ]
+  },
+  {
+    "mainmenu" : "訂單管理",
+    "menuitem" : [
+      {
+      }
+    ]
+  },
+  {
+    "mainmenu" : "進貨",
+    "menuitem" : [
+      {
+      }
+    ]
+  },
+  {
+    "mainmenu" : "出貨",
+    "menuitem" : [
+      {
+      }
+    ]
+  },
+  {
+    "mainmenu" : "其它",
+    "menuitem" : [
+      {
+      }
+    ]
+  }
+]
