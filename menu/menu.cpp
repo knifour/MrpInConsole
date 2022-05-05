@@ -10,13 +10,14 @@ using namespace utf8;
 
 bool readMenuData();
 void getItem(char*, char*, int, int);
+bool isSplit(char);
 
-fstream json;
 string menuitem[10][20][3];
 
 int main(int argc, char* argv[]){
 	int lin, pos;
 	int width, spc, num;
+	fstream json;
 	
 	if (argc!=6){
 		cout << "參數數量錯誤" << endl;
@@ -78,9 +79,9 @@ int main(int argc, char* argv[]){
 		}
 		item[dp] = 0;
 		name = convertBig5toUtf8(item, &status);
-		json << "    " << '"' << "mainmenu" << '"' << " : ";
+		json << "    " << '"' << "mainmenu" << '"' << ":";
 		json << '"' << name << '"' << "," << endl;
-		json << "    " << '"' << "menuitem" << '"' << " : [" << endl;
+		json << "    " << '"' << "menuitem" << '"' << ":[" << endl;
 		json << "      {" << endl;
 		
 		for (int j=0; j<20; j++){
@@ -92,11 +93,11 @@ int main(int argc, char* argv[]){
 					json << "      {" << endl;
 			  }
 		  }
-			json << "        " << '"' << "itemname" << '"' << " : ";
+			json << "        " << '"' << "itemname" << '"' << ":";
 			json << '"' << menuitem[i][j][0] << '"' << "," << endl;
-			json << "        " << '"' << "itemproc" << '"' << " : ";
+			json << "        " << '"' << "itemproc" << '"' << ":";
 			json << '"' << menuitem[i][j][1] << '"' << "," << endl;
-			json << "        " << '"' << "itemdesc" << '"' << " : ";
+			json << "        " << '"' << "itemdesc" << '"' << ":";
 			json << '"' << menuitem[i][j][2] << '"' << endl;
 		}
 		
@@ -154,7 +155,7 @@ bool readMenuData(){
 void getItem(char* src, char* dst, int strPos, int len){
 	int dp = 0;
 	for (int i=strPos-1; i<(strPos+len-1); i++){
-		if (src[i] == ' ' || (unsigned int)src[i] == 13){
+		if (isSplit(src[i])){
 			dst[dp] = 0;
 			break;
 		} else {
@@ -164,4 +165,11 @@ void getItem(char* src, char* dst, int strPos, int len){
 	}
 	
 	return;
+}
+
+bool isSplit(char c){
+	if (c == 0 || c == 10 || c == 13 || c == 32)
+		return true;
+	else
+		return false;
 }
