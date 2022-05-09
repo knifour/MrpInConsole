@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
 		return 1;
 	} else if (argc > 6) {
 		menu.FileName = string(argv[6]) + ".js";
-		menu.VarString = "const " + string(argv[6]) + " = \'";
+		menu.VarString = string(argv[6]);
 	}
 	
 	menu.Lin    = atoi(argv[1]);
@@ -176,7 +176,7 @@ bool writeCompacted(MENU& menu, char* buf){
 	}
 	
 	sp = menu.Pos - 1;
-	json << menu.VarString;
+	json << "const " << menu.VarString << " = \'";
 	json << "[";
 	for (int i=0; i<menu.Number; i++){
 		dp = 0;
@@ -220,7 +220,8 @@ bool writeCompacted(MENU& menu, char* buf){
 	}
 	json << "}";
 	json << "]";
-	json << "\';";
+	json << "\';" << endl;
+	json << "const obj" << menu.VarString << " = JSON.parse(" << menu.VarString << ");";
 	json.close();
 	
 	return true;
