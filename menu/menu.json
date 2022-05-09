@@ -1,6 +1,6 @@
 [
   {
-    "mainmenu":"基本資料",
+    "menuname":"基本資料",
     "menuitem":[
       {
         "itemname":"零件資料管理",
@@ -85,7 +85,7 @@
     ]
   },
   {
-    "mainmenu":"規格表",
+    "menuname":"規格表",
     "menuitem":[
       {
         "itemname":"零件規格表管理",
@@ -140,7 +140,7 @@
     ]
   },
   {
-    "mainmenu":"訂單管理",
+    "menuname":"訂單管理",
     "menuitem":[
       {
         "itemname":"訂單資料建檔",
@@ -175,7 +175,7 @@
     ]
   },
   {
-    "mainmenu":"進貨",
+    "menuname":"進貨",
     "menuitem":[
       {
         "itemname":"採購資料建檔",
@@ -250,7 +250,7 @@
     ]
   },
   {
-    "mainmenu":"出貨",
+    "menuname":"出貨",
     "menuitem":[
       {
         "itemname":"領料單管理",
@@ -330,7 +330,7 @@
     ]
   },
   {
-    "mainmenu":"其它",
+    "menuname":"其它",
     "menuitem":[
       {
         "itemname":"人員資料設定",
