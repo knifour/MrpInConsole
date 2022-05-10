@@ -30,14 +30,10 @@ public:
 	}
 };
 
-bool writeFormated(MENU&, char*);
-bool writeCompacted(MENU&, char*);
+bool writeJSON(MENU&, char*, bool);
 bool readMenuData(MENU&);
 void getItem(char*, char*, int, int);
 bool isSplit(char);
-
-string menuitem[10][20][3];
-string outFileName = "menu.scr";
 
 int main(int argc, char* argv[]){
 	MENU menu;
@@ -49,6 +45,7 @@ int main(int argc, char* argv[]){
 		cout << "  檔名省略時會以格式化方式將轉換結果輸出到menu.json" << endl;
 		cout << "  有指定檔名時會將轉換結果輸出到指定的檔名並自動指定副檔名為.js" << endl;
     cout << "  轉換後的檔案開頭會有 const 檔名=\'精簡json格式轉換後的內容\';" << endl;
+		cout << "  轉換後檔案結尾會有 const obj檔名 = JSON.parse(檔名); 的轉換式" << endl;
 		cout << "  注意：檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
 		cout << "        否則在javascript裡面會產生錯誤" << endl;
 		return 1;
@@ -95,14 +92,14 @@ int main(int argc, char* argv[]){
 	}
 	
 	if (argc == 6)
-		writeFormated(menu, buf);
+		writeJSON(menu, buf, true);
 	else
-		writeCompacted(menu, buf);
+		writeJSON(menu, buf, false);
 	
 	return 0;
 }
 
-bool writeFormated(MENU& menu, char *buf){
+bool writeJSON(MENU& menu, char *buf, bool flag){
 	fstream json;
 	char item[20];
 	int status, sp, dp;
@@ -115,10 +112,14 @@ bool writeFormated(MENU& menu, char *buf){
 	}
 	
 	sp = menu.Pos - 1;
-	json << "[" << endl;
+	if (!flag)
+		json << "const " << menu.VarString << " = \'";
+	(flag) ? json << "[" << endl :
+	         json << "[";
 	for (int i=0; i<menu.Number; i++){
 		dp = 0;
-		json << "  {" << endl;
+		(flag) ? json << "  {" << endl :
+		         json << "{";
 		for (int j=0; j<menu.Width; j++){
 		  if (buf[sp] != ' '){
 			  item[dp] = buf[sp];
@@ -128,103 +129,60 @@ bool writeFormated(MENU& menu, char *buf){
 		}
 		item[dp] = 0;
 		name = convertBig5toUtf8(item, &status);
-		json << "    " << '"' << "menuname" << '"' << ":";
-		json << '"' << name << '"' << "," << endl;
-		json << "    " << '"' << "menuitem" << '"' << ":[" << endl;
-		json << "      {" << endl;
+		(flag) ? json << "    " << '"' << "menuname" << '"' << ":" :
+		         json << '"' << "menuname" << '"' << ":";
+		(flag) ? json << '"' << name << '"' << "," << endl :
+		         json << '"' << name << '"' << ",";
+		(flag) ? json << "    " << '"' << "menuitem" << '"' << ":[" << endl :
+		         json << '"' << "menuitem" << '"' << ":[";
+		(flag) ? json << "      {" << endl :
+		         json << "{";
 		
 		for (int j=0; j<20; j++){
 			if (menu.MenuItem[i][j][0].empty())
 				break;
 			else{
 				if (j>0){
-		      json << "      }," << endl;
-					json << "      {" << endl;
+		      (flag) ? json << "      }," << endl :
+			             json << "},";
+					(flag) ? json << "      {" << endl :
+					         json << "{";
 			  }
 		  }
-			json << "        " << '"' << "itemname" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][0] << '"' << "," << endl;
-			json << "        " << '"' << "itemproc" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][1] << '"' << "," << endl;
-			json << "        " << '"' << "itemdesc" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][2] << '"' << endl;
+			(flag) ? json << "        " << '"' << "itemname" << '"' << ":" :
+			         json << '"' << "itemname" << '"' << ":";
+			(flag) ? json << '"' << menu.MenuItem[i][j][0] << '"' << "," << endl :
+			         json << '"' << menu.MenuItem[i][j][0] << '"' << ",";
+			(flag) ? json << "        " << '"' << "itemproc" << '"' << ":" :
+			         json << '"' << "itemproc" << '"' << ":";
+			(flag) ? json << '"' << menu.MenuItem[i][j][1] << '"' << "," << endl :
+			         json << '"' << menu.MenuItem[i][j][1] << '"' << ",";
+			(flag) ? json << "        " << '"' << "itemdesc" << '"' << ":" :
+			         json << '"' << "itemdesc" << '"' << ":";
+			(flag) ? json << '"' << menu.MenuItem[i][j][2] << '"' << endl :
+			         json << '"' << menu.MenuItem[i][j][2] << '"';
 		}
 		
-		json << "      }" << endl;
-		json << "    ]" << endl;
+		(flag) ? json << "      }" << endl :
+		         json << "}";
+		(flag) ? json << "    ]" << endl :
+		         json << "]";
 		sp = sp + menu.Space - menu.Width;
-		if (i<(menu.Number-1))
-		  json << "  }," << endl;
+		if (i<(menu.Number-1)){
+		  (flag) ? json << "  }," << endl :
+			         json << "},";
+ 	  }
 	}
-	json << "  }" << endl;
-	json << "]" << endl;
+	(flag) ? json << "  }" << endl :
+	         json << "}";
+	(flag) ? json << "]" << endl :
+	         json << "]";
+	if (!flag){
+		json << "\';" << endl;
+	  json << "const obj" << menu.VarString << " = JSON.parse(" << menu.VarString << ");";
+	}
 	json.close();
 	
-	return true;
-}
-
-bool writeCompacted(MENU& menu, char* buf){
-	fstream json;
-	char item[20];
-	int status, sp, dp;
-	string name;
-	
-	json.open(menu.FileName, ios::out);
-	if (json.fail()){
-		cout << "輸出檔開檔失敗" << endl;
-		return false;
-	}
-	
-	sp = menu.Pos - 1;
-	json << "const " << menu.VarString << " = \'";
-	json << "[";
-	for (int i=0; i<menu.Number; i++){
-		dp = 0;
-		json << "{";
-		for (int j=0; j<menu.Width; j++){
-		  if (buf[sp] != ' '){
-			  item[dp] = buf[sp];
-			  dp++;
-			}
-			sp++;
-		}
-		item[dp] = 0;
-		name = convertBig5toUtf8(item, &status);
-		json << '"' << "menuname" << '"' << ":";
-		json << '"' << name << '"' << ",";
-		json << '"' << "menuitem" << '"' << ":[";
-		json << "{";
-		
-		for (int j=0; j<20; j++){
-			if (menu.MenuItem[i][j][0].empty())
-				break;
-			else{
-				if (j>0){
-		      json << "},";
-					json << "{";
-			  }
-		  }
-			json << '"' << "itemname" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][0] << '"' << ",";
-			json << '"' << "itemproc" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][1] << '"' << ",";
-			json << '"' << "itemdesc" << '"' << ":";
-			json << '"' << menu.MenuItem[i][j][2] << '"';
-		}
-		
-		json << "}";
-		json << "]";
-		sp = sp + menu.Space - menu.Width;
-		if (i<(menu.Number-1))
-		  json << "},";
-	}
-	json << "}";
-	json << "]";
-	json << "\';" << endl;
-	json << "const obj" << menu.VarString << " = JSON.parse(" << menu.VarString << ");";
-	json.close();
-	
-	return true;
 	return true;
 }
 
