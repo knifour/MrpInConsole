@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <algorithm>
 #include "utf8.h"
 
 using namespace utf8;
@@ -50,7 +51,9 @@ int main(int argc, char* argv[]){
 		cout << "        否則在javascript裡面會產生錯誤" << endl;
 		return 1;
 	} else if (argc > 6) {
-		menu.FileName = string(argv[6]) + ".js";
+		string tmp = string(argv[6]) + ".js";
+		transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+		menu.FileName = tmp;
 		menu.VarString = string(argv[6]);
 	}
 	
