@@ -9,6 +9,7 @@ using namespace utf8;
 
 class LOTTERY{
 public:
+  static int Cnt;
   int Num[5];
 	
 	LOTTERY(){
@@ -37,7 +38,13 @@ public:
 	}
 };
 
+int LOTTERY::Cnt = 0;
 LOTTERY *n;
+
+void countLottery(void);
+void countOdds(void);
+void countEvens(void);
+bool isOdd(int);
 
 int main(int argc, char* argv[]){
 	ifstream file;
@@ -60,6 +67,8 @@ int main(int argc, char* argv[]){
 	if (cnt == 0){
 		cout << "沒有資料！" << endl;
 		return 1;
+	} else {
+		LOTTERY::Cnt = cnt;
 	}
 	
 	n = new LOTTERY[cnt];
@@ -86,9 +95,109 @@ int main(int argc, char* argv[]){
 		cout << "請選擇:";
 		cin >> s;
 		cout << endl;
+		
+		switch (s){
+		case '1':
+		  countLottery();
+			break;
+			
+		case '2':
+		  countOdds();
+			break;
+			
+		case '3':
+		  countEvens();
+			break;
+		}
 	}
 	
 	delete []n;
 		
 	return 0;
+}
+
+void countLottery(void){
+	int sum[40];
+	
+	for (int i=0; i<40; i++)
+		sum[i] = 0;
+	
+	for (int i=0; i<LOTTERY::Cnt; i++){
+		for (int j=0; j<5; j++){
+			sum[n[i].Num[j]]++;
+		}
+	}
+	
+	cout << "    001 002 003 004 005 006 007 008 009 010" << endl;
+	for (int i=1; i<=39; i++){
+		if ( (i%10) == 1)
+			printf("%03d ", (i-1)/10);
+		printf("%03d ", sum[i]);
+		if ( (i%10) == 0)
+			cout << endl;
+	}
+	
+	cout << endl << endl;
+	return;
+}
+
+void countOdds(void){
+	bool flag = false;
+	int cnt = 0;
+	int max = 0;
+	
+	for (int i=0; i<LOTTERY::Cnt; i++){
+		if (isOdd(n[i].Num[0])){
+			if (!flag){
+				cnt = 1;
+				flag = true;
+			}	else {
+				cnt++;
+			}
+		} else {
+			if (cnt > 4)
+				printf("連莊數：%2d, 連莊結束總期數：%4d\n", cnt, i);
+			if (cnt > max){
+				max = cnt;
+			}
+			cnt = 0;
+			flag = false;
+		}
+	}
+	
+	cout << "單號最大連莊次數：" << max << endl;
+}
+
+void countEvens(void){
+	bool flag = false;
+	int cnt = 0;
+	int max = 0;
+	
+	for (int i=0; i<LOTTERY::Cnt; i++){
+		if (!isOdd(n[i].Num[0])){
+			if (!flag){
+				cnt = 1;
+				flag = true;
+			}	else {
+				cnt++;
+			}
+		} else {
+			if (cnt > 4)
+				printf("連莊數：%2d, 連莊結束總期數：%4d\n", cnt, i);
+			if (cnt > max){
+				max = cnt;
+			}
+			cnt = 0;
+			flag = false;
+		}
+	}
+	
+	cout << "雙號最大連莊次數：" << max << endl;
+}
+
+bool isOdd(int p){
+	if ( (p%2) != 0)
+		return true;
+	else
+		return false;
 }
