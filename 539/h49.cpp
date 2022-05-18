@@ -5,11 +5,11 @@
 #include <string>
 #include "utf8.h"
 
-#define MAXNUM   39
-#define NUMS      5
-#define TARGET    0
-#define LENGTH   14
-#define FILENAME "F539.txt"
+#define MAXNUM   49
+#define NUMS      7
+#define TARGET    6
+#define LENGTH   20
+#define FILENAME "H49.txt"
 
 using namespace utf8;
 
@@ -94,11 +94,11 @@ int main(int argc, char* argv[]){
 	
 	char s=0;
 	while (s != '0'){
-		cout << "台灣539運彩" << endl;
+		cout << "香港六合彩" << endl;
 		cout << "0.結束" << endl;
 		cout << "1.開獎統計" << endl;
-		cout << "2.單號最大連莊次數" << endl;
-		cout << "3.雙號最大連莊次數" << endl;
+		cout << "2.特別號單號最大連莊次數" << endl;
+		cout << "3.特別號雙號最大連莊次數" << endl;
 		cout << "請選擇:";
 		cin >> s;
 		cout << endl;
