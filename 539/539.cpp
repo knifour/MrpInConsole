@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include "utf8.h"
 
 #define MAXNUM   39
@@ -10,8 +11,14 @@
 #define TARGET    0
 #define LENGTH   14
 #define FILENAME "F539.txt"
+#define LASTYEAR 4489
 
 using namespace utf8;
+
+typedef struct stat {
+	int No;
+	int Cnt;
+} STAT;
 
 class LOTTERY{
 public:
@@ -50,7 +57,11 @@ LOTTERY *n;
 void countLottery(void);
 void countOdds(void);
 void countEvens(void);
+void emulateLottery(void);
 bool isOdd(int);
+bool comp(const STAT&, const STAT&);
+
+STAT lot[MAXNUM];
 
 int main(int argc, char* argv[]){
 	ifstream file;
@@ -99,6 +110,7 @@ int main(int argc, char* argv[]){
 		cout << "1.開獎統計" << endl;
 		cout << "2.單號最大連莊次數" << endl;
 		cout << "3.雙號最大連莊次數" << endl;
+		cout << "4.模擬下注" << endl;
 		cout << "請選擇:";
 		cin >> s;
 		cout << endl;
@@ -114,6 +126,10 @@ int main(int argc, char* argv[]){
 			
 		case '3':
 		  countEvens();
+			break;
+			
+		case '4':
+		  emulateLottery();
 			break;
 		}
 	}
@@ -202,9 +218,33 @@ void countEvens(void){
 	cout << "雙號最大連莊次數：" << max << endl;
 }
 
+void emulateLottery(void){
+	for (int i=0; i<MAXNUM; i++){
+		lot[i].No = i+1;
+		lot[i].Cnt = 0;
+	}
+
+  int temp;	
+	for (int i=0; i<LASTYEAR; i++){
+		for (int j=0; j<NUMS; j++){
+			temp = n[i].Num[j] - 1;
+			lot[temp].Cnt++;
+		}
+	}
+	
+	sort(lot, lot+MAXNUM, comp);
+	for (int i=0; i<MAXNUM; i++){
+		printf("%2d => %3d\n", lot[i].No, lot[i].Cnt);
+	}
+}
+
 bool isOdd(int p){
 	if ( (p%2) != 0)
 		return true;
 	else
 		return false;
+}
+
+bool comp(const STAT& a, const STAT& b){
+	return a.Cnt < b.Cnt;
 }
