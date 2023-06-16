@@ -45,16 +45,21 @@ int main(int argc, char* argv[]){
 		cout << "menu 起始列 起始行 選單字數 選單間隔 選單數量 [檔名]" << endl;
 		cout << "  檔名省略時會以格式化方式將轉換結果輸出到menu.json" << endl;
 		cout << "  有指定檔名時會將轉換結果輸出到指定的檔名並自動指定副檔名為.js" << endl;
-    cout << "  轉換後的檔案開頭會有 const 檔名=\'精簡json格式轉換後的內容\';" << endl;
+    cout << "  轉換後的檔案開頭會有 const json檔名=\'精簡json格式轉換後的內容\';" << endl;
 		cout << "  轉換後檔案結尾會有 const obj檔名 = JSON.parse(檔名); 的轉換式" << endl;
-		cout << "  注意：檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
-		cout << "        否則在javascript裡面會產生錯誤" << endl;
+		cout << "  注意：json檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
+		cout << "        否則在javascript裡面會產生錯誤" << endl << endl;
+		cout << "轉換時同目錄之下需有以下兩個檔案" << endl;
+		cout << "menu.scr及menu.dat，這兩個檔案都是COBOL程式留下來的檔案" << endl;
+		cout << "這兩個檔案的編碼必須是big5編碼" << endl;
+		cout << "參數 1~5 必須參考menu.scr才能夠設定" << endl;
+		cout << "參數值採用big5編碼計算其相關位置，建議使用漢書開啟menu.scr及menu.dat才不會算錯" << endl;
 		return 1;
 	} else if (argc > 6) {
 		string tmp = string(argv[6]) + ".js";
 		transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 		menu.FileName = tmp;
-		menu.VarString = string(argv[6]);
+		menu.VarString = "json" + string(argv[6]);
 	}
 	
 	menu.Lin    = atoi(argv[1]);
