@@ -50,10 +50,11 @@ int main(int argc, char* argv[]){
 		cout << "  注意：json檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
 		cout << "        否則在javascript裡面會產生錯誤" << endl << endl;
 		cout << "轉換時同目錄之下需有以下兩個檔案" << endl;
-		cout << "menu.scr及menu.dat，這兩個檔案都是COBOL程式留下來的檔案" << endl;
+		cout << "MENU.SCR及MENU.DAT，這兩個檔案都是COBOL程式留下來的檔案" << endl;
 		cout << "這兩個檔案的編碼必須是big5編碼" << endl;
-		cout << "參數 1~5 必須參考menu.scr才能夠設定" << endl;
-		cout << "參數值採用big5編碼計算其相關位置，建議使用漢書開啟menu.scr及menu.dat才不會算錯" << endl;
+		cout << "參數 1~5 必須參考MENU.SCR才能夠設定" << endl;
+		cout << "參數值採用big5編碼計算其相關位置，建議使用漢書開啟MENU.SCR及MENU.DAT才不會算錯" << endl;
+		cout << "MENU.SCR及MENU.DAT都是從COBOL系統拷貝過來的，請保持大寫的檔名" << endl;
 		return 1;
 	} else if (argc > 6) {
 		string tmp = string(argv[6]) + ".js";
@@ -74,10 +75,10 @@ int main(int argc, char* argv[]){
 	string name;
 	fstream mf;
 	
-	mf.open("menu.scr", ios::in);
+	mf.open("MENU.SCR", ios::in);
 	
 	if (!mf.is_open()){
-		cout << "開啟menu.scr失敗" << endl;
+		cout << "開啟MENU.SCR失敗" << endl;
 		return 1;
 	}
 	
@@ -85,7 +86,7 @@ int main(int argc, char* argv[]){
     for (int i=0; i<(menu.Lin-1); i++){
 			mf.getline(buf, sizeof(buf));
 			if (mf.eof()){
-				cout << "menu.scr不是menu檔" << endl;
+				cout << "MENU.SCR不是menu檔" << endl;
 				return 1;
 			}
 		}	
@@ -95,7 +96,7 @@ int main(int argc, char* argv[]){
 	} while (!mf.eof());
 	
 	if (!readMenuData(menu)){
-		cout << "menu.dat開檔失敗" << endl;
+		cout << "MENU.DAT開檔失敗" << endl;
 		return 1;
 	}
 	
@@ -203,7 +204,7 @@ bool readMenuData(MENU& menu){
 			for (int k=0; k<3; k++)
 				menu.MenuItem[i][j][k] = "";
 	
-	fi.open("menu.dat", ios::in);
+	fi.open("MENU.DAT", ios::in);
 	if (!fi)
 		return false;
 	
