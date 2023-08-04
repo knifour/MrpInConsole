@@ -8,5 +8,11 @@ menu: menu.o ../libknifour.a
 menu.o: menu.cpp
 	$(cc) $(CFLAGS) $<
 	
+form: form.o
+	$(cc) -o $@ $<
+	
+form.o: form.cpp
+	$(cc) $(CFLAGS) $<
+	
 clean:
 	rm *.o
