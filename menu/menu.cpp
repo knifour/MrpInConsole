@@ -57,10 +57,12 @@ int main(int argc, char* argv[]){
 		cout << "MENU.SCR及MENU.DAT都是從COBOL系統拷貝過來的，請保持大寫的檔名" << endl;
 		return 1;
 	} else if (argc > 6) {
-		string tmp = string(argv[6]) + ".js";
+		string tmp = string(argv[6]);
 		transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-		menu.FileName = tmp;
-		menu.VarString = "json" + string(argv[6]);
+		menu.FileName = tmp + ".js";
+		transform(tmp.begin(), tmp.begin()+1, tmp.begin(), ::toupper);
+		//menu.VarString = "json" + string(argv[6]);
+		menu.VarString = tmp;
 	}
 	
 	menu.Lin    = atoi(argv[1]);
@@ -122,7 +124,7 @@ bool writeJSON(MENU& menu, char *buf, bool flag){
 	
 	sp = menu.Pos - 1;
 	if (!flag)
-		json << "const " << menu.VarString << " = \'";
+		json << "const " << "json" << menu.VarString << " = \'";
 	(flag) ? json << "[" << endl :
 	         json << "[";
 	for (int i=0; i<menu.Number; i++){
@@ -188,7 +190,8 @@ bool writeJSON(MENU& menu, char *buf, bool flag){
 	         json << "]";
 	if (!flag){
 		json << "\';" << endl;
-	  json << "const obj" << menu.VarString << " = JSON.parse(" << menu.VarString << ");";
+	  json << "const obj" << menu.VarString << " = JSON.parse(" << "json" << menu.VarString << ");" << endl;
+		json << "export default obj" << menu.VarString << ";";
 	}
 	json.close();
 	
