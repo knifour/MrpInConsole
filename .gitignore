@@ -6,6 +6,8 @@
 
 #忽略專案所有執行檔
 539/539
+539/b49
+539/h49
 ctest/test
 dtime/test
 exam/test
@@ -19,6 +21,7 @@ exam/modify
 exam/nnpra
 exam/kbhit
 menu/menu
+menu/form
 mysql/myhello
 ncurses/hello
 ncurses/test
