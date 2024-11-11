@@ -47,6 +47,7 @@ int main(int argc, char* argv[]){
 		cout << "  有指定檔名時會將轉換結果輸出到指定的檔名並自動指定副檔名為.js" << endl;
     cout << "  轉換後的檔案開頭會有 const json檔名=\'精簡json格式轉換後的內容\';" << endl;
 		cout << "  轉換後檔案結尾會有 const obj檔名 = JSON.parse(檔名); 的轉換式" << endl;
+		cout << "                     export default obj檔名(首字母自動轉大寫, 其餘字母小寫)" << endl;
 		cout << "  注意：json檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
 		cout << "        否則在javascript裡面會產生錯誤" << endl << endl;
 		cout << "轉換時同目錄之下需有以下兩個檔案" << endl;
