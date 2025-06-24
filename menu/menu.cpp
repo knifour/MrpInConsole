@@ -45,10 +45,10 @@ int main(int argc, char* argv[]){
 		cout << "menu 起始列 起始行 選單字數 選單間隔 選單數量 [檔名]" << endl;
 		cout << "  檔名省略時會以格式化方式將轉換結果輸出到menu.json" << endl;
 		cout << "  有指定檔名時會將轉換結果輸出到指定的檔名並自動指定副檔名為.js" << endl;
-    cout << "  轉換後的檔案開頭會有 const json檔名=\'精簡json格式轉換後的內容\';" << endl;
-		cout << "  轉換後檔案結尾會有 const obj檔名 = JSON.parse(檔名); 的轉換式" << endl;
-		cout << "                     export default obj檔名(首字母自動轉大寫, 其餘字母小寫)" << endl;
-		cout << "  注意：json檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
+    cout << "  轉換後的檔案開頭會有 const s檔名=\'精簡json格式轉換後的內容\';" << endl;
+		cout << "  轉換後檔案結尾會有 const ja檔名 = JSON.parse(檔名); 的轉換式" << endl;
+		cout << "                     export default ja檔名(首字母自動轉大寫, 其餘字母小寫)" << endl;
+		cout << "  注意：ja檔名就是javascript裡面的變數名稱，不可指定副檔名" << endl;
 		cout << "        否則在javascript裡面會產生錯誤" << endl << endl;
 		cout << "轉換時同目錄之下需有以下兩個檔案" << endl;
 		cout << "MENU.SCR及MENU.DAT，這兩個檔案都是COBOL程式留下來的檔案" << endl;
@@ -125,7 +125,7 @@ bool writeJSON(MENU& menu, char *buf, bool flag){
 	
 	sp = menu.Pos - 1;
 	if (!flag)
-		json << "const " << "json" << menu.VarString << " = \'";
+		json << "const " << "s" << menu.VarString << " = \'";
 	(flag) ? json << "[" << endl :
 	         json << "[";
 	for (int i=0; i<menu.Number; i++){
@@ -191,8 +191,8 @@ bool writeJSON(MENU& menu, char *buf, bool flag){
 	         json << "]";
 	if (!flag){
 		json << "\';" << endl;
-	  json << "const obj" << menu.VarString << " = JSON.parse(" << "json" << menu.VarString << ");" << endl;
-		json << "export default obj" << menu.VarString << ";";
+	  json << "const ja" << menu.VarString << " = JSON.parse(" << "json" << menu.VarString << ");" << endl;
+		json << "export default ja" << menu.VarString << ";";
 	}
 	json.close();
 	
