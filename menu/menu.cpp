@@ -191,7 +191,7 @@ bool writeJSON(MENU& menu, char *buf, bool flag){
 	         json << "]";
 	if (!flag){
 		json << "\';" << endl;
-	  json << "const ja" << menu.VarString << " = JSON.parse(" << "json" << menu.VarString << ");" << endl;
+	  json << "const ja" << menu.VarString << " = JSON.parse(" << "s" << menu.VarString << ");" << endl;
 		json << "export default ja" << menu.VarString << ";";
 	}
 	json.close();
